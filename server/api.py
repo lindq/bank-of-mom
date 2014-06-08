@@ -106,7 +106,6 @@ class Transactions(remote.Service):
         path='accounts/{account_id}/transactions',
         http_method='GET')
     def list(self, request):
-        import pdb; pdb.set_trace()
         key = ndb.Key(Account, request.account_id)
         query = Transaction.query(ancestor=key).order(-Transaction.timestamp)
         fetch_page_future = query.fetch_page_async(
