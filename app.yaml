@@ -8,6 +8,9 @@ handlers:
 - url: /_ah/spi/.*
   script: server.api.application
   secure: always
+- url: /bower_components
+  static_dir: client/app/bower_components
+  secure: always
 - url: /css
   static_dir: client/app/css
   secure: always
@@ -16,6 +19,9 @@ handlers:
   secure: always
 - url: /js
   static_dir: client/app/js
+  secure: always
+- url: /partials
+  static_dir: client/app/partials
   secure: always
 - url: /
   static_files: client/app/index.html
