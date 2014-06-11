@@ -1,0 +1,6 @@
+<dl>
+  <dt ng-repeat-start="account in accounts">{{ account.name }}</dt>
+  <dd ng-repeat-end>{{ account.balance | currency }}</dd>
+</dl>
+
+<button>Add Account</button>
