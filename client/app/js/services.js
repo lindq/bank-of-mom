@@ -2,4 +2,11 @@
 
 
 angular.module('bom.services', [])
-  .value('version', '0.1');
+
+  .factory('ApiService', function() {
+
+    return {
+
+    };
+
+  });
