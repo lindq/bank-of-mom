@@ -10,15 +10,25 @@ angular.module('bom.controllers', [])
   })
 
   .controller('AccountDetailController', function($scope, $routeParams, AccountService, TransactionService) {
+
     AccountService.get({id: $routeParams.id})
       .then(function(response) {
         $scope.account = response;
       });
 
-    TransactionService.list({accountId: $routeParams.id})
-      .then(function(response) {
-        $scope.transactions = response.items;
-        $scope.nextPageToken = response.nextPageToken;
-      });
+    var loadTransactions = function() {
+      TransactionService.list({
+        accountId: $routeParams.id,
+        nextPageToken: $scope.nextPageToken
+      })
+        .then(function(response) {
+          $scope.transactions = $scope.transactions.concat(response.items);
+          $scope.nextPageToken = response.nextPageToken;
+        });
+    };
 
+    $scope.transactions = [];
+    $scope.loadTransactions = loadTransactions;
+
+    loadTransactions();
   });

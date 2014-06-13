@@ -3,10 +3,12 @@
 
 angular.module('bom.services', [])
 
-  .factory('utils', function($q) {
+  .factory('utils', function($q, $rootScope) {
 
     var apiMethod = function(method) {
       return function(message) {
+        $rootScope.loading = true;
+
         var deferred = $q.defer();
 
         method(message).execute(function(response) {
@@ -15,6 +17,7 @@ angular.module('bom.services', [])
           } else {
             deferred.resolve(response);
           }
+          $rootScope.loading = false;
         });
 
         return deferred.promise;
