@@ -64,7 +64,7 @@ class Accounts(remote.Service):
         response_message=message_types.VoidMessage,
         path='accounts/{id}',
         http_method='DELETE')
-    def delete(self, request):
+    def remove(self, request):
         account = Account.get_by_id(request.id)
         if not account:
             raise endpoints.NotFoundException
@@ -144,7 +144,7 @@ class Transactions(remote.Service):
         response_message=message_types.VoidMessage,
         path='accounts/{account_id}/transactions/{id}',
         http_method='DELETE')
-    def delete(self, request):
+    def remove(self, request):
         key = ndb.Key(Account, request.account_id, Transaction, request.id)
         transaction = key.get()
         if not transaction:

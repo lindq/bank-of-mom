@@ -3,12 +3,12 @@
 
 angular.module('bom.controllers', [])
 
-  .controller('AccountsController', function($scope) {
-    $scope.accounts = [
-      {'name': 'Ethan', 'balance': 10.00},
-      {'name': 'Micah', 'balance': 20.00},
-      {'name': 'Soren', 'balance': 30.00}
-    ];
+  .controller('AccountsController', function($scope, AccountService) {
+    AccountService.list().then(function(response) {
+      $scope.accounts = response.items;
+    }, function(err) {
+      console.log(err);
+    });
   })
 
   .controller('AccountCreateController', function($scope) {
