@@ -91,9 +91,9 @@ class Transactions(remote.Service):
     @endpoints.method(
         request_message=endpoints.ResourceContainer(
             TransactionMessage,
-            account_id=messages.IntegerField(1, variant=messages.Variant.INT32)),
+            accountId=messages.IntegerField(1, variant=messages.Variant.INT32)),
         response_message=TransactionMessage,
-        path='accounts/{account_id}/transactions',
+        path='accounts/{accountId}/transactions',
         http_method='POST')
     def insert(self, request):
         request.id = None
@@ -103,13 +103,13 @@ class Transactions(remote.Service):
     @endpoints.method(
         request_message=endpoints.ResourceContainer(
             message_types.VoidMessage,
-            account_id=messages.IntegerField(1, variant=messages.Variant.INT32),
+            accountId=messages.IntegerField(1, variant=messages.Variant.INT32),
             nextPageToken=messages.StringField(2)),
         response_message=TransactionListMessage,
-        path='accounts/{account_id}/transactions',
+        path='accounts/{accountId}/transactions',
         http_method='GET')
     def list(self, request):
-        key = ndb.Key(Account, request.account_id)
+        key = ndb.Key(Account, request.accountId)
         query = Transaction.query(ancestor=key).order(-Transaction.timestamp)
         fetch_page_future = query.fetch_page_async(
             self.MAX_ITEMS, start_cursor=Cursor(urlsafe=request.nextPageToken))
@@ -127,13 +127,13 @@ class Transactions(remote.Service):
     @endpoints.method(
         request_message=endpoints.ResourceContainer(
             message_types.VoidMessage,
-            account_id=messages.IntegerField(1, variant=messages.Variant.INT32),
+            accountId=messages.IntegerField(1, variant=messages.Variant.INT32),
             id=messages.IntegerField(2, variant=messages.Variant.INT32)),
         response_message=TransactionMessage,
-        path='accounts/{account_id}/transactions/{id}',
+        path='accounts/{accountId}/transactions/{id}',
         http_method='GET')
     def get(self, request):
-        key = ndb.Key(Account, request.account_id, Transaction, request.id)
+        key = ndb.Key(Account, request.accountId, Transaction, request.id)
         transaction = key.get()
         if not transaction:
             raise endpoints.NotFoundException
@@ -142,13 +142,13 @@ class Transactions(remote.Service):
     @endpoints.method(
         request_message=endpoints.ResourceContainer(
             message_types.VoidMessage,
-            account_id=messages.IntegerField(1, variant=messages.Variant.INT32),
+            accountId=messages.IntegerField(1, variant=messages.Variant.INT32),
             id=messages.IntegerField(2, variant=messages.Variant.INT32)),
         response_message=message_types.VoidMessage,
-        path='accounts/{account_id}/transactions/{id}',
+        path='accounts/{accountId}/transactions/{id}',
         http_method='DELETE')
     def remove(self, request):
-        key = ndb.Key(Account, request.account_id, Transaction, request.id)
+        key = ndb.Key(Account, request.accountId, Transaction, request.id)
         transaction = key.get()
         if not transaction:
             raise endpoints.NotFoundException

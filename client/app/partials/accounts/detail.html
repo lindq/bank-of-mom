@@ -1,1 +1,14 @@
-<h1>{{ account.name }}</h1>
+<h1 ng-show="account">{{ account.name }}: {{ account.balance | currency }}</h1>
+
+<h2 ng-show="transactions">Transactions</h2>
+<dl>
+  <dt ng-repeat-start="transaction in transactions">
+    <a href="">{{ transaction.memo }}</a>
+  </dt>
+  <dd ng-repeat-end>
+    {{ transaction.amount | currency }}
+    {{ transaction.timestamp | date }}
+  </dd>
+</dl>
+
+<button ng-show="nextPageToken">More</button>

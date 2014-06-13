@@ -56,7 +56,7 @@ class Transaction(ndb.Model):
 
     def to_message(self):
         return TransactionMessage(id=self.key.id(),
-                                  account_id=self.key.parent().id(),
+                                  accountId=self.key.parent().id(),
                                   amount=str(self.amount),
                                   memo=self.memo,
                                   timestamp=self.timestamp)
@@ -68,7 +68,7 @@ class Transaction(ndb.Model):
     @classmethod
     @ndb.tasklet
     def put_from_message_async(cls, message):
-        transaction = cls(parent=ndb.Key(Account, message.account_id),
+        transaction = cls(parent=ndb.Key(Account, message.accountId),
                           id=message.id,
                           amount=message.amount,
                           memo=message.memo,

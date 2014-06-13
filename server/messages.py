@@ -14,7 +14,7 @@ class AccountListMessage(messages.Message):
 
 
 class TransactionMessage(messages.Message):
-    account_id = messages.IntegerField(1, variant=messages.Variant.INT32)
+    accountId = messages.IntegerField(1, variant=messages.Variant.INT32)
     id = messages.IntegerField(2, variant=messages.Variant.INT32)
     amount = messages.StringField(3)
     memo = messages.StringField(4)
