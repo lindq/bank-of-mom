@@ -12,11 +12,11 @@ angular.module('bom', [
     $routeProvider
       .when('/accounts', {
         templateUrl: 'partials/accounts/list.html',
-        controller: 'AccountsController'
+        controller: 'AccountListController'
       })
-      .when('/accounts/new', {
-        templateUrl: 'partials/accounts/add.html',
-        controller: 'AccountCreateController'
+      .when('/accounts/:id', {
+        templateUrl: 'partials/accounts/detail.html',
+        controller: 'AccountDetailController'
       })
       .otherwise({
         redirectTo: '/accounts'

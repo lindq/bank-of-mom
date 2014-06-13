@@ -9,7 +9,7 @@ angular.module('bom.services', [])
       return function(message) {
         var deferred = $q.defer();
 
-        method.call(message).execute(function(response) {
+        method(message).execute(function(response) {
           if (response.error) {
             deferred.reject(response.message);
           } else {

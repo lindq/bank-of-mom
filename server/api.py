@@ -11,7 +11,10 @@ from messages import TransactionMessage, TransactionListMessage
 from models import Account, Transaction
 
 
-CLIENT_IDS = [endpoints.API_EXPLORER_CLIENT_ID]
+CLIENT_IDS = [
+    '728318921372-tr2h1kb9ccif270kkbh0cl9ta3u5de88.apps.googleusercontent.com',
+    endpoints.API_EXPLORER_CLIENT_ID
+    ]
 
 
 bom_api = endpoints.api(allowed_client_ids=CLIENT_IDS,
