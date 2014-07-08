@@ -6,18 +6,19 @@
     <title>Bank of Mom</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/app.css"/>
   </head>
   <body>
     <div ng-show="loading">loading...</div>
     <button style="display:none">Log in with your Google account</button>
-    <div ng-view></div>
+    <div ng-view class="container-fluid"></div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular-route.min.js"></script>
-
     <script src="js/app.js"></script>
-    <script src="js/__init__.js"></script>
-    <script src="//apis.google.com/js/client.js?onload=__init__"></script>
+    <script src="js/main.js"></script>
+    <script src="//apis.google.com/js/client.js?onload=main"></script>
   </body>
 </html>

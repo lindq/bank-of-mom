@@ -1,4 +1,4 @@
-function __init__() {
+function main() {
   var CLIENT_ID = '728318921372-tr2h1kb9ccif270kkbh0cl9ta3u5de88' +
     '.apps.googleusercontent.com';
 

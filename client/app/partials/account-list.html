@@ -1,0 +1,12 @@
+<table class="table">
+  <tr ng-repeat="account in accounts | orderBy:'name'">
+    <td>{{ account.name }}</td>
+    <td class="text-right">{{ account.balance | currency }}</td>
+  </tr>
+</table>
+
+<div>
+  <button class="btn btn-primary" data-toggle="modal" href="#editModal">Add Account</button>
+</div>
+
+<div class="modal" ng-include="'partials/account-add.html'" id="editModal" role="dialog"></div>

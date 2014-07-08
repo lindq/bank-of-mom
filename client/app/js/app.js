@@ -5,11 +5,15 @@ var app = angular.module('bom', ['ngRoute']);
 app.config(function($routeProvider) {
   $routeProvider
     .when('/accounts', {
-      templateUrl: 'partials/accounts/list.html',
+      templateUrl: 'partials/account-list.html',
       controller: 'AccountListController'
     })
+    .when('/accounts/new', {
+      templateUrl: 'partials/account-add.html',
+      controller: 'AccountAddController'
+    })
     .when('/accounts/:id', {
-      templateUrl: 'partials/accounts/detail.html',
+      templateUrl: 'partials/account-detail.html',
       controller: 'AccountDetailController'
     })
     .otherwise({
@@ -64,10 +68,23 @@ app.factory('TransactionService', function(utils) {
 });
 
 app.controller('AccountListController', function($scope, AccountService) {
+
   AccountService.list().then(function(response) {
-    $scope.accounts = response.items;
+    $scope.accounts = response.items || [];
   });
+
+  $scope.addAccount = function(name) {
+    var message = {name: name};
+    AccountService.insert(message).then(function(response) {
+      $scope.accounts.push(response);
+    });
+  };
 })
+
+app.controller('AccountAddController', function($scope, AccountService) {
+
+})
+
 
 app.controller('AccountDetailController', function($scope, $routeParams, AccountService, TransactionService) {
 
