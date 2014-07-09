@@ -78,6 +78,7 @@ app.controller('AccountListController', function($scope, AccountService) {
     AccountService.insert(message).then(function(response) {
       $scope.accounts.push(response);
     });
+    angular.element('.modal').modal('hide');
   };
 })
 
