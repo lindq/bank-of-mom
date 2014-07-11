@@ -27,9 +27,9 @@ angular.module('bom', [
     $httpProvider.interceptors.push(function($location, $q, $rootScope) {
       return {
         'request': function(request) {
-          if (!$rootScope.authorized && $location.path() != '/auth') {
-            var next = $location.path();
-            $location.path('/auth').search('next', next);
+          var path = $location.path();
+          if (!$rootScope.authorized && path != '/auth') {
+            $location.path('/auth').search('next', path);
           }
           return request;
         },
