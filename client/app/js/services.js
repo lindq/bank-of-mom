@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bom.services', [])
+angular.module('bomServices', [])
   .factory('utils', function($q, $rootScope) {
 
     var apiMethod = function(method) {

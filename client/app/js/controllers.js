@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('bom.controllers', [])
+angular.module('bomControllers', [])
   .controller('AccountListController', function($scope, AccountService) {
 
     AccountService.list().then(function(response) {

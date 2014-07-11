@@ -2,8 +2,8 @@
 
 angular.module('bom', [
   'ngRoute',
-  'bom.controllers',
-  'bom.services'
+  'bomControllers',
+  'bomServices'
 ])
   .config(function($routeProvider) {
     $routeProvider
@@ -18,4 +18,18 @@ angular.module('bom', [
       .otherwise({
         redirectTo: '/accounts'
       });
+  })
+  .config(function($httpProvider) {
+    $httpProvider.interceptors.push(function($q, $window) {
+      return {
+        'request': function(request) {
+          $window.console.log('interceptor request');
+          return request;
+        },
+        'responseError': function(rejection) {
+          $window.console.log('interceptor responseError');
+          return $q.reject(rejection);
+        }
+      };
+    });
   });
