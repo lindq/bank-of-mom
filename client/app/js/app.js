@@ -28,7 +28,8 @@ angular.module('bom', [
       return {
         'request': function(request) {
           if (!$rootScope.authorized && $location.path() != '/auth') {
-            $location.path('/auth');
+            var next = $location.path();
+            $location.path('/auth').search('next', next);
           }
           return request;
         },

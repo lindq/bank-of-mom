@@ -1,7 +1,7 @@
 <table class="table">
   <tr ng-repeat="account in accounts | orderBy:'name'">
-    <td>{{ account.name }}</td>
-    <td class="text-right">{{ account.balance | currency }}</td>
+    <td><a href="#/accounts/{{ account.id }}">{{ account.name }}</a></td>
+    <td class="text-right"><a href="#/accounts/{{ account.id }}">{{ account.balance | currency }}</a></td>
   </tr>
 </table>
 

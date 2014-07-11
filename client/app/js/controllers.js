@@ -7,7 +7,8 @@ angular.module('bomControllers', [])
       $rootScope.authorized = true;
       ApiService.load()
         .then(function() {
-          $location.path('/accounts');
+          var next = $location.search().next || '/accounts';
+          $location.path(next).search('next', null);
         });
     };
     var error = function() {
@@ -40,10 +41,11 @@ angular.module('bomControllers', [])
       });
 
     var loadTransactions = function() {
-      TransactionService.list({
+      var message = {
         accountId: $routeParams.id,
         nextPageToken: $scope.nextPageToken
-      })
+      };
+      TransactionService.list(message)
         .then(function(response) {
           $scope.transactions = $scope.transactions.concat(response.items);
           $scope.nextPageToken = response.nextPageToken;

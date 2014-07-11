@@ -38,7 +38,7 @@ angular.module('bomServices', [])
                        deferred.resolve,
                        settings.API_PATH);
       return deferred.promise;
-    }
+    };
     var wrap = function(method) {
       return function(message) {
         var deferred = $q.defer();
@@ -51,7 +51,7 @@ angular.module('bomServices', [])
         });
         return deferred.promise;
       }
-    }
+    };
     return {
       load: load,
       wrap: wrap
