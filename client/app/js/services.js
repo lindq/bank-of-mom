@@ -1,16 +1,21 @@
 'use strict';
 
 angular.module('bomServices', [])
-  .factory('AuthService', function($q, $rootScope) {
-    var CLIENT_ID = '728318921372-tr2h1kb9ccif270kkbh0cl9ta3u5de88' +
-      '.apps.googleusercontent.com';
-    var SCOPE = 'https://www.googleapis.com/auth/userinfo.email';
+  .value('settings', {
+    OAUTH_CLIENT_ID: '728318921372-tr2h1kb9ccif270kkbh0cl9ta3u5de88' +
+      '.apps.googleusercontent.com',
+    OAUTH_SCOPE: 'https://www.googleapis.com/auth/userinfo.email',
+    API_NAME: 'bom',
+    API_VERSION: 'v1',
+    API_PATH: '/_ah/api'
+  })
+  .factory('AuthService', function($q, $rootScope, settings) {
     var auth = function(immediate) {
       $rootScope.loading = true;
       var deferred = $q.defer();
       var params = {
-        client_id: CLIENT_ID,
-        scope: SCOPE,
+        client_id: settings.OAUTH_CLIENT_ID,
+        scope: settings.OAUTH_SCOPE,
         immediate: immediate
       }
       gapi.auth.authorize(params, function(response) {
@@ -27,14 +32,14 @@ angular.module('bomServices', [])
       auth: auth
     }
   })
-  .factory('ApiService', function($q, $rootScope) {
+  .factory('ApiService', function($q, $rootScope, settings) {
     var load = function() {
       $rootScope.loading = true;
       var deferred = $q.defer();
-      gapi.client.load('bom', 'v1', function() {
+      gapi.client.load(settings.API_NAME, settings.API_VERSION, function() {
         deferred.resolve();
         $rootScope.loading = false;
-      }, '/_ah/api');
+      }, settings.API_PATH);
       return deferred.promise;
     }
     return {
