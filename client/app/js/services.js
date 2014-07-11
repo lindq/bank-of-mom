@@ -9,9 +9,8 @@ angular.module('bomServices', [])
     API_VERSION: 'v1',
     API_PATH: '/_ah/api'
   })
-  .factory('AuthService', function($q, $rootScope, settings) {
+  .factory('AuthService', function($q, settings) {
     var auth = function(immediate) {
-      $rootScope.loading = true;
       var deferred = $q.defer();
       var params = {
         client_id: settings.OAUTH_CLIENT_ID,
@@ -24,7 +23,6 @@ angular.module('bomServices', [])
         } else {
           deferred.resolve(response);
         }
-        $rootScope.loading = false;
       });
       return deferred.promise;
     };
@@ -32,41 +30,33 @@ angular.module('bomServices', [])
       auth: auth
     }
   })
-  .factory('ApiService', function($q, $rootScope, settings) {
+  .factory('ApiService', function($q, settings) {
     var load = function() {
-      $rootScope.loading = true;
       var deferred = $q.defer();
-      gapi.client.load(settings.API_NAME, settings.API_VERSION, function() {
-        deferred.resolve();
-        $rootScope.loading = false;
-      }, settings.API_PATH);
+      gapi.client.load(settings.API_NAME,
+                       settings.API_VERSION,
+                       deferred.resolve,
+                       settings.API_PATH);
       return deferred.promise;
     }
     return {
       load: load
     }
   })
-  .factory('utils', function($q, $rootScope) {
-
+  .factory('utils', function($q) {
     var apiMethod = function(method) {
       return function(message) {
-        $rootScope.loading = true;
-
         var deferred = $q.defer();
-
         method(message).execute(function(response) {
           if (response.error) {
             deferred.reject(response.message);
           } else {
             deferred.resolve(response);
           }
-          $rootScope.loading = false;
         });
-
         return deferred.promise;
       }
     };
-
     return {
       apiMethod: apiMethod
     };
