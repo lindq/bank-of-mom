@@ -15,19 +15,24 @@ angular.module('bom', [
         templateUrl: 'partials/account-detail.html',
         controller: 'AccountDetailController'
       })
+      .when('/auth', {
+        templateUrl: 'partials/auth.html',
+        controller: 'AuthController'
+      })
       .otherwise({
         redirectTo: '/accounts'
       });
   })
   .config(function($httpProvider) {
-    $httpProvider.interceptors.push(function($q, $window) {
+    $httpProvider.interceptors.push(function($location, $q, $rootScope) {
       return {
         'request': function(request) {
-          $window.console.log('interceptor request');
+          if (!$rootScope.authorized && $location.path() != '/auth') {
+            $location.path('/auth');
+          }
           return request;
         },
         'responseError': function(rejection) {
-          $window.console.log('interceptor responseError');
           return $q.reject(rejection);
         }
       };
