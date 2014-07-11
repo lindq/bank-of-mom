@@ -39,12 +39,7 @@ angular.module('bomServices', [])
                        settings.API_PATH);
       return deferred.promise;
     }
-    return {
-      load: load
-    }
-  })
-  .factory('utils', function($q) {
-    var apiMethod = function(method) {
+    var wrap = function(method) {
       return function(message) {
         var deferred = $q.defer();
         method(message).execute(function(response) {
@@ -56,26 +51,27 @@ angular.module('bomServices', [])
         });
         return deferred.promise;
       }
-    };
+    }
     return {
-      apiMethod: apiMethod
-    };
-  })
-  .factory('AccountService', function(utils) {
-    var bom = gapi.client.bom;
-    return {
-      insert: utils.apiMethod(bom.accounts.insert),
-      list: utils.apiMethod(bom.accounts.list),
-      get: utils.apiMethod(bom.accounts.get),
-      remove: utils.apiMethod(bom.accounts.remove)
+      load: load,
+      wrap: wrap
     }
   })
-  .factory('TransactionService', function(utils) {
-    var bom = gapi.client.bom;
+  .factory('AccountService', function(ApiService) {
+    var accounts = gapi.client.bom.accounts;
     return {
-      insert: utils.apiMethod(bom.transactions.insert),
-      list: utils.apiMethod(bom.transactions.list),
-      get: utils.apiMethod(bom.transactions.get),
-      remove: utils.apiMethod(bom.transactions.remove)
+      insert: ApiService.wrap(accounts.insert),
+      list: ApiService.wrap(accounts.list),
+      get: ApiService.wrap(accounts.get),
+      remove: ApiService.wrap(accounts.remove)
+    }
+  })
+  .factory('TransactionService', function(ApiService) {
+    var transactions = gapi.client.bom.transactions;
+    return {
+      insert: ApiService.wrap(transactions.insert),
+      list: ApiService.wrap(transactions.list),
+      get: ApiService.wrap(transactions.get),
+      remove: ApiService.wrap(transactions.remove)
     }
   });
