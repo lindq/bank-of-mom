@@ -1,11 +1,12 @@
 'use strict';
 
 angular.module('bomServices', [])
-  .factory('AuthService', function($q) {
+  .factory('AuthService', function($q, $rootScope) {
     var CLIENT_ID = '728318921372-tr2h1kb9ccif270kkbh0cl9ta3u5de88' +
       '.apps.googleusercontent.com';
     var SCOPE = 'https://www.googleapis.com/auth/userinfo.email';
     var auth = function(immediate) {
+      $rootScope.loading = true;
       var deferred = $q.defer();
       var params = {
         client_id: CLIENT_ID,
@@ -18,6 +19,7 @@ angular.module('bomServices', [])
         } else {
           deferred.resolve(response);
         }
+        $rootScope.loading = false;
       });
       return deferred.promise;
     };
@@ -25,11 +27,13 @@ angular.module('bomServices', [])
       auth: auth
     }
   })
-  .factory('ApiService', function($q) {
+  .factory('ApiService', function($q, $rootScope) {
     var load = function() {
+      $rootScope.loading = true;
       var deferred = $q.defer();
       gapi.client.load('bom', 'v1', function() {
         deferred.resolve();
+        $rootScope.loading = false;
       }, '/_ah/api');
       return deferred.promise;
     }
