@@ -1,9 +1,5 @@
-#loading {
-    background-color: #ff9;
-    left: 50%;
-    margin-left: -50px;
-    padding: 3px;
-    position: fixed;
-    text-align: center;
-    width: 100px;
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
