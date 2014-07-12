@@ -20,8 +20,10 @@ angular.module('bomControllers', [])
     };
   })
   .controller('AccountListController', function($scope, AccountService) {
+    var defaultAccount = { name: '' };
+
     $scope.accounts = [];
-    $scope.account = { name: '' };
+    $scope.account = angular.copy(defaultAccount);
 
     AccountService.list().then(function(response) {
       if (response.items) {
@@ -33,18 +35,16 @@ angular.module('bomControllers', [])
       var message = { name: $scope.account.name };
       AccountService.insert(message).then(function(response) {
         $scope.accounts.push(response);
-        $scope.account.name = '';
+        $scope.account = angular.copy(defaultAccount);
       });
       angular.element('.modal').modal('hide');
     };
   })
   .controller('AccountDetailController', function($scope, $routeParams, AccountService, TransactionService) {
+    var defaultTransaction = { type: '+', amount: '', memo: '' };
+
     $scope.transactions = [];
-    $scope.transaction = {
-      type: '+',
-      amount: '',
-      memo: ''
-    };
+    $scope.transaction = angular.copy(defaultTransaction);
 
     AccountService.get({id: $routeParams.id}).then(function(response) {
       $scope.account = response;
@@ -71,6 +71,7 @@ angular.module('bomControllers', [])
         $scope.transactions.push(response);
         $scope.account.balance = (parseFloat($scope.account.balance) +
                                   parseFloat(response.amount)).toFixed(2);
+        $scope.transaction = angular.copy(defaultTransaction);
       });
       angular.element('.modal').modal('hide');
     };
