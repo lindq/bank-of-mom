@@ -25,7 +25,7 @@
           <input type="text" class="form-control" id="memo" placeholder="Memo" ng-model="transaction.memo" required>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary" ng-click="addTransaction()" ng-disabled="form.$invalid">
+          <button type="submit" class="btn btn-primary" data-dismiss="modal" ng-click="addTransaction()" ng-disabled="form.$invalid">
             Save Account
           </button>
         </div>
