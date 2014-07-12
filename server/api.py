@@ -86,7 +86,7 @@ class Accounts(remote.Service):
 @bom_api.api_class(resource_name='transactions')
 class Transactions(remote.Service):
 
-    MAX_ITEMS = 1
+    MAX_ITEMS = 3
 
     @endpoints.method(
         request_message=endpoints.ResourceContainer(

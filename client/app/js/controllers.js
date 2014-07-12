@@ -69,6 +69,8 @@ angular.module('bomControllers', [])
       };
       TransactionService.insert(message).then(function(response) {
         $scope.transactions.push(response);
+        $scope.account.balance = (parseFloat($scope.account.balance) +
+                                  parseFloat(response.amount)).toFixed(2);
       });
       angular.element('.modal').modal('hide');
     };
