@@ -11,13 +11,13 @@
 
 <table class="table">
   <tr ng-repeat="transaction in transactions">
-    <td>{{ transactions.memo }}<br>{{ transaction.timestamp | date }}</td>
+    <td>{{ transaction.memo }}<br>{{ transaction.timestamp | date }}</td>
     <td class="text-right text-middle">{{ transaction.amount | currency }}</td>
   </tr>
 </table>
 
 <div ng-show="nextPageToken">
-  <button class="btn btn-default" ng-click="loadTransactions()">Show More Transactions</button>
+  <button class="btn btn-default" ng-click="getTransactions()">Show More Transactions</button>
 </div>
 
 <div>

@@ -8,12 +8,12 @@
       <fieldset>
         <div class="modal-body">
           <label for="account" class="sr-only">Account Name</label>
-          <input type="text" class="form-control" id="account" placeholder="Account name" ng-model="name" required>
+          <input type="text" class="form-control" id="account" placeholder="Account name" ng-model="account.name" required>
         </div>
         <div class="modal-footer">
           <button type="submit"
                   class="btn btn-primary"
-                  ng-click="addAccount(name); name = ''"
+                  ng-click="addAccount()"
                   ng-disabled="form.$invalid">
             Save Account
           </button>

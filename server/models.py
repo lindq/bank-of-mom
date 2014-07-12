@@ -71,7 +71,8 @@ class Transaction(ndb.Model):
         transaction = cls(parent=ndb.Key(Account, message.accountId),
                           id=message.id,
                           amount=message.amount,
-                          memo=message.memo,
-                          timestamp=message.timestamp)
+                          memo=message.memo)
+        if message.timestamp:
+            transaction.timestamp = message.timestamp
         yield transaction.put_async()
         raise ndb.Return(transaction)

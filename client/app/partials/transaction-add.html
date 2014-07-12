@@ -9,25 +9,25 @@
         <div class="modal-body">
           <div class="radio">
             <label>
-              <input type="radio" name="type" id="deposit" value="+" ng-model="type" checked>
+              <input type="radio" name="type" id="deposit" value="+" ng-model="transaction.type">
               Deposit
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" name="type" id="withdrawal" ng-model="type" value="-">
+              <input type="radio" name="type" id="withdrawal" value="-" ng-model="transaction.type">
               Withdrawal
             </label>
           </div>
           <label for="amount" class="sr-only">Amount</label>
-          <input type="text" class="form-control" id="amount" placeholder="Amount" ng-model="amount" required>
+          <input type="text" class="form-control" id="amount" placeholder="Amount" ng-model="transaction.amount" required>
           <label for="memo" class="sr-only">Memo</label>
-          <input type="text" class="form-control" id="memo" placeholder="Memo" ng-model="memo" required>
+          <input type="text" class="form-control" id="memo" placeholder="Memo" ng-model="transaction.memo" required>
         </div>
         <div class="modal-footer">
           <button type="submit"
                   class="btn btn-primary"
-                  ng-click="addTransaction(type, acount, memo)"
+                  ng-click="addTransaction()"
                   ng-disabled="form.$invalid">
             Save Account
           </button>

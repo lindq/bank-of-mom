@@ -20,43 +20,58 @@ angular.module('bomControllers', [])
     };
   })
   .controller('AccountListController', function($scope, AccountService) {
-    AccountService.list()
-      .then(function(response) {
-        $scope.accounts = response.items || [];
-        angular.element('.modal').on('shown.bs.modal', function(e) {
-          e.target.querySelector('input').focus();
-        });
-      });
+    $scope.accounts = [];
+    $scope.account = { name: '' };
 
-    $scope.addAccount = function(name) {
-      var message = {name: name};
-      AccountService.insert(message)
-        .then(function(response) {
-          $scope.accounts.push(response);
-        });
+    AccountService.list().then(function(response) {
+      if (response.items) {
+        $scope.accounts = response.items;
+      }
+    });
+
+    $scope.addAccount = function() {
+      var message = { name: $scope.account.name };
+      AccountService.insert(message).then(function(response) {
+        $scope.accounts.push(response);
+        $scope.account.name = '';
+      });
       angular.element('.modal').modal('hide');
     };
   })
   .controller('AccountDetailController', function($scope, $routeParams, AccountService, TransactionService) {
-    AccountService.get({id: $routeParams.id})
-      .then(function(response) {
-        $scope.account = response;
-      });
+    $scope.transactions = [];
+    $scope.transaction = {
+      type: '+',
+      amount: '',
+      memo: ''
+    };
 
-    var loadTransactions = function() {
+    AccountService.get({id: $routeParams.id}).then(function(response) {
+      $scope.account = response;
+    });
+
+    $scope.getTransactions = function() {
       var message = {
         accountId: $routeParams.id,
         nextPageToken: $scope.nextPageToken
       };
-      TransactionService.list(message)
-        .then(function(response) {
-          $scope.transactions = $scope.transactions.concat(response.items);
-          $scope.nextPageToken = response.nextPageToken;
-        });
+      TransactionService.list(message).then(function(response) {
+        $scope.transactions = $scope.transactions.concat(response.items);
+        $scope.nextPageToken = response.nextPageToken;
+      });
     };
 
-    $scope.transactions = [];
-    $scope.loadTransactions = loadTransactions;
+    $scope.addTransaction = function() {
+      var message = {
+        accountId: $routeParams.id,
+        amount: $scope.transaction.amount,
+        memo: $scope.transaction.memo
+      };
+      TransactionService.insert(message).then(function(response) {
+        $scope.transactions.push(response);
+      });
+      angular.element('.modal').modal('hide');
+    };
 
-    loadTransactions();
+    $scope.getTransactions();
   });
