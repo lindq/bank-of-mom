@@ -64,7 +64,7 @@ angular.module('bomControllers', [])
     $scope.addTransaction = function() {
       var message = {
         accountId: $routeParams.id,
-        amount: $scope.transaction.amount,
+        amount: $scope.transaction.type + $scope.transaction.amount,
         memo: $scope.transaction.memo
       };
       TransactionService.insert(message).then(function(response) {
