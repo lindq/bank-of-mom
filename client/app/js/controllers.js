@@ -23,6 +23,9 @@ angular.module('bomControllers', [])
     AccountService.list()
       .then(function(response) {
         $scope.accounts = response.items || [];
+        angular.element('.modal').on('shown.bs.modal', function(e) {
+          e.target.querySelector('input').focus();
+        });
       });
 
     $scope.addAccount = function(name) {

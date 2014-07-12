@@ -1,0 +1,38 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h4 class="modal-title">Add Transaction</h4>
+    </div>
+    <form novalidate name="form">
+      <fieldset>
+        <div class="modal-body">
+          <div class="radio">
+            <label>
+              <input type="radio" name="type" id="deposit" value="+" ng-model="type" checked>
+              Deposit
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="type" id="withdrawal" ng-model="type" value="-">
+              Withdrawal
+            </label>
+          </div>
+          <label for="amount" class="sr-only">Amount</label>
+          <input type="text" class="form-control" id="amount" placeholder="Amount" ng-model="amount" required>
+          <label for="memo" class="sr-only">Memo</label>
+          <input type="text" class="form-control" id="memo" placeholder="Memo" ng-model="memo" required>
+        </div>
+        <div class="modal-footer">
+          <button type="submit"
+                  class="btn btn-primary"
+                  ng-click="addTransaction(type, acount, memo)"
+                  ng-disabled="form.$invalid">
+            Save Account
+          </button>
+        </div>
+      </fieldset>
+    </form>
+  </div>  
+</div>
