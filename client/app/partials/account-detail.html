@@ -11,7 +11,7 @@
 
 <table class="table">
   <tr ng-repeat="transaction in transactions | orderBy:'-timestamp'">
-    <td>{{ transaction.memo }}<br>{{ transaction.timestamp | date }}</td>
+    <td>{{ transaction.memo }}<br>{{ transaction.timestamp | dateLocalize | date:'medium' }}</td>
     <td class="text-right text-middle">{{ transaction.amount | currency }}</td>
   </tr>
 </table>

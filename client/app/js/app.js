@@ -3,6 +3,7 @@
 angular.module('bom', [
   'ngRoute',
   'bomControllers',
+  'bomFilters',
   'bomServices'
 ])
   .config(function($routeProvider) {

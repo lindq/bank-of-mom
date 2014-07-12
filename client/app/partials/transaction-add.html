@@ -19,10 +19,13 @@
               Withdrawal
             </label>
           </div>
-          <label for="amount" class="sr-only">Amount</label>
-          <input type="number" class="form-control" id="amount" placeholder="Amount" ng-model="transaction.amount" ng-pattern="/^\d+(\.\d{2})?$/" required>
-          <label for="memo" class="sr-only">Memo</label>
-          <input type="text" class="form-control" id="memo" placeholder="Memo" ng-model="transaction.memo" required>
+          <div class="input-group">
+            <span class="input-group-addon">$</span>
+            <input type="number" class="form-control" id="amount" placeholder="Amount" ng-model="transaction.amount" ng-pattern="/^\d+(\.\d{2})?$/" required>
+          </div>
+          <div>
+            <input type="text" class="form-control" id="memo" placeholder="Memo" ng-model="transaction.memo" required>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary" data-dismiss="modal" ng-click="addTransaction()" ng-disabled="form.$invalid">
