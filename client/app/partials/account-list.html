@@ -1,12 +1,14 @@
-<table class="table">
-  <tr ng-repeat="account in accounts | orderBy:'name'">
-    <td><a href="#/accounts/{{ account.id }}">{{ account.name }}</a></td>
-    <td class="text-right"><a href="#/accounts/{{ account.id }}">{{ account.balance | currency }}</a></td>
-  </tr>
-</table>
+<div class="list-group">
+  <a ng-repeat="account in accounts | orderBy:'name'" class="list-group-item" href="#/accounts/{{ account.id }}">
+    <span class="badge">{{ account.balance | currency }}</span>
+    {{ account.name }}
+  </a>
+</div>
 
 <div>
-  <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">Add Account</button>
+  <button class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#addModal">
+    <span class="glyphicon glyphicon-plus-sign"></span> Add Account
+  </button>
 </div>
 
 <div class="modal fade" ng-include="'partials/account-add.html'" id="addModal" role="dialog" tabindex="-1"></div>

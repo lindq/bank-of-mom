@@ -55,8 +55,10 @@ angular.module('bomControllers', [])
         nextPageToken: $scope.nextPageToken
       };
       TransactionService.list(message).then(function(response) {
-        $scope.transactions = $scope.transactions.concat(response.items);
-        $scope.nextPageToken = response.nextPageToken;
+        if (response.items) {
+          $scope.transactions = $scope.transactions.concat(response.items);
+          $scope.nextPageToken = response.nextPageToken;
+        }
       });
     };
 
