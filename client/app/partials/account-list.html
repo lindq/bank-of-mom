@@ -1,9 +1,9 @@
-<div class="list-group">
-  <a ng-repeat="account in accounts | orderBy:'name'" class="list-group-item" href="#/accounts/{{ account.id }}">
-    <span class="badge">{{ account.balance | currency }}</span>
-    {{ account.name }}
-  </a>
-</div>
+<table class="table">
+  <tr ng-repeat="account in accounts | orderBy:'name'">
+    <td><a href="#/accounts/{{ account.id }}">{{ account.name }}</a></td>
+    <td class="text-right"><a href="#/accounts/{{ account.id }}">{{ account.balance | currency }}</a></td>
+  </tr>
+</table>
 
 <div>
   <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#addModal">

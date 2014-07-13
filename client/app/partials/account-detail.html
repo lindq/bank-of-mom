@@ -1,9 +1,9 @@
-<ul class="list-group">
-  <li class="list-group-item">
-    <span class="badge">{{ account.balance | currency }}</span>
-    {{ account.name }}
-  </li>
-</ul>
+<table class="table">
+  <tr>
+    <td>{{ account.name }}</td>
+    <td class="text-right">{{ account.balance | currency }}</td>
+  </tr>
+</table>
 
 <div>
   <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#addModal">
@@ -13,16 +13,18 @@
 
 <br>
 
-<ul class="list-group">
-  <li ng-repeat="transaction in transactions | orderBy:'-timestamp'" class="list-group-item">
-    <span class="badge">{{ transaction.amount | currency }}</span>
-    {{ transaction.memo }}<br>{{ transaction.timestamp | dateLocalize | date:'medium' }}
-  </li>
-</ul>
+<table class="table">
+  <tr ng-repeat="transaction in transactions | orderBy:'-timestamp'">
+    <td>{{ transaction.memo }}<br>{{ transaction.timestamp | dateLocalize | date:'medium' }}</td>
+    <td class="text-right text-middle">{{ transaction.amount | currency }}</td>
+  </tr>
+</table>
 
 <div ng-show="nextPageToken">
   <button class="btn btn-default btn-block" ng-click="getTransactions()">Show More Transactions</button>
 </div>
+
+<br>
 
 <div>
   <button class="btn btn-danger btn-block" data-toggle="modal" data-target="#deleteModal">
