@@ -20,11 +20,16 @@
           <br>
           <br>
           <div class="input-group">
-            <span class="input-group-addon">$</span>
+            <span class="input-group-addon">
+              <span class="glyphicon glyphicon-usd"></span>
+            </span>
             <input type="number" class="form-control input-lg" id="amount" placeholder="Amount" ng-model="transaction.amount" ng-pattern="/^\d+(\.\d{2})?$/" required>
           </div>
           <br>
-          <div>
+          <div class="input-group">
+            <span class="input-group-addon">
+              <span class="glyphicon glyphicon-pencil"></span>
+            </span>
             <input type="text" class="form-control input-lg" id="memo" placeholder="Memo" ng-model="transaction.memo" required>
           </div>
         </div>
