@@ -50,7 +50,7 @@ class Accounts(remote.Service):
     @endpoints.method(
         request_message=endpoints.ResourceContainer(
             message_types.VoidMessage,
-            id=messages.IntegerField(1, variant=messages.Variant.INT32)),
+            id=messages.IntegerField(1, variant=messages.Variant.INT64)),
         response_message=AccountMessage,
         path='accounts/{id}',
         http_method='GET')
@@ -63,7 +63,7 @@ class Accounts(remote.Service):
     @endpoints.method(
         request_message=endpoints.ResourceContainer(
             message_types.VoidMessage,
-            id=messages.IntegerField(1, variant=messages.Variant.INT32)),
+            id=messages.IntegerField(1, variant=messages.Variant.INT64)),
         response_message=message_types.VoidMessage,
         path='accounts/{id}',
         http_method='DELETE')
@@ -91,7 +91,7 @@ class Transactions(remote.Service):
     @endpoints.method(
         request_message=endpoints.ResourceContainer(
             TransactionMessage,
-            accountId=messages.IntegerField(1, variant=messages.Variant.INT32)),
+            accountId=messages.IntegerField(1, variant=messages.Variant.INT64)),
         response_message=TransactionMessage,
         path='accounts/{accountId}/transactions',
         http_method='POST')
@@ -103,7 +103,7 @@ class Transactions(remote.Service):
     @endpoints.method(
         request_message=endpoints.ResourceContainer(
             message_types.VoidMessage,
-            accountId=messages.IntegerField(1, variant=messages.Variant.INT32),
+            accountId=messages.IntegerField(1, variant=messages.Variant.INT64),
             nextPageToken=messages.StringField(2)),
         response_message=TransactionListMessage,
         path='accounts/{accountId}/transactions',
@@ -127,8 +127,8 @@ class Transactions(remote.Service):
     @endpoints.method(
         request_message=endpoints.ResourceContainer(
             message_types.VoidMessage,
-            accountId=messages.IntegerField(1, variant=messages.Variant.INT32),
-            id=messages.IntegerField(2, variant=messages.Variant.INT32)),
+            accountId=messages.IntegerField(1, variant=messages.Variant.INT64),
+            id=messages.IntegerField(2, variant=messages.Variant.INT64)),
         response_message=TransactionMessage,
         path='accounts/{accountId}/transactions/{id}',
         http_method='GET')
@@ -142,8 +142,8 @@ class Transactions(remote.Service):
     @endpoints.method(
         request_message=endpoints.ResourceContainer(
             message_types.VoidMessage,
-            accountId=messages.IntegerField(1, variant=messages.Variant.INT32),
-            id=messages.IntegerField(2, variant=messages.Variant.INT32)),
+            accountId=messages.IntegerField(1, variant=messages.Variant.INT64),
+            id=messages.IntegerField(2, variant=messages.Variant.INT64)),
         response_message=message_types.VoidMessage,
         path='accounts/{accountId}/transactions/{id}',
         http_method='DELETE')
