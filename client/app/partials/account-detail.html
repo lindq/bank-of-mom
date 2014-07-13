@@ -11,20 +11,16 @@
   </button>
 </div>
 
-<br>
-
 <table class="table">
   <tr ng-repeat="transaction in transactions | orderBy:'-timestamp'">
     <td>{{ transaction.memo }}<br>{{ transaction.timestamp | dateLocalize | date:'medium' }}</td>
-    <td class="text-right text-middle">{{ transaction.amount | currency }}</td>
+    <td class="text-right" style="vertical-align: middle">{{ transaction.amount | currency }}</td>
   </tr>
 </table>
 
 <div ng-show="nextPageToken">
   <button class="btn btn-default btn-lg btn-block" ng-click="getTransactions()">Show More Transactions</button>
 </div>
-
-<br>
 
 <div>
   <button class="btn btn-danger btn-lg btn-block" data-toggle="modal" data-target="#deleteModal">
