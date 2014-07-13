@@ -1,6 +1,9 @@
 """Google Cloud Endpoints definition for Bank of Mom API."""
 
+import functools
+
 import endpoints
+from google.appengine.api import namespace_manager
 from protorpc import message_types, messages, remote
 
 from google.appengine.datastore.datastore_query import Cursor
@@ -17,6 +20,20 @@ CLIENT_IDS = [
     ]
 
 
+def require_user(endpoints_method):
+    """Method decorator enforcing authenticated user to enable multitenancy."""
+
+    @functools.wraps(endpoints_method)
+    def wrapped(*args, **kw):
+        user = endpoints.get_current_user()
+        if user is None:
+            raise endpoints.UnauthorizedException('Invalid token.')
+        namespace_manager.set_namespace(user.user_id())
+        return endpoints_method(*args, **kw)
+
+    return wrapped
+
+
 bom_api = endpoints.api(allowed_client_ids=CLIENT_IDS,
                         description='Bank of Mom API',
                         name='bom',
@@ -31,6 +48,7 @@ class Accounts(remote.Service):
         response_message=AccountMessage,
         path='accounts',
         http_method='POST')
+    @require_user
     def insert(self, request):
         request.id = None
         account = Account.put_from_message(request)
@@ -41,6 +59,7 @@ class Accounts(remote.Service):
         response_message=AccountListMessage,
         path='accounts',
         http_method='GET')
+    @require_user
     def list(self, request):
         accounts = Account.query().order(Account.name)
         message = AccountListMessage(
@@ -54,6 +73,7 @@ class Accounts(remote.Service):
         response_message=AccountMessage,
         path='accounts/{id}',
         http_method='GET')
+    @require_user
     def get(self, request):
         account = Account.get_by_id(request.id)
         if not account:
@@ -67,6 +87,7 @@ class Accounts(remote.Service):
         response_message=message_types.VoidMessage,
         path='accounts/{id}',
         http_method='DELETE')
+    @require_user
     def remove(self, request):
         account = Account.get_by_id(request.id)
         if not account:
@@ -95,6 +116,7 @@ class Transactions(remote.Service):
         response_message=TransactionMessage,
         path='accounts/{accountId}/transactions',
         http_method='POST')
+    @require_user
     def insert(self, request):
         request.id = None
         transaction = Transaction.put_from_message(request)
@@ -108,6 +130,7 @@ class Transactions(remote.Service):
         response_message=TransactionListMessage,
         path='accounts/{accountId}/transactions',
         http_method='GET')
+    @require_user
     def list(self, request):
         key = ndb.Key(Account, request.accountId)
         query = Transaction.query(ancestor=key).order(-Transaction.timestamp)
@@ -132,6 +155,7 @@ class Transactions(remote.Service):
         response_message=TransactionMessage,
         path='accounts/{accountId}/transactions/{id}',
         http_method='GET')
+    @require_user
     def get(self, request):
         key = ndb.Key(Account, request.accountId, Transaction, request.id)
         transaction = key.get()
@@ -147,6 +171,7 @@ class Transactions(remote.Service):
         response_message=message_types.VoidMessage,
         path='accounts/{accountId}/transactions/{id}',
         http_method='DELETE')
+    @require_user
     def remove(self, request):
         key = ndb.Key(Account, request.accountId, Transaction, request.id)
         transaction = key.get()
