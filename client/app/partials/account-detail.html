@@ -1,7 +1,7 @@
 <table class="table">
   <tr>
-    <td>{{ account.name }}</td>
-    <td class="text-right">{{ account.balance | currency }}</td>
+    <td class="bom-acct-name">{{ account.name }}</td>
+    <td class="bom-acct-balance text-right" ng-class="{negative: transaction.amount < 0}">{{ account.balance | currency }}</td>
   </tr>
 </table>
 
@@ -13,8 +13,11 @@
 
 <table class="table">
   <tr ng-repeat="transaction in transactions | orderBy:'-timestamp'">
-    <td>{{ transaction.memo }}<br>{{ transaction.timestamp | dateLocalize | date:'medium' }}</td>
-    <td class="text-right" style="vertical-align: middle">{{ transaction.amount | currency }}</td>
+    <td>
+      <span class="bom-txn-memo">{{ transaction.memo }}</span><br>
+      <span class="bom-txn-timestamp">{{ transaction.timestamp | dateLocalize | date:'medium' }}</span>
+    </td>
+    <td class="text-right bom-txn-amount" ng-class="{negative: transaction.amount < 0}">{{ transaction.amount | currency }}</td>
   </tr>
 </table>
 

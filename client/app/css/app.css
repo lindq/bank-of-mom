@@ -1,3 +1,8 @@
+body {
+  background-color: #f2f9f6;
+  font-family: 'Roboto Slab';
+}
+
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -8,8 +13,42 @@ input[type=number]::-webkit-outer-spin-button {
   margin-bottom: 0;
 }
 
+.table a {
+  color: inherit;
+  display: block;
+  text-decoration: none;
+}
+
 .btn-group input[type=radio] {
   opacity: 0;
   position: absolute;
   z-index: -1;
+}
+
+.bom-acct-name {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.negative {
+  color: red;
+}
+
+.bom-acct-balance {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.bom-txn-memo {
+  font-size: 24px;
+}
+
+.bom-txn-timestamp {
+  font-size: 16px;
+  font-style: italic;
+}
+
+.bom-txn-amount {
+  font-size: 24px;
+  vertical-align: middle !important;
 }

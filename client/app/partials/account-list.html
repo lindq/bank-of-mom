@@ -1,7 +1,7 @@
 <table class="table">
   <tr ng-repeat="account in accounts | orderBy:'name'">
-    <td><a href="#/accounts/{{ account.id }}">{{ account.name }}</a></td>
-    <td class="text-right"><a href="#/accounts/{{ account.id }}">{{ account.balance | currency }}</a></td>
+    <td class="bom-acct-name"><a href="#/accounts/{{ account.id }}">{{ account.name }}</a></td>
+    <td class="bom-acct-balance text-right" ng-class="{negative: transaction.amount < 0}"><a href="#/accounts/{{ account.id }}">{{ account.balance | currency }}</a></td>
   </tr>
 </table>
 
