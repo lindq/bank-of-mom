@@ -30,7 +30,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .bom-acct-name {
-  font-size: 24px;
+  font-size: 32px;
   font-weight: bold;
 }
 
@@ -39,7 +39,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .bom-acct-balance {
-  font-size: 24px;
+  font-size: 32px;
   font-weight: bold;
 }
 
@@ -58,7 +58,12 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 #header {
+  background-color: greenyellow;
+}
 
+#header h1 {
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 #header h1 a {
