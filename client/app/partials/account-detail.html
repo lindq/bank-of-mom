@@ -5,11 +5,9 @@
   </tr>
 </table>
 
-<div>
-  <button class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#addModal">
-    <span class="glyphicon glyphicon-plus-sign"></span> Add Transaction
-  </button>
-</div>
+<button class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#addModal">
+  <span class="glyphicon glyphicon-plus-sign"></span> Add Transaction
+</button>
 
 <table class="table">
   <tr ng-repeat="transaction in transactions | orderBy:'-timestamp'">
@@ -21,15 +19,11 @@
   </tr>
 </table>
 
-<div ng-show="nextPageToken">
-  <button class="btn btn-default btn-lg btn-block" ng-click="getTransactions()">Show More Transactions</button>
-</div>
+<button class="btn btn-default btn-lg btn-block" ng-show="nextPageToken" ng-click="getTransactions()">Show More Transactions</button>
 
-<div class="delete">
-  <button class="btn btn-danger btn-lg btn-block" data-toggle="modal" data-target="#deleteModal">
-    <span class="glyphicon glyphicon-minus-sign"></span> Delete Account
-  </button>
-</div>
+<button class="btn btn-danger btn-lg btn-block" data-toggle="modal" data-target="#deleteModal">
+  <span class="glyphicon glyphicon-minus-sign"></span> Delete Account
+</button>
 
 <div class="modal fade" ng-include="'partials/transaction-add.html'" id="addModal" role="dialog" tabindex="-1"></div>
 <div class="modal fade" ng-include="'partials/account-delete.html'" id="deleteModal" role="dialog" tabindex="-1"></div>

@@ -10,7 +10,8 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .table {
-  margin-bottom: 0;
+  margin-bottom: 15px;
+  margin-top: 15px;
 }
 
 .table a {
@@ -21,6 +22,11 @@ input[type=number]::-webkit-outer-spin-button {
 
 .table tr:first-of-type td {
   border-top: none;
+}
+
+.btn-block {
+  margin-bottom: 15px;
+  margin-top: 15px;
 }
 
 .btn-group input[type=radio] {
@@ -55,10 +61,6 @@ input[type=number]::-webkit-outer-spin-button {
 .bom-txn-amount {
   font-size: 24px;
   vertical-align: middle !important;
-}
-
-.delete {
-  margin-top: 200px;
 }
 
 #header {
