@@ -76,7 +76,7 @@ label {
 }
 
 #header {
-  background-color: greenyellow;
+  background-color: #216c2a;
   position: fixed;
   width: 100%;
   z-index: 1000;
@@ -89,11 +89,15 @@ label {
 }
 
 #header h1 a {
-  color: inherit;
+  color: #f2f9f6;
   display: block;
   font-family: Rye;
   text-align: center;
   text-decoration: none;
+}
+
+#header h1 a i {
+  font-family: Quintessential;
 }
 
 #content {
