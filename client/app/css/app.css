@@ -39,6 +39,10 @@ label {
   z-index: -1;
 }
 
+.modal-content {
+  background-color: #f2f9f6;
+}
+
 .modal-header h4 {
   font-weight: bold;
 }
@@ -73,6 +77,9 @@ label {
 
 #header {
   background-color: greenyellow;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
 }
 
 #header h1 {
@@ -87,4 +94,9 @@ label {
   font-family: Rye;
   text-align: center;
   text-decoration: none;
+}
+
+#content {
+  position: relative;
+  top: 55px;
 }
