@@ -1,6 +1,11 @@
+html {
+  height: 100%;
+}
+
 body {
-  background-color: #f2f9f6;
+  background: #f2f9f6 url(/img/icon-watermark.png) no-repeat fixed center center;
   font-family: 'Roboto Slab';
+  height: 100%;
 }
 
 input[type=number]::-webkit-inner-spin-button,
