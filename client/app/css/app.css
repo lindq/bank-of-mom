@@ -48,7 +48,7 @@ label {
 }
 
 .bom-acct-name {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: bold;
 }
 
@@ -57,21 +57,21 @@ label {
 }
 
 .bom-acct-balance {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: bold;
 }
 
 .bom-txn-memo {
-  font-size: 24px;
+  font-size: 22px;
 }
 
 .bom-txn-timestamp {
-  font-size: 16px;
+  font-size: 14px;
   font-style: italic;
 }
 
 .bom-txn-amount {
-  font-size: 24px;
+  font-size: 22px;
   vertical-align: middle !important;
 }
 
@@ -83,7 +83,7 @@ label {
 }
 
 #header h1 {
-  font-size: 32px;
+  font-size: 28px;
   margin-bottom: 10px;
   margin-top: 10px;
 }
