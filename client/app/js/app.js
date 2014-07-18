@@ -35,6 +35,11 @@ angular.module('bom', [
           return request;
         },
         'responseError': function(rejection) {
+          var path = $location.path();
+          if (rejection.status === 401 && path != '/auth') {
+            $rootScope.authorized = false;
+            $location.path('/auth').search('next', path);
+          }
           return $q.reject(rejection);
         }
       };
