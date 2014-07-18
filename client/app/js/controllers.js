@@ -45,21 +45,27 @@ angular.module('bomControllers', [])
     $scope.transactions = [];
     $scope.transaction = angular.copy(defaultTransaction);
 
-    AccountService.get({id: $routeParams.id}).then(function(response) {
-      $scope.account = response;
-    });
+    AccountService.get({id: $routeParams.id})
+      .then(function(response) {
+        $scope.account = response;
+      }, function(response) {
+        window.console.log(response);
+      });
 
     $scope.getTransactions = function() {
       var message = {
         accountId: $routeParams.id,
         nextPageToken: $scope.nextPageToken
       };
-      TransactionService.list(message).then(function(response) {
-        if (response.items) {
-          $scope.transactions = $scope.transactions.concat(response.items);
-          $scope.nextPageToken = response.nextPageToken;
-        }
-      });
+      TransactionService.list(message)
+        .then(function(response) {
+          if (response.items) {
+            $scope.transactions = $scope.transactions.concat(response.items);
+            $scope.nextPageToken = response.nextPageToken;
+          }
+        }, function(response) {
+          window.console.log(response);
+        });
     };
 
     $scope.addTransaction = function() {

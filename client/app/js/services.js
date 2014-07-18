@@ -44,7 +44,7 @@ angular.module('bomServices', [])
         var deferred = $q.defer();
         method(message).execute(function(response) {
           if (response.error) {
-            deferred.reject(response.message);
+            deferred.reject(response);
           } else {
             deferred.resolve(response);
           }
