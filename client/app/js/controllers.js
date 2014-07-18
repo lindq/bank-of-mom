@@ -6,9 +6,11 @@ angular.module('bomControllers', [])
       $scope.needsAuth = false;
       $rootScope.authorized = true;
       ApiService.load()
-        .then(function() {
+        .then(function(response) {
           var next = $location.search().next || '/accounts';
           $location.path(next).search('next', null);
+        }, function(response) {
+          window.console.log(response);
         });
     };
     var error = function() {
@@ -25,18 +27,24 @@ angular.module('bomControllers', [])
     $scope.accounts = [];
     $scope.account = angular.copy(defaultAccount);
 
-    AccountService.list().then(function(response) {
-      if (response.items) {
-        $scope.accounts = response.items;
-      }
-    });
+    AccountService.list()
+      .then(function(response) {
+        if (response.items) {
+          $scope.accounts = response.items;
+        }
+      }, function(response) {
+        window.console.log(response);
+      });
 
     $scope.addAccount = function() {
       var message = { name: $scope.account.name };
-      AccountService.insert(message).then(function(response) {
-        $scope.accounts.push(response);
-        $scope.account = angular.copy(defaultAccount);
-      });
+      AccountService.insert(message)
+        .then(function(response) {
+          $scope.accounts.push(response);
+          $scope.account = angular.copy(defaultAccount);
+        }, function(response) {
+          window.console.log(response);
+        });
     };
   })
   .controller('AccountDetailController', function($scope, $location, $routeParams, AccountService, TransactionService) {
@@ -74,19 +82,25 @@ angular.module('bomControllers', [])
         amount: $scope.transaction.type + $scope.transaction.amount,
         memo: $scope.transaction.memo
       };
-      TransactionService.insert(message).then(function(response) {
-        $scope.transactions.push(response);
-        $scope.account.balance = (parseFloat($scope.account.balance) +
-                                  parseFloat(response.amount)).toFixed(2);
-        $scope.transaction = angular.copy(defaultTransaction);
-      });
+      TransactionService.insert(message)
+        .then(function(response) {
+          $scope.transactions.push(response);
+          $scope.account.balance = (parseFloat($scope.account.balance) +
+                                    parseFloat(response.amount)).toFixed(2);
+          $scope.transaction = angular.copy(defaultTransaction);
+        }, function(response) {
+          window.console.log(response);
+        });
     };
 
     $scope.deleteAccount = function() {
       var message = { id: $routeParams.id };
-      AccountService.remove(message).then(function(response) {
-        $location.path('/accounts');
-      });
+      AccountService.remove(message)
+        .then(function(response) {
+          $location.path('/accounts');
+        }, function(response) {
+          window.console.log(response);
+        });
     };
 
     $scope.getTransactions();
