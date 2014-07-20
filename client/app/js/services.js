@@ -10,7 +10,7 @@ angular.module('bomServices', [])
     API_PATH: '/_ah/api'
   })
   .factory('AuthService', function($q, settings) {
-    var auth = function(immediate) {
+    var check = function(immediate) {
       var deferred = $q.defer();
       var params = {
         client_id: settings.OAUTH_CLIENT_ID,
@@ -19,7 +19,7 @@ angular.module('bomServices', [])
       }
       gapi.auth.authorize(params, function(response) {
         if (response.error) {
-          deferred.reject(response.message);
+          deferred.reject(response);
         } else {
           deferred.resolve(response);
         }
@@ -27,7 +27,7 @@ angular.module('bomServices', [])
       return deferred.promise;
     };
     return {
-      auth: auth
+      check: check
     }
   })
   .factory('ApiService', function($q, settings) {
@@ -39,10 +39,12 @@ angular.module('bomServices', [])
                        settings.API_PATH);
       return deferred.promise;
     };
-    var wrap = function(method) {
+    var wrap = function(collection, method) {
       return function(message) {
+        var api = settings.API_NAME;
+        var func = gapi.client[api][collection][method];
         var deferred = $q.defer();
-        method(message).execute(function(response) {
+        func(message).execute(function(response) {
           if (response.error) {
             deferred.reject(response);
           } else {
@@ -58,20 +60,20 @@ angular.module('bomServices', [])
     }
   })
   .factory('AccountService', function(ApiService) {
-    var accounts = gapi.client.bom.accounts;
+    var collection = 'accounts'
     return {
-      insert: ApiService.wrap(accounts.insert),
-      list: ApiService.wrap(accounts.list),
-      get: ApiService.wrap(accounts.get),
-      remove: ApiService.wrap(accounts.remove)
+      insert: ApiService.wrap(collection, 'insert'),
+      list: ApiService.wrap(collection, 'list'),
+      get: ApiService.wrap(collection, 'get'),
+      remove: ApiService.wrap(collection, 'remove')
     }
   })
   .factory('TransactionService', function(ApiService) {
-    var transactions = gapi.client.bom.transactions;
+    var collection = 'transactions'
     return {
-      insert: ApiService.wrap(transactions.insert),
-      list: ApiService.wrap(transactions.list),
-      get: ApiService.wrap(transactions.get),
-      remove: ApiService.wrap(transactions.remove)
+      insert: ApiService.wrap(collection, 'insert'),
+      list: ApiService.wrap(collection, 'list'),
+      get: ApiService.wrap(collection, 'get'),
+      remove: ApiService.wrap(collection, 'remove')
     }
   });

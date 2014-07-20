@@ -1,107 +1,155 @@
 'use strict';
 
 angular.module('bomControllers', [])
-  .controller('AuthController', function($scope, $location, $rootScope, AuthService, ApiService) {
-    var success = function() {
-      $scope.needsAuth = false;
-      $rootScope.authorized = true;
-      ApiService.load()
-        .then(function(response) {
-          var next = $location.search().next || '/accounts';
-          $location.path(next).search('next', null);
-        }, function(response) {
-          window.console.log(response);
-        });
+  .controller('AuthController', function($scope, $location, AuthService, ApiService) {
+
+    var checkAuth = function() {
+      return AuthService.check(false);
     };
-    var error = function() {
-      $scope.needsAuth = true;
+
+    var loadApi = function() {
+      return ApiService.load();
     };
-    AuthService.auth(true).then(success, error);
+
+    var redirect = function() {
+      var next = $location.search().next || '/accounts';
+      $location.path(next).search('next', null);
+    };
+
     $scope.auth = function() {
-      AuthService.auth(false).then(success, error);
+      checkAuth()
+        .then(redirect)
     };
   })
-  .controller('AccountListController', function($scope, AccountService) {
+  .controller('AccountListController', function($scope, $location, AccountService, AuthService, ApiService) {
     var defaultAccount = { name: '' };
 
     $scope.accounts = [];
     $scope.account = angular.copy(defaultAccount);
 
-    AccountService.list()
-      .then(function(response) {
-        if (response.items) {
-          $scope.accounts = response.items;
-        }
-      }, function(response) {
-        window.console.log(response);
-      });
+    var checkAuth = function() {
+      return AuthService.check(true)
+        .then(angular.noop, function() {
+          var path = $location.path();
+          $location.path('/auth').search('next', path);
+        });
+    };
 
-    $scope.addAccount = function() {
+    var loadApi = function() {
+      return ApiService.load();
+    };
+
+    var loadAccounts = function() {
+      return AccountService.list()
+        .then(function(response) {
+          if (response.items) {
+            $scope.accounts = response.items;
+          }
+        });
+    };
+
+    var insertAccount = function() {
       var message = { name: $scope.account.name };
-      AccountService.insert(message)
+      return AccountService.insert(message)
         .then(function(response) {
           $scope.accounts.push(response);
           $scope.account = angular.copy(defaultAccount);
-        }, function(response) {
-          window.console.log(response);
         });
     };
+
+    checkAuth()
+      .then(loadApi)
+      .then(loadAccounts);
+
+    $scope.addAccount = function() {
+      checkAuth()
+        .then(loadApi)
+        .then(insertAccount);
+    };
   })
-  .controller('AccountDetailController', function($scope, $location, $routeParams, AccountService, TransactionService) {
+  .controller('AccountDetailController', function($scope, $location, $routeParams, AccountService, TransactionService, AuthService, ApiService) {
     var defaultTransaction = { type: '+', amount: '', memo: '' };
 
     $scope.transactions = [];
     $scope.transaction = angular.copy(defaultTransaction);
 
-    AccountService.get({id: $routeParams.id})
-      .then(function(response) {
-        $scope.account = response;
-      }, function(response) {
-        window.console.log(response);
-      });
+    var checkAuth = function() {
+      return AuthService.check(true)
+        .then(angular.noop, function() {
+          var path = $location.path();
+          $location.path('/auth').search('next', path);
+        });
+    };
 
-    $scope.getTransactions = function() {
+    var loadApi = function() {
+      return ApiService.load();
+    };
+
+    var getAccount = function() {
+      var message = {id: $routeParams.id};
+      return AccountService.get(message)
+        .then(function(response) {
+          $scope.account = response;
+        });
+    };
+
+    var getTransactions = function() {
       var message = {
         accountId: $routeParams.id,
         nextPageToken: $scope.nextPageToken
       };
-      TransactionService.list(message)
+      return TransactionService.list(message)
         .then(function(response) {
           if (response.items) {
             $scope.transactions = $scope.transactions.concat(response.items);
             $scope.nextPageToken = response.nextPageToken;
           }
-        }, function(response) {
-          window.console.log(response);
         });
     };
 
-    $scope.addTransaction = function() {
+    var addTransaction = function() {
       var message = {
         accountId: $routeParams.id,
         amount: $scope.transaction.type + $scope.transaction.amount,
         memo: $scope.transaction.memo
       };
-      TransactionService.insert(message)
+      return TransactionService.insert(message)
         .then(function(response) {
           $scope.transactions.push(response);
           $scope.account.balance = (parseFloat($scope.account.balance) +
                                     parseFloat(response.amount)).toFixed(2);
           $scope.transaction = angular.copy(defaultTransaction);
-        }, function(response) {
-          window.console.log(response);
         });
+    };
+
+    var deleteAccount = function() {
+      var message = { id: $routeParams.id };
+      return AccountService.remove(message)
+        .then(function(response) {
+          $location.path('/accounts');
+        });
+    };
+
+    checkAuth()
+      .then(loadApi)
+      .then(getAccount)
+      .then(getTransactions);
+
+    $scope.getTransactions = function() {
+      checkAuth()
+        .then(loadApi)
+        .then(getTransactions);
+    };
+
+    $scope.addTransaction = function() {
+      checkAuth()
+        .then(loadApi)
+        .then(addTransaction);
     };
 
     $scope.deleteAccount = function() {
-      var message = { id: $routeParams.id };
-      AccountService.remove(message)
-        .then(function(response) {
-          $location.path('/accounts');
-        }, function(response) {
-          window.console.log(response);
-        });
+      checkAuth()
+        .then(loadApi)
+        .then(deleteAccount);
     };
-
-    $scope.getTransactions();
   });
