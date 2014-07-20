@@ -23,12 +23,14 @@ angular.module('bomControllers', [])
     $scope.accounts = [];
     $scope.account = angular.copy(defaultAccount);
 
+    var redirect = function() {
+      var path = $location.path();
+      $location.path('/auth').search('next', path);
+    };
+
     var checkAuth = function() {
       return AuthService.check(true)
-        .then(angular.noop, function() {
-          var path = $location.path();
-          $location.path('/auth').search('next', path);
-        });
+        .then(angular.noop, redirect);
     };
 
     var loadApi = function() {
@@ -69,12 +71,14 @@ angular.module('bomControllers', [])
     $scope.transactions = [];
     $scope.transaction = angular.copy(defaultTransaction);
 
+    var redirect = function() {
+      var path = $location.path();
+      $location.path('/auth').search('next', path);
+    };
+
     var checkAuth = function() {
       return AuthService.check(true)
-        .then(angular.noop, function() {
-          var path = $location.path();
-          $location.path('/auth').search('next', path);
-        });
+        .then(angular.noop, redirect);
     };
 
     var loadApi = function() {
