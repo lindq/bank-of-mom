@@ -1,14 +1,10 @@
 'use strict';
 
 angular.module('bomControllers', [])
-  .controller('AuthController', function($scope, $location, AuthService, ApiService) {
+  .controller('AuthController', function($scope, $location, AuthService) {
 
     var checkAuth = function() {
       return AuthService.check(false);
-    };
-
-    var loadApi = function() {
-      return ApiService.load();
     };
 
     var redirect = function() {
@@ -39,7 +35,7 @@ angular.module('bomControllers', [])
       return ApiService.load();
     };
 
-    var loadAccounts = function() {
+    var listAccounts = function() {
       return AccountService.list()
         .then(function(response) {
           if (response.items) {
@@ -59,7 +55,7 @@ angular.module('bomControllers', [])
 
     checkAuth()
       .then(loadApi)
-      .then(loadAccounts);
+      .then(listAccounts);
 
     $scope.addAccount = function() {
       checkAuth()
@@ -93,7 +89,7 @@ angular.module('bomControllers', [])
         });
     };
 
-    var getTransactions = function() {
+    var listTransactions = function() {
       var message = {
         accountId: $routeParams.id,
         nextPageToken: $scope.nextPageToken
@@ -133,12 +129,12 @@ angular.module('bomControllers', [])
     checkAuth()
       .then(loadApi)
       .then(getAccount)
-      .then(getTransactions);
+      .then(listTransactions);
 
-    $scope.getTransactions = function() {
+    $scope.listTransactions = function() {
       checkAuth()
         .then(loadApi)
-        .then(getTransactions);
+        .then(listTransactions);
     };
 
     $scope.addTransaction = function() {
