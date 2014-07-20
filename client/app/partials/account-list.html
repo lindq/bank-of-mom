@@ -1,12 +1,14 @@
-<table class="table">
-  <tr ng-repeat="account in accounts | orderBy:'name'">
-    <td class="bom-acct-name"><a href="#/accounts/{{ account.id }}">{{ account.name }}</a></td>
-    <td class="bom-acct-balance text-right" ng-class="{negative: transaction.amount < 0}"><a href="#/accounts/{{ account.id }}">{{ account.balance | currency }}</a></td>
-  </tr>
-</table>
+<div ng-show="loaded">
+  <table class="table">
+    <tr ng-repeat="account in accounts | orderBy:'name'">
+      <td class="bom-acct-name"><a href="#/accounts/{{ account.id }}">{{ account.name }}</a></td>
+      <td class="bom-acct-balance text-right" ng-class="{negative: transaction.amount < 0}"><a href="#/accounts/{{ account.id }}">{{ account.balance | currency }}</a></td>
+    </tr>
+  </table>
 
-<button class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#addModal">
-  <span class="glyphicon glyphicon-plus-sign"></span> Add Account
-</button>
+  <button class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#addModal">
+    <span class="glyphicon glyphicon-plus-sign"></span> Add Account
+  </button>
 
-<div class="modal fade" ng-include="'partials/account-add.html'" id="addModal" role="dialog" tabindex="-1"></div>
+  <div class="modal fade" ng-include="'partials/account-add.html'" id="addModal" role="dialog" tabindex="-1"></div>
+</div>

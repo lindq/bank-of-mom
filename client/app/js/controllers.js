@@ -20,6 +20,7 @@ angular.module('bomControllers', [])
   .controller('AccountListController', function($scope, $location, AccountService, AuthService, ApiService) {
     var defaultAccount = { name: '' };
 
+    $scope.loaded = false;
     $scope.accounts = [];
     $scope.account = angular.copy(defaultAccount);
 
@@ -55,9 +56,14 @@ angular.module('bomControllers', [])
         });
     };
 
+    var doneLoading = function() {
+      $scope.loaded = true;
+    };
+
     checkAuth()
       .then(loadApi)
-      .then(listAccounts);
+      .then(listAccounts)
+      .then(doneLoading);
 
     $scope.addAccount = function() {
       checkAuth()
@@ -68,6 +74,7 @@ angular.module('bomControllers', [])
   .controller('AccountDetailController', function($scope, $location, $routeParams, AccountService, TransactionService, AuthService, ApiService) {
     var defaultTransaction = { type: '+', amount: '', memo: '' };
 
+    $scope.loaded = false;
     $scope.transactions = [];
     $scope.transaction = angular.copy(defaultTransaction);
 
@@ -130,10 +137,15 @@ angular.module('bomControllers', [])
         });
     };
 
+    var doneLoading = function() {
+      $scope.loaded = true;
+    };
+
     checkAuth()
       .then(loadApi)
       .then(getAccount)
-      .then(listTransactions);
+      .then(listTransactions)
+      .then(doneLoading);
 
     $scope.listTransactions = function() {
       checkAuth()
