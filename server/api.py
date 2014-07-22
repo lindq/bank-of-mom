@@ -82,6 +82,21 @@ class Accounts(remote.Service):
 
     @endpoints.method(
         request_message=endpoints.ResourceContainer(
+            AccountMessage,
+            id=messages.IntegerField(1, variant=messages.Variant.INT64)),
+        response_message=AccountMessage,
+        path='accounts/{id}',
+        http_method='PUT')
+    @require_user
+    def update(self, request):
+        account = Account.get_by_id(request.id)
+        if not account:
+            raise endpoints.NotFoundException
+        account = Account.put_from_message(request)
+        return account.to_message()
+
+    @endpoints.method(
+        request_message=endpoints.ResourceContainer(
             message_types.VoidMessage,
             id=messages.IntegerField(1, variant=messages.Variant.INT64)),
         response_message=message_types.VoidMessage,
@@ -161,6 +176,23 @@ class Transactions(remote.Service):
         transaction = key.get()
         if not transaction:
             raise endpoints.NotFoundException
+        return transaction.to_message()
+
+    @endpoints.method(
+        request_message=endpoints.ResourceContainer(
+            TransactionMessage,
+            accountId=messages.IntegerField(1, variant=messages.Variant.INT64),
+            id=messages.IntegerField(2, variant=messages.Variant.INT64)),
+        response_message=TransactionMessage,
+        path='accounts/{accountId}/transactions/{id}',
+        http_method='PUT')
+    @require_user
+    def update(self, request):
+        key = ndb.Key(Account, request.accountId, Transaction, request.id)
+        transaction = key.get()
+        if not transaction:
+            raise endpoints.NotFoundException
+        transaction = Transaction.put_from_message(request)
         return transaction.to_message()
 
     @endpoints.method(
