@@ -7,9 +7,10 @@ angular.module('bomServices', [])
     OAUTH_SCOPE: 'https://www.googleapis.com/auth/userinfo.email',
     API_NAME: 'bom',
     API_VERSION: 'v1',
-    API_PATH: '/_ah/api'
+    API_PATH: '/_ah/api',
+    AUTH_PATH: '/auth'
   })
-  .factory('AuthService', function($q, settings) {
+  .factory('AuthService', function($q, $location, settings) {
     var check = function(immediate) {
       var deferred = $q.defer();
       var params = {
@@ -26,32 +27,43 @@ angular.module('bomServices', [])
       });
       return deferred.promise;
     };
+    var redirect = function() {
+      var path = $location.path();
+      $location.path(settings.AUTH_PATH).search('next', path);
+    };
     return {
-      check: check
+      check: check,
+      redirect: redirect
     }
   })
-  .factory('ApiService', function($q, settings) {
+  .factory('ApiService', function($q, settings, AuthService) {
     var load = function() {
       var deferred = $q.defer();
-      gapi.client.load(settings.API_NAME,
-                       settings.API_VERSION,
-                       deferred.resolve,
-                       settings.API_PATH);
+      var callback = deferred.resolve;
+      gapi.client.load(settings.API_NAME, settings.API_VERSION,
+                       callback, settings.API_PATH);
       return deferred.promise;
     };
     var wrap = function(collection, method) {
       return function(message) {
-        var api = settings.API_NAME;
-        var func = gapi.client[api][collection][method];
-        var deferred = $q.defer();
-        func(message).execute(function(response) {
-          if (response.error) {
-            deferred.reject(response);
-          } else {
-            deferred.resolve(response);
-          }
-        });
-        return deferred.promise;
+
+        var call = function() {
+          var func = gapi.client[settings.API_NAME][collection][method];
+          var deferred = $q.defer();
+          func(message).execute(function(response) {
+            if (response.error) {
+              deferred.reject(response);
+            } else {
+              deferred.resolve(response);
+            }
+          });
+          return deferred.promise;
+        }
+
+        return AuthService.check(true)
+          .then(angular.noop, AuthService.redirect)
+          .then(load)
+          .then(call);
       }
     };
     return {
@@ -62,18 +74,22 @@ angular.module('bomServices', [])
   .factory('AccountService', function(ApiService) {
     var collection = 'accounts'
     return {
+      get: ApiService.wrap(collection, 'get'),
       insert: ApiService.wrap(collection, 'insert'),
       list: ApiService.wrap(collection, 'list'),
-      get: ApiService.wrap(collection, 'get'),
-      remove: ApiService.wrap(collection, 'remove')
+      patch: ApiService.wrap(collection, 'patch'),
+      remove: ApiService.wrap(collection, 'remove'),
+      update: ApiService.wrap(collection, 'update')
     }
   })
   .factory('TransactionService', function(ApiService) {
     var collection = 'transactions'
     return {
+      get: ApiService.wrap(collection, 'get'),
       insert: ApiService.wrap(collection, 'insert'),
       list: ApiService.wrap(collection, 'list'),
-      get: ApiService.wrap(collection, 'get'),
-      remove: ApiService.wrap(collection, 'remove')
+      patch: ApiService.wrap(collection, 'patch'),
+      remove: ApiService.wrap(collection, 'remove'),
+      update: ApiService.wrap(collection, 'update')
     }
   });

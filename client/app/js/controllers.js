@@ -3,19 +3,16 @@
 angular.module('bomControllers', [])
   .controller('AuthController', function($scope, $location, AuthService) {
 
-    var checkAuth = function() {
-      return AuthService.check(false);
-    };
-
     var redirect = function() {
       var next = $location.search().next || '/accounts';
       $location.path(next).search('next', null);
     };
 
     $scope.auth = function() {
-      checkAuth()
-        .then(redirect)
+      AuthService.check(false)
+        .then(redirect);
     };
+
   })
   .controller('AccountListController', function($scope, $location, AccountService, AuthService, ApiService) {
     var defaultAccount = { name: '' };
@@ -23,20 +20,6 @@ angular.module('bomControllers', [])
     $scope.loaded = false;
     $scope.accounts = [];
     $scope.account = angular.copy(defaultAccount);
-
-    var redirect = function() {
-      var path = $location.path();
-      $location.path('/auth').search('next', path);
-    };
-
-    var checkAuth = function() {
-      return AuthService.check(true)
-        .then(angular.noop, redirect);
-    };
-
-    var loadApi = function() {
-      return ApiService.load();
-    };
 
     var listAccounts = function() {
       return AccountService.list()
@@ -60,37 +43,21 @@ angular.module('bomControllers', [])
       $scope.loaded = true;
     };
 
-    checkAuth()
-      .then(loadApi)
-      .then(listAccounts)
+    listAccounts()
       .then(doneLoading);
 
     $scope.addAccount = function() {
-      checkAuth()
-        .then(loadApi)
-        .then(insertAccount);
+      insertAccount();
     };
   })
-  .controller('AccountDetailController', function($scope, $location, $routeParams, AccountService, TransactionService, AuthService, ApiService) {
+  .controller('AccountDetailController', function($scope, $location,
+                                                  $routeParams, AccountService,
+                                                  TransactionService) {
     var defaultTransaction = { type: '+', amount: '', memo: '' };
 
     $scope.loaded = false;
     $scope.transactions = [];
     $scope.transaction = angular.copy(defaultTransaction);
-
-    var redirect = function() {
-      var path = $location.path();
-      $location.path('/auth').search('next', path);
-    };
-
-    var checkAuth = function() {
-      return AuthService.check(true)
-        .then(angular.noop, redirect);
-    };
-
-    var loadApi = function() {
-      return ApiService.load();
-    };
 
     var getAccount = function() {
       var message = {id: $routeParams.id};
@@ -141,27 +108,11 @@ angular.module('bomControllers', [])
       $scope.loaded = true;
     };
 
-    checkAuth()
-      .then(loadApi)
-      .then(getAccount)
+    getAccount()
       .then(listTransactions)
       .then(doneLoading);
 
-    $scope.listTransactions = function() {
-      checkAuth()
-        .then(loadApi)
-        .then(listTransactions);
-    };
-
-    $scope.addTransaction = function() {
-      checkAuth()
-        .then(loadApi)
-        .then(addTransaction);
-    };
-
-    $scope.deleteAccount = function() {
-      checkAuth()
-        .then(loadApi)
-        .then(deleteAccount);
-    };
+    $scope.listTransactions = listTransactions;
+    $scope.addTransaction = addTransaction;
+    $scope.deleteAccount = deleteAccount;
   });
