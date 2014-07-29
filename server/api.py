@@ -97,6 +97,21 @@ class Accounts(remote.Service):
 
     @endpoints.method(
         request_message=endpoints.ResourceContainer(
+            AccountMessage,
+            id=messages.IntegerField(1, variant=messages.Variant.INT64)),
+        response_message=AccountMessage,
+        path='accounts/{id}',
+        http_method='PATCH')
+    @require_user
+    def patch(self, request):
+        account = Account.get_by_id(request.id)
+        if not account:
+            raise endpoints.NotFoundException
+        account = Account.put_from_message(request)
+        return account.to_message()
+
+    @endpoints.method(
+        request_message=endpoints.ResourceContainer(
             message_types.VoidMessage,
             id=messages.IntegerField(1, variant=messages.Variant.INT64)),
         response_message=message_types.VoidMessage,
