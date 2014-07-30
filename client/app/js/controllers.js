@@ -1,20 +1,15 @@
 'use strict';
 
 angular.module('bomControllers', [])
-  .controller('AuthController', function($scope, $location, AuthService) {
-
-    var redirect = function() {
-      var next = $location.search().next || '/accounts';
-      $location.path(next).search('next', null);
-    };
+  .controller('AuthController', function($scope, AuthService, RedirectService) {
 
     $scope.auth = function() {
       AuthService.check(false)
-        .then(redirect);
+        .then(RedirectService.toNext);
     };
 
   })
-  .controller('AccountListController', function($scope, $location, AccountService) {
+  .controller('AccountListController', function($scope, AccountService) {
     var defaultAccount = { name: '' };
 
     $scope.loaded = false;
@@ -50,8 +45,9 @@ angular.module('bomControllers', [])
       insertAccount();
     };
   })
-  .controller('AccountDetailController', function($scope, $location,
-                                                  $routeParams, AccountService,
+  .controller('AccountDetailController', function($scope, $routeParams,
+                                                  AccountService,
+                                                  RedirectService,
                                                   TransactionService) {
     var defaultTransaction = { type: '+', amount: '', memo: '' };
 
@@ -99,16 +95,14 @@ angular.module('bomControllers', [])
     var deleteAccount = function() {
       var message = { id: $routeParams.id };
       return AccountService.remove(message)
-        .then(function(response) {
-          $location.path('/accounts');
-        });
+        .then(RedirectService.toHome);
     };
 
     var doneLoading = function() {
       $scope.loaded = true;
     };
 
-    getAccount()
+    getAccount()  // TODO: parallelize these two requests
       .then(listTransactions)
       .then(doneLoading);
 

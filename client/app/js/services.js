@@ -2,15 +2,34 @@
 
 angular.module('bomServices', [])
   .value('settings', {
+    API_NAME: 'bom',
+    API_PATH: '/_ah/api',
+    API_VERSION: 'v1',
+    AUTH_PATH: '/auth',
+    HOME_PATH: '/accounts',
     OAUTH_CLIENT_ID: '728318921372-tr2h1kb9ccif270kkbh0cl9ta3u5de88' +
       '.apps.googleusercontent.com',
-    OAUTH_SCOPE: 'https://www.googleapis.com/auth/userinfo.email',
-    API_NAME: 'bom',
-    API_VERSION: 'v1',
-    API_PATH: '/_ah/api',
-    AUTH_PATH: '/auth'
+    OAUTH_SCOPE: 'https://www.googleapis.com/auth/userinfo.email'
   })
-  .factory('AuthService', function($q, $location, settings) {
+  .factory('RedirectService', function($q, $location, settings) {
+    var toAuth = function() {
+      var path = $location.path();
+      $location.path(settings.AUTH_PATH).search('next', path);
+    };
+    var toHome = function() {
+      $location.path(settings.HOME_PATH);
+    };
+    var toNext = function() {
+      var next = $location.search().next || settings.HOME_PATH;
+      $location.path(next).search('next', null);
+    };
+    return {
+      toAuth: toAuth,
+      toHome: toHome,
+      toNext: toNext
+    }
+  })
+  .factory('AuthService', function($q, settings) {
     var check = function(immediate) {
       var deferred = $q.defer();
       var params = {
@@ -27,16 +46,11 @@ angular.module('bomServices', [])
       });
       return deferred.promise;
     };
-    var redirect = function() {
-      var path = $location.path();
-      $location.path(settings.AUTH_PATH).search('next', path);
-    };
     return {
-      check: check,
-      redirect: redirect
+      check: check
     }
   })
-  .factory('ApiService', function($q, settings, AuthService) {
+  .factory('ApiService', function($q, settings, AuthService, RedirectService) {
     var load = function() {
       var deferred = $q.defer();
       var callback = deferred.resolve;
@@ -61,7 +75,7 @@ angular.module('bomServices', [])
         }
 
         return AuthService.check(true)
-          .then(angular.noop, AuthService.redirect)
+          .then(angular.noop, RedirectService.toAuth)
           .then(load)
           .then(call);
       }
@@ -72,7 +86,7 @@ angular.module('bomServices', [])
     }
   })
   .factory('AccountService', function(ApiService) {
-    var collection = 'accounts'
+    var collection = 'accounts';
     return {
       get: ApiService.wrap(collection, 'get'),
       insert: ApiService.wrap(collection, 'insert'),
@@ -83,7 +97,7 @@ angular.module('bomServices', [])
     }
   })
   .factory('TransactionService', function(ApiService) {
-    var collection = 'transactions'
+    var collection = 'transactions';
     return {
       get: ApiService.wrap(collection, 'get'),
       insert: ApiService.wrap(collection, 'insert'),
