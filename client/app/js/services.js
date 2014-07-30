@@ -12,21 +12,29 @@ angular.module('bomServices', [])
     OAUTH_SCOPE: 'https://www.googleapis.com/auth/userinfo.email'
   })
   .factory('Redirect', function($q, $location, settings) {
-    var auth = function() {
-      var path = $location.path();
-      $location.path(settings.AUTH_PATH).search('next', path);
-    };
-    var home = function() {
-      $location.path(settings.HOME_PATH);
-    };
-    var next = function() {
-      var path = $location.search().next || settings.HOME_PATH;
-      $location.path(path).search('next', null);
+    var paths = {
+      auth: function() {
+        var path = $location.path();
+        $location.path(settings.AUTH_PATH).search('next', path);
+      },
+      next: function() {
+        var path = $location.search().next || settings.HOME_PATH;
+        $location.path(path).search('next', null);
+      }
     };
     return {
-      auth: auth,
-      home: home,
-      next: next
+      to: function(path) {
+        var func = paths[path];
+        if (!func) {
+          if (path.charAt(0) != '/') {
+            path = '/' + path;
+          }
+          func = function() {
+            $location.path(path);
+          }
+        }
+        return func;
+      }
     }
   })
   .factory('Auth', function($q, settings) {
@@ -75,13 +83,12 @@ angular.module('bomServices', [])
         }
 
         return Auth.check(true)
-          .then(angular.noop, Redirect.auth)
+          .then(angular.noop, Redirect.to('auth'))
           .then(load)
           .then(call);
       }
     };
     return {
-      load: load,
       proxy: proxy
     }
   })

@@ -5,7 +5,7 @@ angular.module('bomControllers', [])
 
     $scope.auth = function() {
       Auth.check(false)
-        .then(Redirect.next);
+        .then(Redirect.to('next'));
     };
 
   })
@@ -92,7 +92,7 @@ angular.module('bomControllers', [])
     var deleteAccount = function() {
       var message = { id: $routeParams.id };
       return Account.remove(message)
-        .then(Redirect.home);
+        .then(Redirect.to('accounts'));
     };
 
     var doneLoading = function() {
