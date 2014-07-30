@@ -57,7 +57,7 @@ angular.module('bomServices', [])
       };
     }
   })
-  .factory('Api', function($q, settings, Auth, Redirect) {
+  .factory('Rpc', function($q, settings, Auth, Redirect) {
     var load = function() {
       var deferred = $q.defer();
       var callback = deferred.resolve;
@@ -90,25 +90,25 @@ angular.module('bomServices', [])
       }
     }
   })
-  .factory('Account', function(Api) {
+  .factory('Account', function(Rpc) {
     var collection = 'accounts';
     return {
-      get: Api.method(collection, 'get'),
-      insert: Api.method(collection, 'insert'),
-      list: Api.method(collection, 'list'),
-      patch: Api.method(collection, 'patch'),
-      remove: Api.method(collection, 'remove'),
-      update: Api.method(collection, 'update')
+      get: Rpc.method(collection, 'get'),
+      insert: Rpc.method(collection, 'insert'),
+      list: Rpc.method(collection, 'list'),
+      patch: Rpc.method(collection, 'patch'),
+      remove: Rpc.method(collection, 'remove'),
+      update: Rpc.method(collection, 'update')
     }
   })
-  .factory('Transaction', function(Api) {
+  .factory('Transaction', function(Rpc) {
     var collection = 'transactions';
     return {
-      get: Api.method(collection, 'get'),
-      insert: Api.method(collection, 'insert'),
-      list: Api.method(collection, 'list'),
-      patch: Api.method(collection, 'patch'),
-      remove: Api.method(collection, 'remove'),
-      update: Api.method(collection, 'update')
+      get: Rpc.method(collection, 'get'),
+      insert: Rpc.method(collection, 'insert'),
+      list: Rpc.method(collection, 'list'),
+      patch: Rpc.method(collection, 'patch'),
+      remove: Rpc.method(collection, 'remove'),
+      update: Rpc.method(collection, 'update')
     }
   });
