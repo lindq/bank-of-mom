@@ -14,7 +14,7 @@ angular.module('bomControllers', [])
     };
 
   })
-  .controller('AccountListController', function($scope, $location, AccountService, AuthService, ApiService) {
+  .controller('AccountListController', function($scope, $location, AccountService) {
     var defaultAccount = { name: '' };
 
     $scope.loaded = false;
