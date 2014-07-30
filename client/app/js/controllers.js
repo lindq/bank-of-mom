@@ -1,15 +1,15 @@
 'use strict';
 
 angular.module('bomControllers', [])
-  .controller('AuthController', function($scope, AuthService, RedirectService) {
+  .controller('AuthController', function($scope, Auth, Redirect) {
 
     $scope.auth = function() {
-      AuthService.check(false)
-        .then(RedirectService.toNext);
+      Auth.check(false)
+        .then(Redirect.next);
     };
 
   })
-  .controller('AccountListController', function($scope, AccountService) {
+  .controller('AccountListController', function($scope, Account) {
     var defaultAccount = { name: '' };
 
     $scope.loaded = false;
@@ -17,7 +17,7 @@ angular.module('bomControllers', [])
     $scope.account = angular.copy(defaultAccount);
 
     var listAccounts = function() {
-      return AccountService.list()
+      return Account.list()
         .then(function(response) {
           if (response.items) {
             $scope.accounts = response.items;
@@ -27,7 +27,7 @@ angular.module('bomControllers', [])
 
     var insertAccount = function() {
       var message = { name: $scope.account.name };
-      return AccountService.insert(message)
+      return Account.insert(message)
         .then(function(response) {
           $scope.accounts.push(response);
           $scope.account = angular.copy(defaultAccount);
@@ -44,9 +44,8 @@ angular.module('bomControllers', [])
     $scope.insertAccount = insertAccount;
   })
   .controller('AccountDetailController', function($scope, $routeParams,
-                                                  AccountService,
-                                                  RedirectService,
-                                                  TransactionService) {
+                                                  Account, Redirect,
+                                                  Transaction) {
     var defaultTransaction = { type: '+', amount: '', memo: '' };
 
     $scope.loaded = false;
@@ -55,7 +54,7 @@ angular.module('bomControllers', [])
 
     var getAccount = function() {
       var message = {id: $routeParams.id};
-      return AccountService.get(message)
+      return Account.get(message)
         .then(function(response) {
           $scope.account = response;
         });
@@ -66,7 +65,7 @@ angular.module('bomControllers', [])
         accountId: $routeParams.id,
         nextPageToken: $scope.nextPageToken
       };
-      return TransactionService.list(message)
+      return Transaction.list(message)
         .then(function(response) {
           if (response.items) {
             $scope.transactions = $scope.transactions.concat(response.items);
@@ -81,7 +80,7 @@ angular.module('bomControllers', [])
         amount: $scope.transaction.type + $scope.transaction.amount,
         memo: $scope.transaction.memo
       };
-      return TransactionService.insert(message)
+      return Transaction.insert(message)
         .then(function(response) {
           $scope.transactions.push(response);
           $scope.account.balance = (parseFloat($scope.account.balance) +
@@ -92,8 +91,8 @@ angular.module('bomControllers', [])
 
     var deleteAccount = function() {
       var message = { id: $routeParams.id };
-      return AccountService.remove(message)
-        .then(RedirectService.toHome);
+      return Account.remove(message)
+        .then(Redirect.home);
     };
 
     var doneLoading = function() {

@@ -11,25 +11,25 @@ angular.module('bomServices', [])
       '.apps.googleusercontent.com',
     OAUTH_SCOPE: 'https://www.googleapis.com/auth/userinfo.email'
   })
-  .factory('RedirectService', function($q, $location, settings) {
-    var toAuth = function() {
+  .factory('Redirect', function($q, $location, settings) {
+    var auth = function() {
       var path = $location.path();
       $location.path(settings.AUTH_PATH).search('next', path);
     };
-    var toHome = function() {
+    var home = function() {
       $location.path(settings.HOME_PATH);
     };
-    var toNext = function() {
-      var next = $location.search().next || settings.HOME_PATH;
-      $location.path(next).search('next', null);
+    var next = function() {
+      var path = $location.search().next || settings.HOME_PATH;
+      $location.path(path).search('next', null);
     };
     return {
-      toAuth: toAuth,
-      toHome: toHome,
-      toNext: toNext
+      auth: auth,
+      home: home,
+      next: next
     }
   })
-  .factory('AuthService', function($q, settings) {
+  .factory('Auth', function($q, settings) {
     var check = function(immediate) {
       var deferred = $q.defer();
       var params = {
@@ -50,7 +50,7 @@ angular.module('bomServices', [])
       check: check
     }
   })
-  .factory('ApiService', function($q, settings, AuthService, RedirectService) {
+  .factory('Api', function($q, settings, Auth, Redirect) {
     var load = function() {
       var deferred = $q.defer();
       var callback = deferred.resolve;
@@ -58,7 +58,7 @@ angular.module('bomServices', [])
                        callback, settings.API_PATH);
       return deferred.promise;
     };
-    var wrap = function(collection, method) {
+    var proxy = function(collection, method) {
       return function(message) {
 
         var call = function() {
@@ -74,36 +74,36 @@ angular.module('bomServices', [])
           return deferred.promise;
         }
 
-        return AuthService.check(true)
-          .then(angular.noop, RedirectService.toAuth)
+        return Auth.check(true)
+          .then(angular.noop, Redirect.auth)
           .then(load)
           .then(call);
       }
     };
     return {
       load: load,
-      wrap: wrap
+      proxy: proxy
     }
   })
-  .factory('AccountService', function(ApiService) {
+  .factory('Account', function(Api) {
     var collection = 'accounts';
     return {
-      get: ApiService.wrap(collection, 'get'),
-      insert: ApiService.wrap(collection, 'insert'),
-      list: ApiService.wrap(collection, 'list'),
-      patch: ApiService.wrap(collection, 'patch'),
-      remove: ApiService.wrap(collection, 'remove'),
-      update: ApiService.wrap(collection, 'update')
+      get: Api.proxy(collection, 'get'),
+      insert: Api.proxy(collection, 'insert'),
+      list: Api.proxy(collection, 'list'),
+      patch: Api.proxy(collection, 'patch'),
+      remove: Api.proxy(collection, 'remove'),
+      update: Api.proxy(collection, 'update')
     }
   })
-  .factory('TransactionService', function(ApiService) {
+  .factory('Transaction', function(Api) {
     var collection = 'transactions';
     return {
-      get: ApiService.wrap(collection, 'get'),
-      insert: ApiService.wrap(collection, 'insert'),
-      list: ApiService.wrap(collection, 'list'),
-      patch: ApiService.wrap(collection, 'patch'),
-      remove: ApiService.wrap(collection, 'remove'),
-      update: ApiService.wrap(collection, 'update')
+      get: Api.proxy(collection, 'get'),
+      insert: Api.proxy(collection, 'insert'),
+      list: Api.proxy(collection, 'list'),
+      patch: Api.proxy(collection, 'patch'),
+      remove: Api.proxy(collection, 'remove'),
+      update: Api.proxy(collection, 'update')
     }
   });
