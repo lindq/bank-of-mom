@@ -41,9 +41,7 @@ angular.module('bomControllers', [])
     listAccounts()
       .then(doneLoading);
 
-    $scope.addAccount = function() {
-      insertAccount();
-    };
+    $scope.insertAccount = insertAccount;
   })
   .controller('AccountDetailController', function($scope, $routeParams,
                                                   AccountService,
@@ -77,7 +75,7 @@ angular.module('bomControllers', [])
         });
     };
 
-    var addTransaction = function() {
+    var insertTransaction = function() {
       var message = {
         accountId: $routeParams.id,
         amount: $scope.transaction.type + $scope.transaction.amount,
@@ -107,6 +105,6 @@ angular.module('bomControllers', [])
       .then(doneLoading);
 
     $scope.listTransactions = listTransactions;
-    $scope.addTransaction = addTransaction;
+    $scope.insertTransaction = insertTransaction;
     $scope.deleteAccount = deleteAccount;
   });
