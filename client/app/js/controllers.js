@@ -48,7 +48,7 @@ angular.module('bomControllers', [])
 
     $scope.insertAccount = insertAccount;
   })
-  .controller('AccountDetailController', function($scope, $location,
+  .controller('AccountDetailController', function($scope, $location, $q,
                                                   $routeParams, Account,
                                                   Transaction) {
     var defaultTransaction = { type: '+', amount: '', memo: '' };
@@ -106,8 +106,7 @@ angular.module('bomControllers', [])
       $scope.loaded = true;
     };
 
-    getAccount()  // TODO: parallelize these two requests
-      .then(listTransactions)
+    $q.all([getAccount(), listTransactions()])
       .then(doneLoading);
 
     $scope.listTransactions = listTransactions;
