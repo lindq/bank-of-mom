@@ -101,10 +101,6 @@ label {
   text-decoration: none;
 }
 
-#header h1 a i {
-  font-family: Quintessential;
-}
-
 #content {
   position: relative;
   top: 55px;
