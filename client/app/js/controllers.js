@@ -1,11 +1,16 @@
 'use strict';
 
 angular.module('bomControllers', [])
-  .controller('AuthController', function($scope, Auth, Redirect) {
+  .controller('AuthController', function($scope, $location, Auth) {
+
+    var redirect = function() {
+      var path = $location.search().next || '/';
+      $location.path(path).search('next', null);
+    };
 
     $scope.auth = function() {
       Auth.check(false)
-        .then(Redirect.to('next'));
+        .then(redirect);
     };
 
   })
@@ -43,8 +48,8 @@ angular.module('bomControllers', [])
 
     $scope.insertAccount = insertAccount;
   })
-  .controller('AccountDetailController', function($scope, $routeParams,
-                                                  Account, Redirect,
+  .controller('AccountDetailController', function($scope, $location,
+                                                  $routeParams, Account,
                                                   Transaction) {
     var defaultTransaction = { type: '+', amount: '', memo: '' };
 
@@ -92,7 +97,9 @@ angular.module('bomControllers', [])
     var deleteAccount = function() {
       var message = { id: $routeParams.id };
       return Account.remove(message)
-        .then(Redirect.to('accounts'));
+        .then(function() {
+          $location.path('/accounts');
+        });
     };
 
     var doneLoading = function() {
