@@ -16,6 +16,11 @@
             <span class="glyphicon glyphicon-save"></span> Save
           </button>
           <button class="btn btn-default btn-lg" data-dismiss="modal">Cancel</button>
+          <div id="delete" ng-show="account.id">
+            <button class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#accountDeleteModal">
+              <span class="glyphicon glyphicon-minus-sign"></span> Delete this account
+            </button>
+          </div>
         </div>
       </fieldset>
     </form>
