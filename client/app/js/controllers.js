@@ -46,7 +46,7 @@ angular.module('bomControllers', [])
     listAccounts()
       .then(doneLoading);
 
-    $scope.insertAccount = insertAccount;
+    $scope.saveAccount = insertAccount;
   })
   .controller('AccountDetailController', function($scope, $location, $q,
                                                   $routeParams, Account,
@@ -102,6 +102,17 @@ angular.module('bomControllers', [])
         });
     };
 
+    var saveAccount = function() {
+      var message = {
+        id: $routeParams.id,
+        name: $scope.account.name
+      }
+      return Account.patch(message)
+        .then(function() {
+
+        })
+    };
+
     var doneLoading = function() {
       $scope.loaded = true;
     };
@@ -112,4 +123,5 @@ angular.module('bomControllers', [])
     $scope.listTransactions = listTransactions;
     $scope.insertTransaction = insertTransaction;
     $scope.deleteAccount = deleteAccount;
+    $scope.saveAccount = saveAccount;
   });
