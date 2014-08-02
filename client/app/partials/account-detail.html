@@ -2,7 +2,7 @@
   <table class="table">
     <tr>
       <td class="bom-acct-name">
-        <span class="glyphicon glyphicon-cog" data-toggle="modal" data-target="#editModal"></span>
+        <span class="glyphicon glyphicon-cog" data-toggle="modal" data-target="#accountEditModal"></span>
         {{ account.name }}
       </td>
       <td class="bom-acct-balance text-right" ng-class="{negative: transaction.amount < 0}">
@@ -10,7 +10,7 @@
       </td>
     </tr>
   </table>
-  <button class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#addModal">
+  <button class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#transactionAddModal">
     <span class="glyphicon glyphicon-plus-sign"></span> Add Transaction
   </button>
   <table class="table">
@@ -27,6 +27,6 @@
   <button class="btn btn-default btn-lg btn-block" ng-show="nextPageToken" ng-click="listTransactions()">
     Show More Transactions
   </button>
-  <div class="modal fade" ng-include="'partials/transaction-add.html'" id="addModal" role="dialog" tabindex="-1"></div>
-  <div class="modal fade" ng-include="'partials/account-edit.html'" id="editModal" role="dialog" tabindex="-1"></div>
+  <div class="modal fade" ng-include="'partials/transaction-add.html'" id="transactionAddModal" role="dialog" tabindex="-1"></div>
+  <div class="modal fade" ng-include="'partials/account-edit.html'" id="accountEditModal" role="dialog" tabindex="-1"></div>
 </div>
