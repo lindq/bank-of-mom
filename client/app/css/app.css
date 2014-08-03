@@ -52,12 +52,12 @@ label {
   font-weight: bold;
 }
 
-.bom-act-name {
+.act-name {
   font-size: 28px;
   font-weight: bold;
 }
 
-.bom-act-name span {
+.act-name span {
   vertical-align: middle;
 }
 
@@ -65,25 +65,25 @@ label {
   color: red;
 }
 
-.bom-act-balance {
+.act-balance {
   font-size: 28px;
   font-weight: bold;
 }
 
-.bom-act-balance span {
+.act-balance span {
   vertical-align: middle;
 }
 
-.bom-txn-memo {
+.txn-memo {
   font-size: 22px;
 }
 
-.bom-txn-timestamp {
+.txn-timestamp {
   font-size: 14px;
   font-style: italic;
 }
 
-.bom-txn-amount {
+.txn-amount {
   font-size: 22px;
   vertical-align: middle !important;
 }
