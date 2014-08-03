@@ -57,6 +57,10 @@ label {
   font-weight: bold;
 }
 
+.bom-act-name span {
+  vertical-align: middle;
+}
+
 .negative {
   color: red;
 }
@@ -64,6 +68,10 @@ label {
 .bom-act-balance {
   font-size: 28px;
   font-weight: bold;
+}
+
+.bom-act-balance span {
+  vertical-align: middle;
 }
 
 .bom-txn-memo {

@@ -3,10 +3,10 @@
     <tr>
       <td class="bom-act-name">
         <span class="glyphicon glyphicon-cog" data-toggle="modal" data-target="#accountEditModal"></span>
-        {{ account.name }}
+        <span>{{ account.name }}</span>
       </td>
       <td class="bom-act-balance text-right" ng-class="{negative: transaction.amount < 0}">
-        {{ account.balance | currency }}
+        <span>{{ account.balance | currency }}<span>
       </td>
     </tr>
   </table>
