@@ -1,10 +1,10 @@
 <div ng-show="loaded">
   <table class="table">
     <tr ng-repeat="account in accounts | orderBy:'name'">
-      <td class="bom-acct-name">
+      <td class="bom-act-name">
         <a href="#/accounts/{{ account.id }}">{{ account.name }}</a>
       </td>
-      <td class="bom-acct-balance text-right" ng-class="{negative: transaction.amount < 0}">
+      <td class="bom-act-balance text-right" ng-class="{negative: transaction.amount < 0}">
         <a href="#/accounts/{{ account.id }}">{{ account.balance | currency }}</a>
       </td>
     </tr>
