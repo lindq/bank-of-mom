@@ -2,11 +2,10 @@
   <table class="table">
     <tr>
       <td class="act-name">
-        <span class="glyphicon glyphicon-cog" data-toggle="modal" data-target="#act-edit-modal"></span>
-        <span>{{ account.name }}</span>
+        <a data-toggle="modal" data-target="#act-edit-modal">{{ account.name }}</a>
       </td>
       <td class="act-balance text-right" ng-class="{negative: transaction.amount < 0}">
-        <span>{{ account.balance | currency }}<span>
+        <a data-toggle="modal" data-target="#act-edit-modal">{{ account.balance | currency }}</a>
       </td>
     </tr>
   </table>
