@@ -10,6 +10,7 @@ var gapi = {};
 gapi.auth = {};
 
 /**
+ * Initiates the OAuth 2.0 authorization process.
  * @param {!Object} params
  * @param {function} callback
  */
@@ -22,6 +23,7 @@ gapi.auth.authorize = function(params, callback) {};
 gapi.client = {};
 
 /**
+ * Loads client library interface for the given API.
  * @param {string} name
  * @param {string} version
  * @param {function} callback
