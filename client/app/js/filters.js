@@ -1,8 +1,16 @@
-'use strict';
+goog.provide('bom.filters.module');
 
-angular.module('bomFilters', [])
-  .filter('dateLocalize', function() {
-    return function(utcDate) {
-      return new Date(utcDate + 'Z').getTime();
-    }
-  });
+
+bom.filters.dateLocalize = function() {
+  return function(utcDate) {
+    return new Date(utcDate + 'Z').getTime();
+  }
+};
+
+
+/**
+ * Angular module
+ * @type {!angular.Module}
+ */
+bom.filters.module = angular.module('bom.filters', [])
+  .filter('dateLocalize', bom.filters.dateLocalize);

@@ -9,12 +9,12 @@
         <div class="modal-body">
           <div class="form-group">
             <div class="btn-group">
-              <label class="btn btn-default btn-lg" ng-class="{active: transaction.type == '+'}">
-                <input type="radio" name="type" id="deposit" value="+" ng-model="transaction.type">
+              <label class="btn btn-default btn-lg" ng-class="{active: ctrl.transaction.type == '+'}">
+                <input type="radio" name="type" id="deposit" value="+" ng-model="ctrl.transaction.type">
                 Deposit
               </label>
-              <label class="btn btn-default btn-lg" ng-class="{active: transaction.type == '-'}">
-                <input type="radio" name="type" id="withdrawal" value="-" ng-model="transaction.type">
+              <label class="btn btn-default btn-lg" ng-class="{active: ctrl.transaction.type == '-'}">
+                <input type="radio" name="type" id="withdrawal" value="-" ng-model="ctrl.transaction.type">
                 Withdrawal
               </label>
             </div>
@@ -25,7 +25,7 @@
               <span class="input-group-addon">
                 <span class="glyphicon glyphicon-usd"></span>
               </span>
-              <input type="number" class="form-control input-lg" id="amount" ng-model="transaction.amount" ng-pattern="/^\d+(\.\d{0,2})?$/" required>
+              <input type="number" class="form-control input-lg" id="amount" ng-model="ctrl.transaction.amount" ng-pattern="/^\d+(\.\d{0,2})?$/" required>
             </div>
           </div>
           <div class="form-group">
@@ -34,12 +34,12 @@
               <span class="input-group-addon">
                 <span class="glyphicon glyphicon-pencil"></span>
               </span>
-              <input type="text" class="form-control input-lg" id="memo" ng-model="transaction.memo" required>
+              <input type="text" class="form-control input-lg" id="memo" ng-model="ctrl.transaction.memo" required>
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary btn-lg" data-dismiss="modal" ng-click="insertTransaction()" ng-disabled="form.$invalid">
+          <button type="submit" class="btn btn-primary btn-lg" data-dismiss="modal" ng-click="ctrl.insertTransaction()" ng-disabled="form.$invalid">
             <span class="glyphicon glyphicon-save"></span> Save
           </button>
           <button class="btn btn-default btn-lg" data-dismiss="modal">Cancel</button>

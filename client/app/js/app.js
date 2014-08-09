@@ -1,26 +1,18 @@
-'use strict';
+/**
+ * @fileoverview Main application.
+ */
 
-angular.module('bom', [
-  'ngRoute',
-  'bomControllers',
-  'bomFilters',
-  'bomServices'
-])
-  .config(function($routeProvider) {
-    $routeProvider
-      .when('/accounts', {
-        templateUrl: 'partials/account-list.html',
-        controller: 'AccountListController'
-      })
-      .when('/accounts/:id', {
-        templateUrl: 'partials/account-detail.html',
-        controller: 'AccountDetailController'
-      })
-      .when('/auth', {
-        templateUrl: 'partials/auth.html',
-        controller: 'AuthController'
-      })
-      .otherwise({
-        redirectTo: '/accounts'
-      });
-  });
+goog.provide('bom.module');
+
+goog.require('bom.filters.module');
+goog.require('bom.routes.module');
+
+
+/**
+ * The main module.
+ * @type {!angular.Module}
+ */
+bom.module = angular.module('bom', [
+  bom.filters.module.name,
+  bom.routes.module.name
+]);
