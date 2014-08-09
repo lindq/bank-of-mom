@@ -69,6 +69,7 @@ bom.account.AccountListController.prototype.listAccounts = function() {
 
 /**
  * @return {!angular.$q.Promise} A promise.
+ * @export
  */
 bom.account.AccountListController.prototype.saveAccount = function() {
   var self = this;
@@ -148,6 +149,7 @@ bom.account.AccountDetailController.prototype.getAccount = function() {
 
 /**
  * @return {!angular.$q.Promise} A promise.
+ * @export
  */
 bom.account.AccountDetailController.prototype.listTransactions = function() {
   var self = this;
@@ -167,6 +169,7 @@ bom.account.AccountDetailController.prototype.listTransactions = function() {
 
 /**
  * @return {!angular.$q.Promise} A promise.
+ * @export
  */
 bom.account.AccountDetailController.prototype.insertTransaction = function() {
   var self = this;
@@ -187,6 +190,7 @@ bom.account.AccountDetailController.prototype.insertTransaction = function() {
 
 /**
  * @return {!angular.$q.Promise} A promise.
+ * @export
  */
 bom.account.AccountDetailController.prototype.deleteAccount = function() {
   var self = this;
@@ -202,6 +206,7 @@ bom.account.AccountDetailController.prototype.deleteAccount = function() {
 
 /**
  * @return {!angular.$q.Promise} A promise.
+ * @export
  */
 bom.account.AccountDetailController.prototype.saveAccount = function() {
   var self = this;
