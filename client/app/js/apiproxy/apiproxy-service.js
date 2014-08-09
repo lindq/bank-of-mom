@@ -1,4 +1,4 @@
-goog.provide('bom.apiProxy.module');
+goog.provide('bom.apiProxy.ApiProxy');
 
 goog.require('bom.constants');
 
@@ -7,7 +7,7 @@ goog.require('bom.constants');
  * ApiProxy service.
  * @param {!angular.$q} $q the Angular promise service.
  * @param {!angular.$location} $location the Angular $location service.
- * @param {!bom.auth.Auth} $q the Auth service.
+ * @param {!bom.auth.Auth} auth the Auth service.
  * @constructor
  * @ngInject
  */
@@ -48,6 +48,7 @@ bom.apiProxy.ApiProxy.prototype.redirectToAuth_ = function() {
 /**
  * @param {string} collection
  * @param {string} method
+ * @param {!Object=} opt_message
  * @return {!angular.$q.Promise} A promise.
  */
 bom.apiProxy.ApiProxy.prototype.callApiMethod = function(collection, method,

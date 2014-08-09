@@ -29,7 +29,7 @@ bom.auth.Auth.prototype.check = function(immediate) {
     'client_id': bom.constants.OAUTH_CLIENT_ID,
     'scope': bom.constants.OAUTH_SCOPE,
     'immediate': immediate
-  }
+  };
   gapi.auth.authorize(params, function(response) {
     if (response.error) {
       deferred.reject(response);

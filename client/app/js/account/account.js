@@ -4,9 +4,9 @@
 
 goog.provide('bom.account.module');
 
+goog.require('bom.account.Account');
 goog.require('bom.account.AccountDetailController');
 goog.require('bom.account.AccountListController');
-goog.require('bom.account.Account');
 goog.require('bom.account.Transaction');
 
 

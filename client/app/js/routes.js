@@ -5,6 +5,7 @@ goog.require('bom.auth.module');
 
 /**
  * @param {!angular.$routeProvider} $routeProvider
+ * @private
  */
 bom.routes.routesConfig_ = function($routeProvider) {
   $routeProvider

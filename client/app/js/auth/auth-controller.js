@@ -33,6 +33,6 @@ bom.auth.AuthController.prototype.redirectToNext_ = function() {
  * @export
  */
 bom.auth.AuthController.prototype.initiateAuth = function() {
-  this.ij_.auth.check(false)
+  return this.ij_.auth.check(false)
     .then(this.redirectToNext_);
 };

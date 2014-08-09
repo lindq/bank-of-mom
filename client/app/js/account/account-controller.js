@@ -40,17 +40,22 @@ bom.account.AccountListController = function($scope, account) {
 };
 
 
+/** @private */
 bom.account.AccountListController.prototype.init_ = function() {
   this.listAccounts()
     .then(this.doneLoading_);
 };
 
 
+/** @private */
 bom.account.AccountListController.prototype.doneLoading_ = function() {
   this.loaded = true;
 };
 
 
+/**
+ * @return {!angular.$q.Promise} A promise.
+ */
 bom.account.AccountListController.prototype.listAccounts = function() {
   var self = this;
   return this.ij_.account.list()
@@ -62,6 +67,9 @@ bom.account.AccountListController.prototype.listAccounts = function() {
 };
 
 
+/**
+ * @return {!angular.$q.Promise} A promise.
+ */
 bom.account.AccountListController.prototype.saveAccount = function() {
   var self = this;
   var message = {
@@ -78,6 +86,7 @@ bom.account.AccountListController.prototype.saveAccount = function() {
 /**
  * @param {!angular.Scope} $scope
  * @param {!angular.$location} $location
+ * @param {!angular.$q} $q the Angular promise service.
  * @param {!angular.$routeParams} $routeParams
  * @param {!bom.account.Account} account
  * @param {!bom.account.Transaction} transaction
@@ -93,7 +102,7 @@ bom.account.AccountDetailController = function(
     q: $q,
     routeParams: $routeParams,
     account: account,
-    transaction, transaction
+    transaction: transaction
   };
 
   this.defaultTransaction_ = goog.object.createImmutableView({
@@ -112,6 +121,7 @@ bom.account.AccountDetailController = function(
 };
 
 
+/** @private */
 bom.account.AccountDetailController.prototype.init_ = function() {
   this.ij_.q.all([
     this.getAccount(),
@@ -121,6 +131,9 @@ bom.account.AccountDetailController.prototype.init_ = function() {
 };
 
 
+/**
+ * @return {!angular.$q.Promise} A promise.
+ */
 bom.account.AccountDetailController.prototype.getAccount = function() {
   var self = this;
   var message = {
@@ -133,6 +146,9 @@ bom.account.AccountDetailController.prototype.getAccount = function() {
 };
 
 
+/**
+ * @return {!angular.$q.Promise} A promise.
+ */
 bom.account.AccountDetailController.prototype.listTransactions = function() {
   var self = this;
   var message = {
@@ -149,6 +165,9 @@ bom.account.AccountDetailController.prototype.listTransactions = function() {
 };
 
 
+/**
+ * @return {!angular.$q.Promise} A promise.
+ */
 bom.account.AccountDetailController.prototype.insertTransaction = function() {
   var self = this;
   var message = {
@@ -166,6 +185,9 @@ bom.account.AccountDetailController.prototype.insertTransaction = function() {
 };
 
 
+/**
+ * @return {!angular.$q.Promise} A promise.
+ */
 bom.account.AccountDetailController.prototype.deleteAccount = function() {
   var self = this;
   var message = {
@@ -178,19 +200,23 @@ bom.account.AccountDetailController.prototype.deleteAccount = function() {
 };
 
 
+/**
+ * @return {!angular.$q.Promise} A promise.
+ */
 bom.account.AccountDetailController.prototype.saveAccount = function() {
   var self = this;
   var message = {
     id: this.ij_.routeParams.id,
     name: this.account.name
-  }
+  };
   return self.ij_.account.patch(message)
     .then(function() {
 
-    })
+    });
 };
 
 
+/** @private */
 bom.account.AccountDetailController.prototype.doneLoading_ = function() {
   this.loaded = true;
 };

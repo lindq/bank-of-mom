@@ -1,6 +1,9 @@
 goog.provide('bom.filters.module');
 
 
+/**
+ * @return {function}
+ */
 bom.filters.dateLocalize = function() {
   return function(utcDate) {
     return new Date(utcDate + 'Z').getTime();

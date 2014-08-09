@@ -3,8 +3,9 @@ goog.provide('bom.account.Transaction');
 
 
 /**
- * @param {!bom.apiProxy.ApiProxy}
+ * @param {!bom.apiProxy.ApiProxy} apiProxy
  * @constructor
+ * @private
  */
 bom.account.Model_ = function(apiProxy) {
 
@@ -12,7 +13,9 @@ bom.account.Model_ = function(apiProxy) {
     apiProxy: apiProxy
   };
 
-  /** @type {string} */
+  /**
+   * @private {string}
+   */
   this.collection_ = null;
 };
 
@@ -20,6 +23,7 @@ bom.account.Model_ = function(apiProxy) {
 /**
  * @param {string} name
  * @param {!Object=} opt_message
+ * @return {!angular.$q.Promise} A promise.
  * @private
  */
 bom.account.Model_.prototype.callApiMethod_ = function(name, opt_message) {
@@ -28,13 +32,14 @@ bom.account.Model_.prototype.callApiMethod_ = function(name, opt_message) {
 
 
 /**
- * @param {!bom.apiProxy.ApiProxy}
+ * @param {!bom.apiProxy.ApiProxy} apiProxy
  * @constructor
  * @extends {bom.account.Model_}
  * @ngInject
  */
 bom.account.Account = function(apiProxy) {
-  goog.base(this, apiProxy);
+  bom.account.Model_.call(this, apiProxy);
+  // goog.base(this, apiProxy);
 
   /** @type {string} */
   this.collection = 'account';
@@ -94,13 +99,14 @@ bom.account.Account.prototype.update = function(message) {
 
 
 /**
- * @param {!bom.apiProxy.ApiProxy}
+ * @param {!bom.apiProxy.ApiProxy} apiProxy
  * @constructor
  * @extends {bom.account.Model_}
  * @ngInject
  */
 bom.account.Transaction = function(apiProxy) {
-  goog.base(this, apiProxy);
+  bom.account.Model_.call(this, apiProxy);
+  // goog.base(this, apiProxy);
 
   /** @type {string} */
   this.collection = 'transaction';
