@@ -32,10 +32,11 @@ bom.account.Account.prototype.callApiMethod_ = function(name, opt_message) {
 
 
 /**
+ * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.Account.prototype.get = function() {
-  return this.callApiMethod_('get');
+bom.account.Account.prototype.get = function(message) {
+  return this.callApiMethod_('get', message);
 };
 
 
@@ -66,10 +67,11 @@ bom.account.Account.prototype.patch = function(message) {
 
 
 /**
+ * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.Account.prototype.remove = function() {
-  return this.callApiMethod_('remove');
+bom.account.Account.prototype.remove = function(message) {
+  return this.callApiMethod_('remove', message);
 };
 
 
@@ -112,10 +114,11 @@ bom.account.Transaction.prototype.callApiMethod_ = function(name, opt_message) {
 
 
 /**
+ * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.Transaction.prototype.get = function() {
-  return this.callApiMethod_('get');
+bom.account.Transaction.prototype.get = function(message) {
+  return this.callApiMethod_('get', message);
 };
 
 
@@ -129,10 +132,11 @@ bom.account.Transaction.prototype.insert = function(message) {
 
 
 /**
+ * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.Transaction.prototype.list = function() {
-  return this.callApiMethod_('list');
+bom.account.Transaction.prototype.list = function(message) {
+  return this.callApiMethod_('list', message);
 };
 
 
@@ -146,10 +150,11 @@ bom.account.Transaction.prototype.patch = function(message) {
 
 
 /**
+ * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.Transaction.prototype.remove = function() {
-  return this.callApiMethod_('remove');
+bom.account.Transaction.prototype.remove = function(message) {
+  return this.callApiMethod_('remove', message);
 };
 
 
