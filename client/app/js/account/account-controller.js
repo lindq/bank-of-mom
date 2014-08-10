@@ -18,6 +18,7 @@ bom.account.TransactionTypes = {
  * @param {!bom.account.Account} account
  * @constructor
  * @ngInject
+ * @export
  */
 bom.account.AccountListController = function($scope, account) {
 
@@ -30,11 +31,11 @@ bom.account.AccountListController = function($scope, account) {
     name: ''
   });
 
-  this.loaded = false;
+  this['loaded'] = false;
 
-  this.accounts = [];
+  this['accounts'] = [];
 
-  this.account = goog.object.clone(this.defaultAccount_);
+  this['account'] = goog.object.clone(this.defaultAccount_);
 
   this.init_();
 };
@@ -43,7 +44,7 @@ bom.account.AccountListController = function($scope, account) {
 /** @private */
 bom.account.AccountListController.prototype.init_ = function() {
   this.listAccounts()
-    .then(this.doneLoading_);
+    .then(goog.bind(this.doneLoading_, this));
 };
 
 
@@ -61,7 +62,7 @@ bom.account.AccountListController.prototype.listAccounts = function() {
   return this.ij_.account.list()
     .then(function(response) {
       if (response.items) {
-        self.accounts = response.items;
+        self['accounts'] = response.items;
       }
     });
 };

@@ -27,7 +27,8 @@ bom.apiProxy.ApiProxy = function($q, $location, auth) {
  * @return {!angular.$q.Promise} A promise.
  */
 bom.apiProxy.ApiProxy.prototype.load_ = function() {
-  var deferred = this.ij_q.defer();
+  window.console.log('load_');
+  var deferred = this.ij_.q.defer();
   var callback = deferred.resolve;
   gapi.client.load(bom.constants.API_NAME, bom.constants.API_VERSION, callback,
                    bom.constants.API_PATH);
@@ -56,9 +57,10 @@ bom.apiProxy.ApiProxy.prototype.callApiMethod = function(collection, method,
   var self = this;
 
   var call = function() {
+    window.console.log('call');
     var func = gapi.client[bom.constants.API_NAME][collection][method];
     var deferred = self.ij_.q.defer();
-    func(opt_message).execute(function(response) {
+    func(opt_message)['execute'](function(response) {
       if (response.error) {
         deferred.reject(response);
       } else {
@@ -68,8 +70,8 @@ bom.apiProxy.ApiProxy.prototype.callApiMethod = function(collection, method,
     return deferred.promise;
   };
 
-  return this.auth_.check(true)
+  return this.ij_.auth.check(true)
     .then(angular.noop, this.redirectToAuth_)
-    .then(this.load_)
+    .then(goog.bind(this.load_, this))
     .then(call);
 };
