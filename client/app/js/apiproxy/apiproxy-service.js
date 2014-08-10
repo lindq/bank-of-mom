@@ -27,7 +27,6 @@ bom.apiProxy.ApiProxy = function($q, $location, auth) {
  * @return {!angular.$q.Promise} A promise.
  */
 bom.apiProxy.ApiProxy.prototype.load_ = function() {
-  window.console.log('load_');
   var deferred = this.ij_.q.defer();
   var callback = deferred.resolve;
   gapi.client.load(bom.constants.API_NAME, bom.constants.API_VERSION, callback,

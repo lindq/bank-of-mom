@@ -31,11 +31,14 @@ bom.account.AccountListController = function($scope, account) {
     name: ''
   });
 
-  this['loaded'] = false;
+  /** @export */
+  this.loaded = false;
 
-  this['accounts'] = [];
+  /** @export */
+  this.accounts = [];
 
-  this['account'] = goog.object.clone(this.defaultAccount_);
+  /** @export */
+  this.account = goog.object.clone(this.defaultAccount_);
 
   this.init_();
 };
@@ -62,7 +65,7 @@ bom.account.AccountListController.prototype.listAccounts = function() {
   return this.ij_.account.list()
     .then(function(response) {
       if (response.items) {
-        self['accounts'] = response.items;
+        self.accounts = response.items;
       }
     });
 };
@@ -75,12 +78,12 @@ bom.account.AccountListController.prototype.listAccounts = function() {
 bom.account.AccountListController.prototype.saveAccount = function() {
   var self = this;
   var message = {
-    name: this['account'].name
+    name: this.account.name
   };
   return this.ij_.account.insert(message)
     .then(function(response) {
-      self['accounts'].push(response);
-      self['account'] = goog.object.clone(this.defaultAccount_);
+      self.accounts.push(response);
+      self.account = goog.object.clone(this.defaultAccount_);
     });
 };
 
@@ -94,6 +97,7 @@ bom.account.AccountListController.prototype.saveAccount = function() {
  * @param {!bom.account.Transaction} transaction
  * @constructor
  * @ngInject
+ * @export
  */
 bom.account.AccountDetailController = function(
   $scope, $location, $q, $routeParams, account, transaction) {
@@ -113,15 +117,20 @@ bom.account.AccountDetailController = function(
     memo: ''
   });
 
-  this['account'] = null;
+  /** @export */
+  this.account = null;
 
-  this['loaded'] = false;
+  /** @export */
+  this.loaded = false;
 
-  this['transactions'] = [];
+  /** @export */
+  this.transactions = [];
 
-  this['transaction'] = goog.object.clone(this.defaultTransaction_);
+  /** @export */
+  this.transaction = goog.object.clone(this.defaultTransaction_);
 
-  this['nextPageToken'] = null;
+  /** @export */
+  this.nextPageToken = null;
 
   this.init_();
 };
@@ -147,7 +156,7 @@ bom.account.AccountDetailController.prototype.getAccount = function() {
   };
   return this.ij_.account.get(message)
     .then(function(response) {
-      self['account'] = response;
+      self.account = response;
     });
 };
 
@@ -159,14 +168,14 @@ bom.account.AccountDetailController.prototype.getAccount = function() {
 bom.account.AccountDetailController.prototype.listTransactions = function() {
   var self = this;
   var message = {  // TODO: make an extern for this (and other messages)
-    'accountId': this.ij_.routeParams.id,
-    'nextPageToken': this['nextPageToken']
+    accountId: this.ij_.routeParams.id,
+    nextPageToken: this.nextPageToken
   };
   return this.ij_.transaction.list(message)
     .then(function(response) {
       if (response.items) {
-        self['transactions'] = self['transactions'].concat(response.items);
-        self['nextPageToken'] = response.nextPageToken;
+        self.transactions = self.transactions.concat(response.items);
+        self.nextPageToken = response.nextPageToken;
       }
     });
 };
@@ -178,17 +187,17 @@ bom.account.AccountDetailController.prototype.listTransactions = function() {
  */
 bom.account.AccountDetailController.prototype.insertTransaction = function() {
   var self = this;
-  var message = {
+  var message = {  // TODO: make an extern for this (and other messages)
     accountId: this.ij_.routeParams.id,
-    amount: this['transaction'].type + this['transaction'].amount,
-    memo: this['transaction'].memo
+    amount: this.transaction.type + this.transaction.amount,
+    memo: this.transaction.memo
   };
   return this.ij_.transaction.insert(message)
     .then(function(response) {
-      self['transactions'].push(response);
-      self['account'].balance = (parseFloat(self['account'].balance) +
-                                 parseFloat(response.amount)).toFixed(2);
-      self['transaction'] = goog.object.clone(self.defaultTransaction_);
+      self.transactions.push(response);
+      self.account.balance = (parseFloat(self.account.balance) +
+                              parseFloat(response.amount)).toFixed(2);
+      self.transaction = goog.object.clone(self.defaultTransaction_);
     });
 };
 

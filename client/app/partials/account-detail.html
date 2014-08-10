@@ -1,4 +1,4 @@
-<div ng-show="loaded">
+<div ng-show="ctrl.loaded">
   <table class="table">
     <tr>
       <td class="act-name">
@@ -23,7 +23,7 @@
       </td>
     </tr>
   </table>
-  <button class="btn btn-default btn-lg btn-block" ng-show="nextPageToken" ng-click="ctrl.listTransactions()">
+  <button class="btn btn-default btn-lg btn-block" ng-show="ctrl.nextPageToken" ng-click="ctrl.listTransactions()">
     Show More Transactions
   </button>
   <div class="modal fade" ng-include="'partials/transaction-edit.html'" id="txn-edit-modal" role="dialog" tabindex="-1"></div>

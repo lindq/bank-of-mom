@@ -24,7 +24,6 @@ bom.auth.Auth = function($q) {
  * @return {!angular.$q.Promise} A promise.
  */
 bom.auth.Auth.prototype.check = function(immediate) {
-  window.console.log('check');
   var deferred = this.ij_.q.defer();
   var params = {
     'client_id': bom.constants.OAUTH_CLIENT_ID,
