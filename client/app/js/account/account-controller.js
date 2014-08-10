@@ -78,7 +78,7 @@ bom.account.AccountListController.prototype.listAccounts = function() {
 bom.account.AccountListController.prototype.saveAccount = function() {
   var self = this;
   var message = {
-    name: this.account.name
+    'name': this.account.name
   };
   return this.ij_.account.insert(message)
     .then(function(response) {
@@ -152,7 +152,7 @@ bom.account.AccountDetailController.prototype.init_ = function() {
 bom.account.AccountDetailController.prototype.getAccount = function() {
   var self = this;
   var message = {
-    id: this.ij_.routeParams.id
+    'id': this.ij_.routeParams.id
   };
   return this.ij_.account.get(message)
     .then(function(response) {
@@ -168,8 +168,8 @@ bom.account.AccountDetailController.prototype.getAccount = function() {
 bom.account.AccountDetailController.prototype.listTransactions = function() {
   var self = this;
   var message = {  // TODO: make an extern for this (and other messages)
-    accountId: this.ij_.routeParams.id,
-    nextPageToken: this.nextPageToken
+    'accountId': this.ij_.routeParams.id,
+    'nextPageToken': this.nextPageToken
   };
   return this.ij_.transaction.list(message)
     .then(function(response) {
@@ -188,9 +188,9 @@ bom.account.AccountDetailController.prototype.listTransactions = function() {
 bom.account.AccountDetailController.prototype.insertTransaction = function() {
   var self = this;
   var message = {  // TODO: make an extern for this (and other messages)
-    accountId: this.ij_.routeParams.id,
-    amount: this.transaction.type + this.transaction.amount,
-    memo: this.transaction.memo
+    'accountId': this.ij_.routeParams.id,
+    'amount': this.transaction.type + this.transaction.amount,
+    'memo': this.transaction.memo
   };
   return this.ij_.transaction.insert(message)
     .then(function(response) {
@@ -209,7 +209,7 @@ bom.account.AccountDetailController.prototype.insertTransaction = function() {
 bom.account.AccountDetailController.prototype.deleteAccount = function() {
   var self = this;
   var message = {
-    id: this.ij_.routeParams.id
+    'id': this.ij_.routeParams.id
   };
   return this.ij_.account.remove(message)
     .then(function() {
@@ -225,8 +225,8 @@ bom.account.AccountDetailController.prototype.deleteAccount = function() {
 bom.account.AccountDetailController.prototype.saveAccount = function() {
   var self = this;
   var message = {
-    id: this.ij_.routeParams.id,
-    name: this.account.name
+    'id': this.ij_.routeParams.id,
+    'name': this.account.name
   };
   return self.ij_.account.patch(message)
     .then(function() {
