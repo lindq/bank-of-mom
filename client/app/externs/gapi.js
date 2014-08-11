@@ -1,11 +1,19 @@
 /**
+ * @fileoverview Extern definitions for the Google JS Client Library (abridged).
+ */
+
+
+/**
  * Google API namespace.
+ * @type {Object}
+ * @const
  */
 var gapi = {};
 
 /**
  * Auth API namespace.
  * @type {Object}
+ * @const
  */
 gapi.auth = {};
 
@@ -19,6 +27,7 @@ gapi.auth.authorize = function(params, callback) {};
 /**
  * Client API namespace.
  * @type {Object}
+ * @const
  */
 gapi.client = {};
 

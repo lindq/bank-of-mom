@@ -5,6 +5,7 @@
 goog.provide('bom.apiProxy.module');
 
 goog.require('bom.auth.module');
+goog.require('bom.apiProxy.ApiProxy');
 
 
 /**
