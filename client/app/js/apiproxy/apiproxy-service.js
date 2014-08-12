@@ -87,5 +87,5 @@ bom.apiProxy.ApiProxy.prototype.callApiMethod = function(collection, method,
     .then(angular.noop,
           goog.bind(this.redirectToAuth_, this))
     .then(goog.bind(this.load_, this))
-    .then(goog.bind(this.call_, this));
+    .then(goog.bind(this.call_, this, collection, method, opt_message));
 };
