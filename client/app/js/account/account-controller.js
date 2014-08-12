@@ -40,13 +40,19 @@ bom.account.AccountListController = function($scope, account) {
     name: ''
   });
 
-  /** @export */
+  /**
+   * @export
+   */
   this.loaded = false;
 
-  /** @export */
+  /**
+   * @export
+   */
   this.accounts = [];
 
-  /** @export */
+  /**
+   * @export
+   */
   this.account = goog.object.clone(this.defaultAccount_);
 
   this.init_();
@@ -92,7 +98,7 @@ bom.account.AccountListController.prototype.saveAccount = function() {
   return this.ij_.account.insert(message)
     .then(function(response) {
       self.accounts.push(response);
-      self.account = goog.object.clone(this.defaultAccount_);
+      self.account = goog.object.clone(self.defaultAccount_);
     });
 };
 
@@ -130,19 +136,29 @@ bom.account.AccountDetailController = function(
     memo: ''
   });
 
-  /** @export */
+  /**
+   * @export
+   */
   this.account = null;
 
-  /** @export */
+  /**
+   * @export
+   */
   this.loaded = false;
 
-  /** @export */
+  /**
+   * @export
+   */
   this.transactions = [];
 
-  /** @export */
+  /**
+   * @export
+   */
   this.transaction = goog.object.clone(this.defaultTransaction_);
 
-  /** @export */
+  /**
+   * @export
+   */
   this.nextPageToken = null;
 
   this.init_();
