@@ -6,6 +6,7 @@ goog.provide('bom.account.Account');
 goog.provide('bom.account.Transaction');
 
 
+
 /**
  * @param {!bom.apiProxy.ApiProxy} apiProxy The apiProxy service.
  * @constructor
@@ -90,6 +91,7 @@ bom.account.Account.prototype.remove = function(message) {
 bom.account.Account.prototype.update = function(message) {
   return this.callApiMethod_('update', message);
 };
+
 
 
 /**

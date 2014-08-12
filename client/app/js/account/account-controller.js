@@ -18,6 +18,7 @@ bom.account.TransactionTypes = {
 };
 
 
+
 /**
  * The account list controller.
  * @param {!angular.Scope} $scope The Angular scope service.
@@ -101,6 +102,7 @@ bom.account.AccountListController.prototype.saveAccount = function() {
       self.account = goog.object.clone(self.defaultAccount_);
     });
 };
+
 
 
 /**

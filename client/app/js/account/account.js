@@ -10,7 +10,6 @@ goog.require('bom.account.AccountListController');
 goog.require('bom.account.Transaction');
 
 
-
 /**
  * Angular module
  * @type {!angular.Module}

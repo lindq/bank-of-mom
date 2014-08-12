@@ -5,6 +5,7 @@
 goog.provide('bom.auth.AuthController');
 
 
+
 /**
  * Auth controller.
  * @param {!angular.$location} $location The Angular location service.

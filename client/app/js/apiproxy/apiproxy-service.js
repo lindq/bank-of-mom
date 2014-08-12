@@ -7,6 +7,7 @@ goog.provide('bom.apiProxy.ApiProxy');
 goog.require('bom.constants');
 
 
+
 /**
  * ApiProxy service.
  * @param {!angular.$q} $q The Angular promise service.

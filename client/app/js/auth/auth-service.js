@@ -7,6 +7,7 @@ goog.provide('bom.auth.Auth');
 goog.require('bom.constants');
 
 
+
 /**
  * Auth service.
  * @param {!angular.$q} $q The Angular promise service.
