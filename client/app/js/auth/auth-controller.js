@@ -42,5 +42,5 @@ bom.auth.AuthController.prototype.redirectToNext_ = function() {
  */
 bom.auth.AuthController.prototype.initiateAuth = function() {
   return this.ij_.auth.check(false)
-    .then(this.redirectToNext_);
+    .then(goog.bind(this.redirectToNext_, this));
 };
