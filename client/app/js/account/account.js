@@ -1,5 +1,5 @@
 /**
- * @fileoverview Account module.
+ * @fileoverview Account module definition.
  */
 
 goog.provide('bom.account.module');

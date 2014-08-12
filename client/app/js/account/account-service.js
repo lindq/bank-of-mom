@@ -1,19 +1,27 @@
+/**
+ * @fileoverview Account service definitions.
+ */
+
 goog.provide('bom.account.Account');
 goog.provide('bom.account.Transaction');
 
 
 /**
- * @param {!bom.apiProxy.ApiProxy} apiProxy
+ * @param {!bom.apiProxy.ApiProxy} apiProxy The apiProxy service.
  * @constructor
  * @ngInject
  */
 bom.account.Account = function(apiProxy) {
-
+  /**
+   * Injected Angular services.
+   * @private {!Object}
+   */
   this.ij_ = {
     apiProxy: apiProxy
   };
 
   /**
+   * The name of the API endpoints collection for this model.
    * @private {string}
    */
   this.collection_ = 'accounts';
@@ -21,13 +29,13 @@ bom.account.Account = function(apiProxy) {
 
 
 /**
- * @param {string} name
- * @param {!Object=} opt_message
+ * @param {string} method The name of the API endpoints method.
+ * @param {!Object=} opt_message Optional message object to pass to the API.
  * @return {!angular.$q.Promise} A promise.
  * @private
  */
-bom.account.Account.prototype.callApiMethod_ = function(name, opt_message) {
-  return this.ij_.apiProxy.callApiMethod(this.collection_, name, opt_message);
+bom.account.Account.prototype.callApiMethod_ = function(method, opt_message) {
+  return this.ij_.apiProxy.callApiMethod(this.collection_, method, opt_message);
 };
 
 
@@ -85,17 +93,21 @@ bom.account.Account.prototype.update = function(message) {
 
 
 /**
- * @param {!bom.apiProxy.ApiProxy} apiProxy
+ * @param {!bom.apiProxy.ApiProxy} apiProxy The apiProxy service.
  * @constructor
  * @ngInject
  */
 bom.account.Transaction = function(apiProxy) {
-
+  /**
+   * Injected Angular services.
+   * @private {!Object}
+   */
   this.ij_ = {
     apiProxy: apiProxy
   };
 
   /**
+   * The name of the API endpoints collection for this model.
    * @private {string}
    */
   this.collection_ = 'transactions';
@@ -103,13 +115,14 @@ bom.account.Transaction = function(apiProxy) {
 
 
 /**
- * @param {string} name
- * @param {!Object=} opt_message
+ * @param {string} method The name of the API endpoints method.
+ * @param {!Object=} opt_message Optional message object to pass to the API.
  * @return {!angular.$q.Promise} A promise.
  * @private
  */
-bom.account.Transaction.prototype.callApiMethod_ = function(name, opt_message) {
-  return this.ij_.apiProxy.callApiMethod(this.collection_, name, opt_message);
+bom.account.Transaction.prototype.callApiMethod_ = function(method,
+                                                            opt_message) {
+  return this.ij_.apiProxy.callApiMethod(this.collection_, method, opt_message);
 };
 
 

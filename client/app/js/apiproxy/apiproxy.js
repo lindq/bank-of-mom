@@ -1,11 +1,11 @@
 /**
- * @fileoverview API Proxy module.
+ * @fileoverview API proxy module definition.
  */
 
 goog.provide('bom.apiProxy.module');
 
-goog.require('bom.auth.module');
 goog.require('bom.apiProxy.ApiProxy');
+goog.require('bom.auth.module');
 
 
 /**

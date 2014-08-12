@@ -1,5 +1,5 @@
 /**
- * @fileoverview Auth module.
+ * @fileoverview Auth module definition.
  */
 
 goog.provide('bom.auth.module');

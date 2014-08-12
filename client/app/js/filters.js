@@ -1,7 +1,12 @@
+/**
+ * @fileoverview Filter definitions.
+ */
+
 goog.provide('bom.filters.module');
 
 
 /**
+ * Formats UTC datetime into local datetime.
  * @return {function}
  */
 bom.filters.dateLocalize = function() {

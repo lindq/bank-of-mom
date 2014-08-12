@@ -1,3 +1,7 @@
+/**
+ * @fileoverview API proxy service definitions.
+ */
+
 goog.provide('bom.apiProxy.ApiProxy');
 
 goog.require('bom.constants');
@@ -5,14 +9,17 @@ goog.require('bom.constants');
 
 /**
  * ApiProxy service.
- * @param {!angular.$q} $q the Angular promise service.
- * @param {!angular.$location} $location the Angular $location service.
- * @param {!bom.auth.Auth} auth the Auth service.
+ * @param {!angular.$q} $q The Angular promise service.
+ * @param {!angular.$location} $location The Angular $location service.
+ * @param {!bom.auth.Auth} auth The auth service.
  * @constructor
  * @ngInject
  */
 bom.apiProxy.ApiProxy = function($q, $location, auth) {
-
+  /**
+   * Injected Angular services.
+   * @private {!Object}
+   */
   this.ij_ = {
     q: $q,
     location: $location,
@@ -23,8 +30,8 @@ bom.apiProxy.ApiProxy = function($q, $location, auth) {
 
 /**
  * Loads the remote API.
- * @private
  * @return {!angular.$q.Promise} A promise.
+ * @private
  */
 bom.apiProxy.ApiProxy.prototype.load_ = function() {
   var deferred = this.ij_.q.defer();
@@ -46,9 +53,10 @@ bom.apiProxy.ApiProxy.prototype.redirectToAuth_ = function() {
 
 
 /**
- * @param {string} collection
- * @param {string} method
- * @param {!Object=} opt_message
+ * Calls the API endpoints method for the given collection.
+ * @param {string} collection The name of the API endpoints collection.
+ * @param {string} method The name of the API endpoints method.
+ * @param {!Object=} opt_message Optional message object to pass to the API.
  * @return {!angular.$q.Promise} A promise.
  */
 bom.apiProxy.ApiProxy.prototype.callApiMethod = function(collection, method,
@@ -56,12 +64,8 @@ bom.apiProxy.ApiProxy.prototype.callApiMethod = function(collection, method,
   var self = this;
 
   var call = function() {
-    window.console.log('call');
     var func = gapi.client[bom.constants.API_NAME][collection][method];
     var deferred = self.ij_.q.defer();
-    window.console.log(collection);
-    window.console.log(method);
-    window.console.log(opt_message);
     func(opt_message)['execute'](function(response) {
       if (response.error) {
         deferred.reject(response);
@@ -73,7 +77,7 @@ bom.apiProxy.ApiProxy.prototype.callApiMethod = function(collection, method,
   };
 
   return this.ij_.auth.check(true)
-    .then(angular.noop, this.redirectToAuth_)
+    .then(angular.noop, goog.bind(this.redirectToAuth_, this))
     .then(goog.bind(this.load_, this))
     .then(call);
 };

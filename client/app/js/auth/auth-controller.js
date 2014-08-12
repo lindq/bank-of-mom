@@ -1,15 +1,23 @@
+/**
+ * @fileoverview Auth controller definitions.
+ */
+
 goog.provide('bom.auth.AuthController');
 
 
 /**
  * Auth controller.
- * @param {!angular.$location} $location the Angular location service.
- * @param {!bom.auth.Auth} auth the Auth service.
+ * @param {!angular.$location} $location The Angular location service.
+ * @param {!bom.auth.Auth} auth The auth service.
  * @constructor
  * @ngInject
+ * @export
  */
 bom.auth.AuthController = function($location, auth) {
-
+  /**
+   * Injected Angular services.
+   * @private {!Object}
+   */
   this.ij_ = {
     location: $location,
     auth: auth
@@ -18,7 +26,7 @@ bom.auth.AuthController = function($location, auth) {
 
 
 /**
- * Redirects user to next page.
+ * Redirects user to next requested route or the default route.
  * @private
  */
 bom.auth.AuthController.prototype.redirectToNext_ = function() {

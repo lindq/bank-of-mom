@@ -1,11 +1,12 @@
 /**
- * @fileoverview Constants
+ * @fileoverview Constant value definitions.
  */
 
 goog.provide('bom.constants');
 
 
 /**
+ * API endpoints name identifier.
  * @type {string}
  * @const
  */
@@ -13,6 +14,7 @@ bom.constants.API_NAME = 'bom';
 
 
 /**
+ * Root path for API endpoints.
  * @type {string}
  * @const
  */
@@ -20,6 +22,7 @@ bom.constants.API_PATH = '/_ah/api';
 
 
 /**
+ * API endpoints version identifier.
  * @type {string}
  * @const
  */
@@ -27,6 +30,7 @@ bom.constants.API_VERSION = 'v1';
 
 
 /**
+ * Path to the auth route.
  * @type {string}
  * @const
  */
@@ -34,6 +38,7 @@ bom.constants.AUTH_PATH = '/auth';
 
 
 /**
+ * OAuth 2.0 client ID for API endpoints.
  * @type {string}
  * @const
  */
@@ -42,6 +47,7 @@ bom.constants.OAUTH_CLIENT_ID =
 
 
 /**
+ * OAuth 2.0 scope for API endpoints.
  * @type {string}
  * @const
  */

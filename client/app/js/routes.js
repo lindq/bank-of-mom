@@ -1,12 +1,16 @@
+/**
+ * @fileoverview Routes configuration.
+ */
+
 goog.provide('bom.routes.module');
 
 goog.require('bom.auth.module');
 
 
 /**
- * @param {!angular.$routeProvider} $routeProvider
- * @private
+ * @param {!angular.$routeProvider} $routeProvider The Angular route provider.
  * @ngInject
+ * @private
  */
 bom.routes.routesConfig_ = function($routeProvider) {
   $routeProvider

@@ -1,3 +1,7 @@
+/**
+ * @fileoverview Account controller definitions.
+ */
+
 goog.provide('bom.account.AccountDetailController');
 goog.provide('bom.account.AccountListController');
 
@@ -5,6 +9,7 @@ goog.require('goog.object');
 
 
 /**
+ * Transaction type values.
  * @enum {string}
  */
 bom.account.TransactionTypes = {
@@ -14,14 +19,18 @@ bom.account.TransactionTypes = {
 
 
 /**
- * @param {!angular.Scope} $scope
- * @param {!bom.account.Account} account
+ * The account list controller.
+ * @param {!angular.Scope} $scope The Angular scope service.
+ * @param {!bom.account.Account} account The account service.
  * @constructor
  * @ngInject
  * @export
  */
 bom.account.AccountListController = function($scope, account) {
-
+  /**
+   * Injected Angular services.
+   * @private {!Object}
+   */
   this.ij_ = {
     scope: $scope,
     account: account
@@ -89,19 +98,23 @@ bom.account.AccountListController.prototype.saveAccount = function() {
 
 
 /**
- * @param {!angular.Scope} $scope
- * @param {!angular.$location} $location
+ * The account detail controller.
+ * @param {!angular.Scope} $scope The Angular scope service.
+ * @param {!angular.$location} $location The Angular location service.
  * @param {!angular.$q} $q the Angular promise service.
- * @param {!angular.$routeParams} $routeParams
- * @param {!bom.account.Account} account
- * @param {!bom.account.Transaction} transaction
+ * @param {!angular.$routeParams} $routeParams The Angular routeParams service.
+ * @param {!bom.account.Account} account The account service.
+ * @param {!bom.account.Transaction} transaction The transaction service.
  * @constructor
  * @ngInject
  * @export
  */
 bom.account.AccountDetailController = function(
   $scope, $location, $q, $routeParams, account, transaction) {
-
+  /**
+   * Injected Angular services.
+   * @private {!Object}
+   */
   this.ij_ = {
     scope: $scope,
     location: $location,
