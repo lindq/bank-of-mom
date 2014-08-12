@@ -7,7 +7,7 @@ goog.provide('bom.filters.module');
 
 /**
  * Formats UTC datetime into local datetime.
- * @return {function}
+ * @return {function(Date): number}
  */
 bom.filters.dateLocalize = function() {
   return function(utcDate) {

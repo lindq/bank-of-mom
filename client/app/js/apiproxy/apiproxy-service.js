@@ -64,7 +64,7 @@ bom.apiProxy.ApiProxy.prototype.call_ = function(collection, method,
                                                  opt_message) {
   var func = gapi.client[bom.constants.API_NAME][collection][method];
   var deferred = this.ij_.q.defer();
-  func(opt_message).execute(function(response) {
+  func(opt_message)['execute'](function(response) {
     if (response.error) {
       deferred.reject(response);
     } else {

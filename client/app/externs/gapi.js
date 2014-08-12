@@ -22,7 +22,7 @@ gapi.auth = {};
 /**
  * Initiates the OAuth 2.0 authorization process.
  * @param {!Object} params
- * @param {function} callback
+ * @param {function(!Object)} callback
  */
 gapi.auth.authorize = function(params, callback) {};
 
@@ -39,6 +39,7 @@ gapi.client = {};
  * Loads client library interface for the given API.
  * @param {string} name
  * @param {string} version
- * @param {function} callback
+ * @param {function()} callback
+ * @param {string} path
  */
-gapi.client.load = function(name, version, callback) {};
+gapi.client.load = function(name, version, callback, path) {};

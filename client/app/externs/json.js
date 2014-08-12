@@ -13,7 +13,7 @@ var json = {};
 /**
  * @typedef {{
  *   id: string,
- *   name: string
+ *   name: string,
  *   balance: string
  * }}
  */

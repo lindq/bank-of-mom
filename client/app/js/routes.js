@@ -10,9 +10,8 @@ goog.require('bom.auth.module');
 /**
  * @param {!angular.$routeProvider} $routeProvider The Angular route provider.
  * @ngInject
- * @private
  */
-bom.routes.routesConfig_ = function($routeProvider) {
+bom.routes.routesConfig = function($routeProvider) {
   $routeProvider
     .when('/accounts', {
       templateUrl: 'partials/account-list.html',
@@ -43,5 +42,5 @@ bom.routes.module = angular.module('bom.routes', [
   bom.auth.module.name, 'ngRoute'
 ]).config([
   '$routeProvider',
-  bom.routes.routesConfig_
+  bom.routes.routesConfig
 ]);
