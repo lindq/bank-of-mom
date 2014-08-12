@@ -53,6 +53,28 @@ bom.apiProxy.ApiProxy.prototype.redirectToAuth_ = function() {
 
 
 /**
+ * @param {string} collection The name of the API endpoints collection.
+ * @param {string} method The name of the API endpoints method.
+ * @param {!Object=} opt_message Optional message object to pass to the API.
+ * @return {!angular.$q.Promise} A promise.
+ * @private
+ */
+bom.apiProxy.ApiProxy.prototype.call_ = function(collection, method,
+                                                 opt_message) {
+  var func = gapi.client[bom.constants.API_NAME][collection][method];
+  var deferred = this.ij_.q.defer();
+  func(opt_message).execute(function(response) {
+    if (response.error) {
+      deferred.reject(response);
+    } else {
+      deferred.resolve(response);
+    }
+  });
+  return deferred.promise;
+};
+
+
+/**
  * Calls the API endpoints method for the given collection.
  * @param {string} collection The name of the API endpoints collection.
  * @param {string} method The name of the API endpoints method.
@@ -61,23 +83,9 @@ bom.apiProxy.ApiProxy.prototype.redirectToAuth_ = function() {
  */
 bom.apiProxy.ApiProxy.prototype.callApiMethod = function(collection, method,
                                                          opt_message) {
-  var self = this;
-
-  var call = function() {
-    var func = gapi.client[bom.constants.API_NAME][collection][method];
-    var deferred = self.ij_.q.defer();
-    func(opt_message)['execute'](function(response) {
-      if (response.error) {
-        deferred.reject(response);
-      } else {
-        deferred.resolve(response);
-      }
-    });
-    return deferred.promise;
-  };
-
   return this.ij_.auth.check(true)
-    .then(angular.noop, goog.bind(this.redirectToAuth_, this))
+    .then(angular.noop,
+          goog.bind(this.redirectToAuth_, this))
     .then(goog.bind(this.load_, this))
-    .then(call);
+    .then(goog.bind(this.call_, this));
 };
