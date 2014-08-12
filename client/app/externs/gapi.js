@@ -10,12 +10,14 @@
  */
 var gapi = {};
 
+
 /**
  * Auth API namespace.
  * @type {Object}
  * @const
  */
 gapi.auth = {};
+
 
 /**
  * Initiates the OAuth 2.0 authorization process.
@@ -24,12 +26,14 @@ gapi.auth = {};
  */
 gapi.auth.authorize = function(params, callback) {};
 
+
 /**
  * Client API namespace.
  * @type {Object}
  * @const
  */
 gapi.client = {};
+
 
 /**
  * Loads client library interface for the given API.
