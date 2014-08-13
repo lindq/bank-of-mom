@@ -82,8 +82,7 @@ bom.rpc.Rpc.prototype.call_ = function(collection, method,
  * @param {!Object=} opt_message Optional message object to pass to the API.
  * @return {!angular.$q.Promise} A promise.
  */
-bom.rpc.Rpc.prototype.callApiMethod = function(collection, method,
-                                                         opt_message) {
+bom.rpc.Rpc.prototype.callMethod = function(collection, method, opt_message) {
   return this.ij_.auth.check(true)
     .then(angular.noop,
           goog.bind(this.redirectToAuth_, this))

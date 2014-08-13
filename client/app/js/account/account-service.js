@@ -36,8 +36,8 @@ bom.account.Account = function(rpc) {
  * @return {!angular.$q.Promise} A promise.
  * @private
  */
-bom.account.Account.prototype.callApiMethod_ = function(method, opt_message) {
-  return this.ij_.rpc.callApiMethod(this.collection_, method, opt_message);
+bom.account.Account.prototype.callMethod_ = function(method, opt_message) {
+  return this.ij_.rpc.callMethod(this.collection_, method, opt_message);
 };
 
 
@@ -46,7 +46,7 @@ bom.account.Account.prototype.callApiMethod_ = function(method, opt_message) {
  * @return {!angular.$q.Promise}
  */
 bom.account.Account.prototype.get = function(message) {
-  return this.callApiMethod_('get', message);
+  return this.callMethod_('get', message);
 };
 
 
@@ -55,7 +55,7 @@ bom.account.Account.prototype.get = function(message) {
  * @return {!angular.$q.Promise}
  */
 bom.account.Account.prototype.insert = function(message) {
-  return this.callApiMethod_('insert', message);
+  return this.callMethod_('insert', message);
 };
 
 
@@ -63,7 +63,7 @@ bom.account.Account.prototype.insert = function(message) {
  * @return {!angular.$q.Promise}
  */
 bom.account.Account.prototype.list = function() {
-  return this.callApiMethod_('list');
+  return this.callMethod_('list');
 };
 
 
@@ -72,7 +72,7 @@ bom.account.Account.prototype.list = function() {
  * @return {!angular.$q.Promise}
  */
 bom.account.Account.prototype.patch = function(message) {
-  return this.callApiMethod_('patch', message);
+  return this.callMethod_('patch', message);
 };
 
 
@@ -81,7 +81,7 @@ bom.account.Account.prototype.patch = function(message) {
  * @return {!angular.$q.Promise}
  */
 bom.account.Account.prototype.remove = function(message) {
-  return this.callApiMethod_('remove', message);
+  return this.callMethod_('remove', message);
 };
 
 
@@ -90,7 +90,7 @@ bom.account.Account.prototype.remove = function(message) {
  * @return {!angular.$q.Promise}
  */
 bom.account.Account.prototype.update = function(message) {
-  return this.callApiMethod_('update', message);
+  return this.callMethod_('update', message);
 };
 
 
@@ -124,9 +124,9 @@ bom.account.Transaction = function(rpc) {
  * @return {!angular.$q.Promise} A promise.
  * @private
  */
-bom.account.Transaction.prototype.callApiMethod_ = function(method,
+bom.account.Transaction.prototype.callMethod_ = function(method,
                                                             opt_message) {
-  return this.ij_.rpc.callApiMethod(this.collection_, method, opt_message);
+  return this.ij_.rpc.callMethod(this.collection_, method, opt_message);
 };
 
 
@@ -135,7 +135,7 @@ bom.account.Transaction.prototype.callApiMethod_ = function(method,
  * @return {!angular.$q.Promise}
  */
 bom.account.Transaction.prototype.get = function(message) {
-  return this.callApiMethod_('get', message);
+  return this.callMethod_('get', message);
 };
 
 
@@ -144,7 +144,7 @@ bom.account.Transaction.prototype.get = function(message) {
  * @return {!angular.$q.Promise}
  */
 bom.account.Transaction.prototype.insert = function(message) {
-  return this.callApiMethod_('insert', message);
+  return this.callMethod_('insert', message);
 };
 
 
@@ -153,7 +153,7 @@ bom.account.Transaction.prototype.insert = function(message) {
  * @return {!angular.$q.Promise}
  */
 bom.account.Transaction.prototype.list = function(message) {
-  return this.callApiMethod_('list', message);
+  return this.callMethod_('list', message);
 };
 
 
@@ -162,7 +162,7 @@ bom.account.Transaction.prototype.list = function(message) {
  * @return {!angular.$q.Promise}
  */
 bom.account.Transaction.prototype.patch = function(message) {
-  return this.callApiMethod_('patch', message);
+  return this.callMethod_('patch', message);
 };
 
 
@@ -171,7 +171,7 @@ bom.account.Transaction.prototype.patch = function(message) {
  * @return {!angular.$q.Promise}
  */
 bom.account.Transaction.prototype.remove = function(message) {
-  return this.callApiMethod_('remove', message);
+  return this.callMethod_('remove', message);
 };
 
 
@@ -180,5 +180,5 @@ bom.account.Transaction.prototype.remove = function(message) {
  * @return {!angular.$q.Promise}
  */
 bom.account.Transaction.prototype.update = function(message) {
-  return this.callApiMethod_('update', message);
+  return this.callMethod_('update', message);
 };
