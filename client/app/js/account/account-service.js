@@ -124,8 +124,7 @@ bom.account.Transaction = function(rpc) {
  * @return {!angular.$q.Promise} A promise.
  * @private
  */
-bom.account.Transaction.prototype.callMethod_ = function(method,
-                                                            opt_message) {
+bom.account.Transaction.prototype.callMethod_ = function(method, opt_message) {
   return this.ij_.rpc.callMethod(this.collection_, method, opt_message);
 };
 
