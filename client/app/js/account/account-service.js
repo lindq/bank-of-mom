@@ -9,17 +9,17 @@ goog.provide('bom.account.Transaction');
 
 /**
  * Account service.
- * @param {!bom.apiProxy.ApiProxy} apiProxy The apiProxy service.
+ * @param {!bom.rpc.Rpc} rpc The rpc service.
  * @constructor
  * @ngInject
  */
-bom.account.Account = function(apiProxy) {
+bom.account.Account = function(rpc) {
   /**
    * Injected Angular services.
    * @private {!Object}
    */
   this.ij_ = {
-    apiProxy: apiProxy
+    rpc: rpc
   };
 
   /**
@@ -37,7 +37,7 @@ bom.account.Account = function(apiProxy) {
  * @private
  */
 bom.account.Account.prototype.callApiMethod_ = function(method, opt_message) {
-  return this.ij_.apiProxy.callApiMethod(this.collection_, method, opt_message);
+  return this.ij_.rpc.callApiMethod(this.collection_, method, opt_message);
 };
 
 
@@ -97,17 +97,17 @@ bom.account.Account.prototype.update = function(message) {
 
 /**
  * Transaction service.
- * @param {!bom.apiProxy.ApiProxy} apiProxy The apiProxy service.
+ * @param {!bom.rpc.Rpc} rpc The rpc service.
  * @constructor
  * @ngInject
  */
-bom.account.Transaction = function(apiProxy) {
+bom.account.Transaction = function(rpc) {
   /**
    * Injected Angular services.
    * @private {!Object}
    */
   this.ij_ = {
-    apiProxy: apiProxy
+    rpc: rpc
   };
 
   /**
@@ -126,7 +126,7 @@ bom.account.Transaction = function(apiProxy) {
  */
 bom.account.Transaction.prototype.callApiMethod_ = function(method,
                                                             opt_message) {
-  return this.ij_.apiProxy.callApiMethod(this.collection_, method, opt_message);
+  return this.ij_.rpc.callApiMethod(this.collection_, method, opt_message);
 };
 
 
