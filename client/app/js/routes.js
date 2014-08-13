@@ -8,6 +8,7 @@ goog.require('bom.auth.module');
 
 
 /**
+ * Route definitions.
  * @param {!angular.$routeProvider} $routeProvider The Angular route provider.
  * @ngInject
  */

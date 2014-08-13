@@ -37,24 +37,31 @@ bom.account.AccountListController = function($scope, account) {
     account: account
   };
 
-  this.defaultAccount_ = goog.object.createImmutableView({
+  /** @private */
+  this.nullAccount_ = goog.object.createImmutableView({
     name: ''
   });
 
   /**
+   * True if page loading is complete, false otherwise.
+   * @type {boolean}
    * @export
    */
   this.loaded = false;
 
   /**
+   * List of accounts from an API call.
+   * @type {!Array.<!json.Account>}
    * @export
    */
   this.accounts = [];
 
   /**
+   * The current account to display.
+   * @type {(!Object|!json.Account)}
    * @export
    */
-  this.account = goog.object.clone(this.defaultAccount_);
+  this.account = goog.object.clone(this.nullAccount_);
 
   this.init_();
 };
@@ -99,7 +106,7 @@ bom.account.AccountListController.prototype.saveAccount = function() {
   return this.ij_.account.insert(message)
     .then(function(response) {
       self.accounts.push(response);
-      self.account = goog.object.clone(self.defaultAccount_);
+      self.account = goog.object.clone(self.nullAccount_);
     });
 };
 
@@ -132,33 +139,44 @@ bom.account.AccountDetailController = function(
     transaction: transaction
   };
 
-  this.defaultTransaction_ = goog.object.createImmutableView({
+  /** @private */
+  this.nullTransaction_ = goog.object.createImmutableView({
     type: bom.account.TransactionTypes.DEPOSIT,
     amount: '',
     memo: ''
   });
 
   /**
+   * The current account to display.
+   * @type {(Object|json.Account)}
    * @export
    */
   this.account = null;
 
   /**
+   * True if page loading is complete, false otherwise.
+   * @type {boolean}
    * @export
    */
   this.loaded = false;
 
   /**
+   * List of transactions from an API call.
+   * @type {!Array.<!json.Transaction>}
    * @export
    */
   this.transactions = [];
 
   /**
+   * The current transaction to display.
+   * @type {(!Object|!json.Transaction)}
    * @export
    */
-  this.transaction = goog.object.clone(this.defaultTransaction_);
+  this.transaction = goog.object.clone(this.nullTransaction_);
 
   /**
+   * The cursor token for paging through the transaction list.
+   * @type {?string}
    * @export
    */
   this.nextPageToken = null;
@@ -228,7 +246,7 @@ bom.account.AccountDetailController.prototype.insertTransaction = function() {
       self.transactions.push(response);
       self.account.balance = (parseFloat(self.account.balance) +
                               parseFloat(response.amount)).toFixed(2);
-      self.transaction = goog.object.clone(self.defaultTransaction_);
+      self.transaction = goog.object.clone(self.nullTransaction_);
     });
 };
 

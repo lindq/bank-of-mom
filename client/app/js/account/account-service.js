@@ -8,6 +8,7 @@ goog.provide('bom.account.Transaction');
 
 
 /**
+ * Account service.
  * @param {!bom.apiProxy.ApiProxy} apiProxy The apiProxy service.
  * @constructor
  * @ngInject
@@ -95,6 +96,7 @@ bom.account.Account.prototype.update = function(message) {
 
 
 /**
+ * Transaction service.
  * @param {!bom.apiProxy.ApiProxy} apiProxy The apiProxy service.
  * @constructor
  * @ngInject

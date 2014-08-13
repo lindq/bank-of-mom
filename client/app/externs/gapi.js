@@ -21,8 +21,9 @@ gapi.auth = {};
 
 /**
  * Initiates the OAuth 2.0 authorization process.
- * @param {!Object} params
- * @param {function(!Object)} callback
+ * @param {!Object} params A key/value map of parameters for the request.
+ * @param {function(!Object)} callback The function to call once the login
+ *     process is complete.
  */
 gapi.auth.authorize = function(params, callback) {};
 
@@ -37,9 +38,10 @@ gapi.client = {};
 
 /**
  * Loads client library interface for the given API.
- * @param {string} name
- * @param {string} version
- * @param {function()} callback
- * @param {string} path
+ * @param {string} name The name of the API to load.
+ * @param {string} version The version of the API to load
+ * @param {function()=} opt_callback Optional function to call once the API
+ *     interface is loaded.
+ * @param {string=} opt_path Optional path to the API root.
  */
-gapi.client.load = function(name, version, callback, path) {};
+gapi.client.load = function(name, version, opt_callback, opt_path) {};
