@@ -23,9 +23,8 @@ handlers:
 - url: /partials
   static_dir: client/app/partials
   secure: always
-- url: /
-  static_files: client/app/index.html
-  upload: client/app/index\.html
+- url: /.*
+  script: server.main.application
   secure: always
 
 libraries:
@@ -33,6 +32,10 @@ libraries:
   version: latest
 - name: endpoints
   version: 1.0
+- name: webapp2
+  version: latest
+- name: jinja2
+  version: latest
 
 builtins:
 - appstats: on
