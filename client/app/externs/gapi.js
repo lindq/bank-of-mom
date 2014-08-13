@@ -1,5 +1,6 @@
 /**
  * @fileoverview Extern definitions for the Google JS Client Library (abridged).
+ * @externs
  */
 
 

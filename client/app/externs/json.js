@@ -1,5 +1,6 @@
 /**
  * @fileoverview Extern definitions for JSON objects.
+ * @externs
  */
 
 
@@ -22,7 +23,7 @@ json.Account;
 
 /**
  * @typedef {{
- *   items: (!Array.<json.Account>|undefined)
+ *   items: (!Array.<!json.Account>|undefined)
  * }}
  */
 json.AccountListResponse;
@@ -42,7 +43,7 @@ json.Transaction;
 
 /**
  * @typedef {{
- *   items: (!Array.<json.Transaction>|undefined),
+ *   items: (!Array.<!json.Transaction>|undefined),
  *   nextPageToken: (string|undefined),
  *   totalItems: (string|undefined),
  *   itemsPerPage: (string|undefined)
