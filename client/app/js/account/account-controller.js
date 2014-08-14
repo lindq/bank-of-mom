@@ -59,10 +59,11 @@ bom.account.AccountListController = function($scope, account) {
 
   /**
    * The current account to display.
-   * @type {(!Object|!json.Account)}
+   * @type {!json.Account}
    * @export
    */
-  this.account = goog.object.clone(this.nullAccount_);
+  this.account = /** @type {!json.Account} */ (
+    goog.object.clone(this.nullAccount_));
 
   this.init_();
 };
@@ -107,7 +108,8 @@ bom.account.AccountListController.prototype.saveAccount = function() {
   return this.ij_.account.insert(message)
     .then(function(response) {
       self.accounts.push(response);
-      self.account = goog.object.clone(self.nullAccount_);
+      self.account = /** @type {!json.Account} */ (
+        goog.object.clone(self.nullAccount_));
     });
 };
 
@@ -149,7 +151,7 @@ bom.account.AccountDetailController = function(
 
   /**
    * The current account to display.
-   * @type {(Object|json.Account)}
+   * @type {?json.Account}
    * @export
    */
   this.account = null;
@@ -170,10 +172,11 @@ bom.account.AccountDetailController = function(
 
   /**
    * The current transaction to display.
-   * @type {(!Object|!json.Transaction)}
+   * @type {!json.Transaction}
    * @export
    */
-  this.transaction = goog.object.clone(this.nullTransaction_);
+  this.transaction = /** @type {!json.Transaction} */ (
+    goog.object.clone(this.nullTransaction_));
 
   /**
    * The cursor token for paging through the transaction list.
@@ -247,7 +250,8 @@ bom.account.AccountDetailController.prototype.insertTransaction = function() {
       self.transactions.push(response);
       self.account.balance = (parseFloat(self.account.balance) +
                               parseFloat(response.amount)).toFixed(2);
-      self.transaction = goog.object.clone(self.nullTransaction_);
+      self.transaction = /** @type {!json.Transaction} */ (
+        goog.object.clone(self.nullTransaction_));
     });
 };
 
