@@ -4,7 +4,7 @@
       <td class="act-name">
         <a data-toggle="modal" data-target="#act-edit-modal">{{ ctrl.account.name }}</a>
       </td>
-      <td class="act-balance text-right" ng-class="{negative: ctrl.transaction.amount < 0}">
+      <td class="act-balance text-right" ng-class="{negative: ctrl.account.balance < 0}">
         <a data-toggle="modal" data-target="#act-edit-modal">{{ ctrl.account.balance | currency }}</a>
       </td>
     </tr>
