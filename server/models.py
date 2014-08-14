@@ -14,7 +14,8 @@ class CurrencyProperty(ndb.StringProperty):
             raise TypeError('Invalid decimal value: %s' % value)
 
     def _to_base_type(self, value):
-        return str(decimal.Decimal(value).quantize(decimal.Decimal('.01')))
+        return str(decimal.Decimal(value).quantize(
+                decimal.Decimal('0.01'), rounding=decimal.ROUND_HALF_UP))
 
     def _from_base_type(self, value):
         return decimal.Decimal(value)
