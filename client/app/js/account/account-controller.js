@@ -10,7 +10,8 @@ goog.require('goog.object');
 
 /**
  * Transaction type values.
- * @enum {string}
+ * @type {!Object.<string, string>}
+ * @const
  */
 bom.account.TransactionTypes = {
   DEPOSIT: '+',
