@@ -2,7 +2,8 @@
   <div class="modal-content">
     <div class="modal-header">
       <button class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      <h4 class="modal-title">Add Transaction</h4>
+      <h4 class="modal-title" ng-hide="ctrl.transaction.id">Add Transaction</h4>
+      <h4 class="modal-title" ng-show="ctrl.transaction.id">Edit Transaction: {{ ctrl.transaction.memo }}</h4>
     </div>
     <form novalidate name="form">
       <fieldset>
@@ -25,7 +26,7 @@
               <span class="input-group-addon">
                 <span class="glyphicon glyphicon-usd"></span>
               </span>
-              <input type="number" class="form-control input-lg" id="amount" ng-model="ctrl.transaction.amount" ng-pattern="/^\d+(\.\d{0,2})?$/" required>
+              <input type="text" class="form-control input-lg" id="amount" ng-model="ctrl.transaction.amount" ng-pattern="/^\d+(\.\d{0,2})?$/" required>
             </div>
           </div>
           <div class="form-group">
@@ -39,10 +40,15 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary btn-lg" data-dismiss="modal" ng-click="ctrl.insertTransaction()" ng-disabled="form.$invalid">
+          <button type="submit" class="btn btn-primary btn-lg" data-dismiss="modal" ng-click="ctrl.saveTransaction()" ng-disabled="form.$invalid">
             <span class="glyphicon glyphicon-save"></span> Save
           </button>
           <button class="btn btn-default btn-lg" data-dismiss="modal">Cancel</button>
+          <div class="delete" ng-show="ctrl.transaction.id">
+            <button class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#txn-delete-modal">
+              <span class="glyphicon glyphicon-minus-sign"></span> Delete this transaction
+            </button>
+          </div>
         </div>
       </fieldset>
     </form>
