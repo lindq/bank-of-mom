@@ -191,10 +191,7 @@ bom.account.AccountDetailController = function(
 
 /** @private */
 bom.account.AccountDetailController.prototype.init_ = function() {
-  this.ij_.q.all([
-    this.getAccount(),
-    this.listTransactions()
-  ])
+  this.ij_.q.all([this.getAccount(), this.listTransactions()])
     .then(goog.bind(this.doneLoading_, this));
 };
 
@@ -286,6 +283,53 @@ bom.account.AccountDetailController.prototype.saveAccount = function() {
     .then(function() {
 
     });
+};
+
+
+/**
+ * @param {!json.Transaction} transaction The transaction to edit.
+ * @export
+ */
+bom.account.AccountDetailController.prototype.editTransaction = function(
+  transaction) {
+  transaction.type = (parseFloat(transaction.amount) < 0) ?
+    bom.account.TransactionTypes.WITHDRAWAL :
+    bom.account.TransactionTypes.DEPOSIT;
+  transaction.amount = transaction.amount.replace(/^[-\+]/, '');
+  this.transaction = transaction;
+};
+
+
+/**
+ * @return {!angular.$q.Promise} A promise.
+ * @export
+ */
+bom.account.AccountDetailController.prototype.saveTransaction = function() {
+  if (!this.transaction.id) {
+    return this.insertTransaction();
+  }
+  var message = {
+    accountId: this.ij_.routeParams.id,
+    id: this.transaction.id,
+    amount: this.transaction.type + this.transaction.amount,
+    memo: this.transaction.memo
+  };
+  return this.ij_.transaction.update(message)
+    .then(goog.bind(this.init_, this));  // TODO: fix this (does not update transactions properly).
+};
+
+
+/**
+ * @return {!angular.$q.Promise} A promise.
+ * @export
+ */
+bom.account.AccountDetailController.prototype.deleteTransaction = function() {
+  var message = {
+    accountId: this.ij_.routeParams.id,
+    id: this.transaction.id
+  };
+  return this.ij_.transaction.remove(message)
+    .then(goog.bind(this.init_, this));  // TODO: fix this (does not update transactions properly).
 };
 
 
