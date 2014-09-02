@@ -2,18 +2,18 @@
  * @fileoverview Account service definitions.
  */
 
-goog.provide('bom.account.Account');
-goog.provide('bom.account.Transaction');
+goog.provide('bom.account.AccountRpc');
+goog.provide('bom.account.TransactionRpc');
 
 
 
 /**
- * Account service.
+ * AccountRpc service.
  * @param {!bom.rpc.Rpc} rpc The rpc service.
  * @constructor
  * @ngInject
  */
-bom.account.Account = function(rpc) {
+bom.account.AccountRpc = function(rpc) {
   /**
    * Injected Angular services.
    * @private {!Object}
@@ -36,7 +36,7 @@ bom.account.Account = function(rpc) {
  * @return {!angular.$q.Promise} A promise.
  * @private
  */
-bom.account.Account.prototype.callMethod_ = function(method, opt_message) {
+bom.account.AccountRpc.prototype.callMethod_ = function(method, opt_message) {
   return this.ij_.rpc.callMethod(this.collection_, method, opt_message);
 };
 
@@ -45,7 +45,7 @@ bom.account.Account.prototype.callMethod_ = function(method, opt_message) {
  * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.Account.prototype.get = function(message) {
+bom.account.AccountRpc.prototype.get = function(message) {
   return this.callMethod_('get', message);
 };
 
@@ -54,7 +54,7 @@ bom.account.Account.prototype.get = function(message) {
  * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.Account.prototype.insert = function(message) {
+bom.account.AccountRpc.prototype.insert = function(message) {
   return this.callMethod_('insert', message);
 };
 
@@ -62,7 +62,7 @@ bom.account.Account.prototype.insert = function(message) {
 /**
  * @return {!angular.$q.Promise}
  */
-bom.account.Account.prototype.list = function() {
+bom.account.AccountRpc.prototype.list = function() {
   return this.callMethod_('list');
 };
 
@@ -71,7 +71,7 @@ bom.account.Account.prototype.list = function() {
  * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.Account.prototype.patch = function(message) {
+bom.account.AccountRpc.prototype.patch = function(message) {
   return this.callMethod_('patch', message);
 };
 
@@ -80,7 +80,7 @@ bom.account.Account.prototype.patch = function(message) {
  * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.Account.prototype.remove = function(message) {
+bom.account.AccountRpc.prototype.remove = function(message) {
   return this.callMethod_('remove', message);
 };
 
@@ -89,19 +89,19 @@ bom.account.Account.prototype.remove = function(message) {
  * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.Account.prototype.update = function(message) {
+bom.account.AccountRpc.prototype.update = function(message) {
   return this.callMethod_('update', message);
 };
 
 
 
 /**
- * Transaction service.
+ * TransactionRpc service.
  * @param {!bom.rpc.Rpc} rpc The rpc service.
  * @constructor
  * @ngInject
  */
-bom.account.Transaction = function(rpc) {
+bom.account.TransactionRpc = function(rpc) {
   /**
    * Injected Angular services.
    * @private {!Object}
@@ -124,7 +124,8 @@ bom.account.Transaction = function(rpc) {
  * @return {!angular.$q.Promise} A promise.
  * @private
  */
-bom.account.Transaction.prototype.callMethod_ = function(method, opt_message) {
+bom.account.TransactionRpc.prototype.callMethod_ = function(
+  method, opt_message) {
   return this.ij_.rpc.callMethod(this.collection_, method, opt_message);
 };
 
@@ -133,7 +134,7 @@ bom.account.Transaction.prototype.callMethod_ = function(method, opt_message) {
  * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.Transaction.prototype.get = function(message) {
+bom.account.TransactionRpc.prototype.get = function(message) {
   return this.callMethod_('get', message);
 };
 
@@ -142,7 +143,7 @@ bom.account.Transaction.prototype.get = function(message) {
  * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.Transaction.prototype.insert = function(message) {
+bom.account.TransactionRpc.prototype.insert = function(message) {
   return this.callMethod_('insert', message);
 };
 
@@ -151,7 +152,7 @@ bom.account.Transaction.prototype.insert = function(message) {
  * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.Transaction.prototype.list = function(message) {
+bom.account.TransactionRpc.prototype.list = function(message) {
   return this.callMethod_('list', message);
 };
 
@@ -160,7 +161,7 @@ bom.account.Transaction.prototype.list = function(message) {
  * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.Transaction.prototype.patch = function(message) {
+bom.account.TransactionRpc.prototype.patch = function(message) {
   return this.callMethod_('patch', message);
 };
 
@@ -169,7 +170,7 @@ bom.account.Transaction.prototype.patch = function(message) {
  * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.Transaction.prototype.remove = function(message) {
+bom.account.TransactionRpc.prototype.remove = function(message) {
   return this.callMethod_('remove', message);
 };
 
@@ -178,6 +179,6 @@ bom.account.Transaction.prototype.remove = function(message) {
  * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.Transaction.prototype.update = function(message) {
+bom.account.TransactionRpc.prototype.update = function(message) {
   return this.callMethod_('update', message);
 };

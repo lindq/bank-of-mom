@@ -23,19 +23,19 @@ bom.account.TransactionTypes = {
 /**
  * The account list controller.
  * @param {!angular.Scope} $scope The Angular scope service.
- * @param {!bom.account.Account} account The account service.
+ * @param {!bom.account.AccountRpc} accountRpc The account rpc service.
  * @constructor
  * @ngInject
  * @export
  */
-bom.account.AccountListController = function($scope, account) {
+bom.account.AccountListController = function($scope, accountRpc) {
   /**
    * Injected Angular services.
    * @private {!Object}
    */
   this.ij_ = {
     scope: $scope,
-    account: account
+    accountRpc: accountRpc
   };
 
   /** @private */
@@ -87,7 +87,7 @@ bom.account.AccountListController.prototype.doneLoading_ = function() {
  */
 bom.account.AccountListController.prototype.listAccounts = function() {
   var self = this;
-  return this.ij_.account.list()
+  return this.ij_.accountRpc.list()
     .then(function(response) {
       if (response.items) {
         self.accounts = response.items;
@@ -105,7 +105,7 @@ bom.account.AccountListController.prototype.saveAccount = function() {
   var message = {
     name: this.account.name
   };
-  return this.ij_.account.insert(message)
+  return this.ij_.accountRpc.insert(message)
     .then(function(response) {
       self.accounts.push(response);
       self.account = /** @type {!json.Account} */ (
@@ -121,14 +121,15 @@ bom.account.AccountListController.prototype.saveAccount = function() {
  * @param {!angular.$location} $location The Angular location service.
  * @param {!angular.$q} $q the Angular promise service.
  * @param {!angular.$routeParams} $routeParams The Angular routeParams service.
- * @param {!bom.account.Account} account The account service.
- * @param {!bom.account.Transaction} transaction The transaction service.
+ * @param {!bom.account.AccountRpc} accountRpc The account rpc service.
+ * @param {!bom.account.TransactionRpc} transactionRpc The transaction rpc
+ *     service.
  * @constructor
  * @ngInject
  * @export
  */
 bom.account.AccountDetailController = function(
-  $scope, $location, $q, $routeParams, account, transaction) {
+  $scope, $location, $q, $routeParams, accountRpc, transactionRpc) {
   /**
    * Injected Angular services.
    * @private {!Object}
@@ -138,8 +139,8 @@ bom.account.AccountDetailController = function(
     location: $location,
     q: $q,
     routeParams: $routeParams,
-    account: account,
-    transaction: transaction
+    accountRpc: accountRpc,
+    transactionRpc: transactionRpc
   };
 
   /** @private */
@@ -204,7 +205,7 @@ bom.account.AccountDetailController.prototype.getAccount = function() {
   var message = {
     id: this.ij_.routeParams.id
   };
-  return this.ij_.account.get(message)
+  return this.ij_.accountRpc.get(message)
     .then(function(response) {
       self.account = response;
     });
@@ -221,7 +222,7 @@ bom.account.AccountDetailController.prototype.listTransactions = function() {
     accountId: this.ij_.routeParams.id,
     nextPageToken: this.nextPageToken
   };
-  return this.ij_.transaction.list(message)
+  return this.ij_.transactionRpc.list(message)
     .then(function(response) {
       if (response.items) {
         self.transactions = self.transactions.concat(response.items);
@@ -242,7 +243,7 @@ bom.account.AccountDetailController.prototype.insertTransaction = function() {
     amount: this.transaction.type + this.transaction.amount,
     memo: this.transaction.memo
   };
-  return this.ij_.transaction.insert(message)
+  return this.ij_.transactionRpc.insert(message)
     .then(function(response) {
       self.transactions.push(response);
       self.account.balance = (parseFloat(self.account.balance) +
@@ -262,7 +263,7 @@ bom.account.AccountDetailController.prototype.deleteAccount = function() {
   var message = {
     id: this.ij_.routeParams.id
   };
-  return this.ij_.account.remove(message)
+  return this.ij_.accountRpc.remove(message)
     .then(function() {
       self.ij_.location.path('/accounts');
     });
@@ -279,7 +280,7 @@ bom.account.AccountDetailController.prototype.saveAccount = function() {
     id: this.ij_.routeParams.id,
     name: this.account.name
   };
-  return self.ij_.account.patch(message)
+  return self.ij_.accountRpc.patch(message)
     .then(function() {
 
     });
@@ -314,7 +315,7 @@ bom.account.AccountDetailController.prototype.saveTransaction = function() {
     amount: this.transaction.type + this.transaction.amount,
     memo: this.transaction.memo
   };
-  return this.ij_.transaction.update(message)
+  return this.ij_.transactionRpc.update(message)
     .then(goog.bind(this.init_, this));  // TODO: fix this (does not update transactions properly).
 };
 
@@ -328,7 +329,7 @@ bom.account.AccountDetailController.prototype.deleteTransaction = function() {
     accountId: this.ij_.routeParams.id,
     id: this.transaction.id
   };
-  return this.ij_.transaction.remove(message)
+  return this.ij_.transactionRpc.remove(message)
     .then(goog.bind(this.init_, this));  // TODO: fix this (does not update transactions properly).
 };
 
