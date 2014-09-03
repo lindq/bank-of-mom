@@ -10,11 +10,11 @@
         <div class="modal-body">
           <div class="form-group">
             <div class="btn-group">
-              <label class="btn btn-default btn-lg" ng-class="{active: ctrl.transaction.type == '+'}">
+              <label class="btn btn-default btn-lg" ng-class="{active: ctrl.transaction.type == '\u002b'}">
                 <input type="radio" name="type" id="deposit" value="+" ng-model="ctrl.transaction.type">
                 Deposit
               </label>
-              <label class="btn btn-default btn-lg" ng-class="{active: ctrl.transaction.type == '-'}">
+              <label class="btn btn-default btn-lg" ng-class="{active: ctrl.transaction.type == '\u002d'}">
                 <input type="radio" name="type" id="withdrawal" value="-" ng-model="ctrl.transaction.type">
                 Withdrawal
               </label>

@@ -5,18 +5,9 @@
 goog.provide('bom.account.AccountDetailController');
 goog.provide('bom.account.AccountListController');
 
+goog.require('bom.account.Transaction');
+goog.require('goog.array');
 goog.require('goog.object');
-
-
-/**
- * Transaction type values.
- * @type {!Object.<string, string>}
- * @const
- */
-bom.account.TransactionTypes = {
-  DEPOSIT: '+',
-  WITHDRAWAL: '-'
-};
 
 
 
@@ -143,13 +134,6 @@ bom.account.AccountDetailController = function(
     transactionRpc: transactionRpc
   };
 
-  /** @private */
-  this.nullTransaction_ = goog.object.createImmutableView({
-    type: bom.account.TransactionTypes.DEPOSIT,
-    amount: '',
-    memo: ''
-  });
-
   /**
    * The current account to display.
    * @type {?json.Account}
@@ -166,18 +150,18 @@ bom.account.AccountDetailController = function(
 
   /**
    * List of transactions from an API call.
-   * @type {!Array.<!json.Transaction>}
+   * @type {!Array.<!bom.account.Transaction>}
    * @export
    */
   this.transactions = [];
 
   /**
    * The current transaction to display.
-   * @type {!json.Transaction}
+   * @type {!bom.account.Transaction}
    * @export
    */
-  this.transaction = /** @type {!json.Transaction} */ (
-    goog.object.clone(this.nullTransaction_));
+  this.transaction = /** @type {!bom.account.Transaction} */ (
+    new bom.account.Transaction());
 
   /**
    * The cursor token for paging through the transaction list.
@@ -225,7 +209,9 @@ bom.account.AccountDetailController.prototype.listTransactions = function() {
   return this.ij_.transactionRpc.list(message)
     .then(function(response) {
       if (response.items) {
-        self.transactions = self.transactions.concat(response.items);
+        var transactions = goog.array.map(
+          response.items, bom.account.Transaction.fromMessage);
+        self.transactions = self.transactions.concat(transactions);
         self.nextPageToken = response.nextPageToken;
       }
     });
@@ -245,11 +231,12 @@ bom.account.AccountDetailController.prototype.insertTransaction = function() {
   };
   return this.ij_.transactionRpc.insert(message)
     .then(function(response) {
-      self.transactions.push(response);
+      var transaction = bom.account.Transaction.fromMessage(response);
+      self.transactions.push(transaction);
       self.account.balance = (parseFloat(self.account.balance) +
                               parseFloat(response.amount)).toFixed(2);
-      self.transaction = /** @type {!json.Transaction} */ (
-        goog.object.clone(self.nullTransaction_));
+      self.transaction = /** @type {!bom.account.Transaction} */ (
+        new bom.account.Transaction());
     });
 };
 
@@ -288,15 +275,20 @@ bom.account.AccountDetailController.prototype.saveAccount = function() {
 
 
 /**
- * @param {!json.Transaction} transaction The transaction to edit.
+ * @export
+ */
+bom.account.AccountDetailController.prototype.addTransaction = function(
+  transaction) {
+  this.transaction = new bom.account.Transaction();
+};
+
+
+/**
+ * @param {!bom.account.Transaction} transaction The transaction to edit.
  * @export
  */
 bom.account.AccountDetailController.prototype.editTransaction = function(
   transaction) {
-  transaction.type = (parseFloat(transaction.amount) < 0) ?
-    bom.account.TransactionTypes.WITHDRAWAL :
-    bom.account.TransactionTypes.DEPOSIT;
-  transaction.amount = transaction.amount.replace(/^[-\+]/, '');
   this.transaction = transaction;
 };
 
@@ -309,12 +301,7 @@ bom.account.AccountDetailController.prototype.saveTransaction = function() {
   if (!this.transaction.id) {
     return this.insertTransaction();
   }
-  var message = {
-    accountId: this.ij_.routeParams.id,
-    id: this.transaction.id,
-    amount: this.transaction.type + this.transaction.amount,
-    memo: this.transaction.memo
-  };
+  var message = this.transaction.toMessage(this.ij_.routeParams.id);
   return this.ij_.transactionRpc.update(message)
     .then(goog.bind(this.init_, this));  // TODO: fix this (does not update transactions properly).
 };
