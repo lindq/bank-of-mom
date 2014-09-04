@@ -52,9 +52,8 @@ bom.account.Account.fromMessage = function(message) {
  */
 bom.account.Account.prototype.toMessage = function() {
   return {
-    id: this.id,
-    name: this.name,
-    balance: this.balance
+    id: parseInt(this.id, 10),
+    name: this.name
   };
 };
 
@@ -62,6 +61,7 @@ bom.account.Account.prototype.toMessage = function() {
 
 /**
  * Transaction model.
+ * @param {string=} opt_accountId
  * @param {string=} opt_id
  * @param {string=} opt_type
  * @param {string=} opt_amount
@@ -71,7 +71,13 @@ bom.account.Account.prototype.toMessage = function() {
  * @export
  */
 bom.account.Transaction = function(
-  opt_id, opt_type, opt_amount, opt_memo, opt_timestamp) {
+  opt_accountId, opt_id, opt_type, opt_amount, opt_memo, opt_timestamp) {
+
+  /**
+   * @type {string}
+   * @export
+   */
+  this.accountId = opt_accountId || '';
 
   /**
    * @type {string}
@@ -134,20 +140,24 @@ bom.account.Transaction.fromMessage = function(message) {
     amount = amount.toFixed(2);
   }
   return new bom.account.Transaction(
-    message.id, type, amount, message.memo, message.timestamp);
+    message.accountId,
+    message.id,
+    type,
+    amount,
+    message.memo,
+    message.timestamp
+  );
 };
 
 
 /**
- * @param {string} accountId
  * @return {Object}
  */
-bom.account.Transaction.prototype.toMessage = function(accountId) {
+bom.account.Transaction.prototype.toMessage = function() {
   return {
-    accountId: accountId,
-    id: this.id,
+    accountId: parseInt(this.accountId, 10),
+    id: parseInt(this.id, 10),
     amount: this.type + this.amount,
-    memo: this.memo,
-    timestamp: this.timestamp
+    memo: this.memo
   };
 };

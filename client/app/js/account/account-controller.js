@@ -141,10 +141,10 @@ bom.account.AccountDetailController = function(
 
   /**
    * The current account to display.
-   * @type {?bom.account.Account}
+   * @type {!bom.account.Account}
    * @export
    */
-  this.account = null;
+  this.account = new bom.account.Account(this.ij_.routeParams.id);
 
   /**
    * True if page loading is complete, false otherwise.
@@ -165,7 +165,7 @@ bom.account.AccountDetailController = function(
    * @type {!bom.account.Transaction}
    * @export
    */
-  this.transaction = new bom.account.Transaction();
+  this.transaction = new bom.account.Transaction(this.account.id);
 
   /**
    * The cursor token for paging through the transaction list.
@@ -240,7 +240,7 @@ bom.account.AccountDetailController.prototype.listTransactions_ = function(
  * @export
  */
 bom.account.AccountDetailController.prototype.insertTransaction = function() {
-  var message = this.transaction.toMessage(this.ij_.routeParams.id);
+  var message = this.transaction.toMessage();
   return this.ij_.transactionRpc.insert(message)
     .then(goog.bind(this.insertTransaction_, this));
 };
@@ -256,7 +256,7 @@ bom.account.AccountDetailController.prototype.insertTransaction_ = function(
   this.transactions.push(transaction);
   this.account.balance = (parseFloat(this.account.balance) +
                           parseFloat(response.amount)).toFixed(2);
-  this.transaction = new bom.account.Transaction();
+  this.transaction = new bom.account.Transaction(this.account.id);
 };
 
 
@@ -297,7 +297,7 @@ bom.account.AccountDetailController.prototype.saveAccount = function() {
  * @export
  */
 bom.account.AccountDetailController.prototype.addTransaction = function() {
-  this.transaction = new bom.account.Transaction();
+  this.transaction = new bom.account.Transaction(this.account.id);
 };
 
 
@@ -319,7 +319,7 @@ bom.account.AccountDetailController.prototype.saveTransaction = function() {
   if (!this.transaction.id) {
     return this.insertTransaction();
   }
-  var message = this.transaction.toMessage(this.ij_.routeParams.id);
+  var message = this.transaction.toMessage();
   return this.ij_.transactionRpc.update(message)
     .then(goog.bind(this.init_, this));  // TODO: fix this (does not update transactions properly).
 };
@@ -330,7 +330,7 @@ bom.account.AccountDetailController.prototype.saveTransaction = function() {
  * @export
  */
 bom.account.AccountDetailController.prototype.deleteTransaction = function() {
-  var message = this.transaction.toMessage(this.ij_.routeParams.id);
+  var message = this.transaction.toMessage();
   return this.ij_.transactionRpc.remove(message)
     .then(goog.bind(this.init_, this));  // TODO: fix this (does not update transactions properly).
 };
