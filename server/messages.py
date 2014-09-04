@@ -4,13 +4,13 @@ from protorpc import messages
 
 
 class AccountMessage(messages.Message):
-    id = messages.IntegerField(2, variant=messages.Variant.INT64)
-    name = messages.StringField(3, required=True)
-    balance = messages.StringField(4)
+    id = messages.IntegerField(1, variant=messages.Variant.INT64)
+    name = messages.StringField(2, required=True)
+    balance = messages.StringField(3)
 
 
 class AccountListMessage(messages.Message):
-    items = messages.MessageField(AccountMessage, 2, repeated=True)
+    items = messages.MessageField(AccountMessage, 1, repeated=True)
 
 
 class TransactionMessage(messages.Message):
