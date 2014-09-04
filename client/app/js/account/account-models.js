@@ -8,6 +8,55 @@ goog.provide('bom.account.Transaction');
 
 
 /**
+ * Account model.
+ * @param {string=} opt_id
+ * @param {string=} opt_name
+ * @param {string=} opt_balance
+ * @constructor
+ */
+bom.account.Account = function(opt_id, opt_name, opt_balance) {
+
+  /**
+   * @type {string}
+   */
+  this.id = opt_id || '';
+
+  /**
+   * @type {string}
+   */
+  this.type = opt_name || '';
+
+  /**
+   * @type {string}
+   */
+  this.amount = opt_balance || '';
+
+};
+
+
+/**
+ * @param {!json.Account} message
+ * @return {!bom.account.Account}
+ */
+bom.account.Account.fromMessage = function(message) {
+  return new bom.account.Account(message.id, message.name, message.balance);
+};
+
+
+/**
+ * @return {Object}
+ */
+bom.account.Account.prototype.toMessage = function() {
+  return {
+    id: this.id,
+    name: this.name,
+    balance: this.balance
+  };
+};
+
+
+
+/**
  * Transaction model.
  * @param {string=} opt_id
  * @param {string=} opt_type
