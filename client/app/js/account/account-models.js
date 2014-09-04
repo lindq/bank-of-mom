@@ -13,23 +13,27 @@ goog.provide('bom.account.Transaction');
  * @param {string=} opt_name
  * @param {string=} opt_balance
  * @constructor
+ * @export
  */
 bom.account.Account = function(opt_id, opt_name, opt_balance) {
 
   /**
    * @type {string}
+   * @export
    */
   this.id = opt_id || '';
 
   /**
    * @type {string}
+   * @export
    */
-  this.type = opt_name || '';
+  this.name = opt_name || '';
 
   /**
    * @type {string}
+   * @export
    */
-  this.amount = opt_balance || '';
+  this.balance = opt_balance || '';
 
 };
 
@@ -64,32 +68,38 @@ bom.account.Account.prototype.toMessage = function() {
  * @param {string=} opt_memo
  * @param {string=} opt_timestamp
  * @constructor
+ * @export
  */
 bom.account.Transaction = function(
   opt_id, opt_type, opt_amount, opt_memo, opt_timestamp) {
 
   /**
    * @type {string}
+   * @export
    */
   this.id = opt_id || '';
 
   /**
    * @type {string}
+   * @export
    */
   this.type = opt_type || bom.account.Transaction.DEPOSIT;
 
   /**
    * @type {string}
+   * @export
    */
   this.amount = opt_amount || '';
 
   /**
    * @type {string}
+   * @export
    */
   this.memo = opt_memo || '';
 
   /**
    * @type {string}
+   * @export
    */
   this.timestamp = opt_timestamp || '';
 };
