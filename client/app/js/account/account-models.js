@@ -34,7 +34,6 @@ bom.account.Account = function(opt_id, opt_name, opt_balance) {
    * @export
    */
   this.balance = opt_balance || '';
-
 };
 
 
@@ -55,6 +54,22 @@ bom.account.Account.prototype.toMessage = function() {
     id: parseInt(this.id, 10),
     name: this.name
   };
+};
+
+
+/**
+ * @param {number|string} amount
+ */
+bom.account.Account.prototype.addBalance = function(amount) {
+  this.balance = (parseFloat(this.balance) + parseFloat(amount)).toFixed(2);
+};
+
+
+/**
+ * @param {number|string} amount
+ */
+bom.account.Account.prototype.subtractBalance = function(amount) {
+  this.balance = (parseFloat(this.balance) - parseFloat(amount)).toFixed(2);
 };
 
 
@@ -108,6 +123,12 @@ bom.account.Transaction = function(
    * @export
    */
   this.timestamp = opt_timestamp || '';
+
+  /**
+   * @type {boolean}
+   * @export
+   */
+  this.deleted = false;
 };
 
 

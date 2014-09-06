@@ -13,7 +13,7 @@
     <span class="glyphicon glyphicon-plus-sign"></span> Add Transaction
   </button>
   <table class="table">
-    <tr ng-repeat="transaction in ctrl.transactions | orderBy:'-timestamp'" ng-click="ctrl.editTransaction(transaction)">
+    <tr ng-repeat="transaction in ctrl.transactions | filter:{ deleted: false } | orderBy:'-timestamp'" ng-click="ctrl.editTransaction(transaction)">
       <td>
         <a class="txn-memo" data-toggle="modal" data-target="#txn-edit-modal">{{ transaction.memo }}</a>
         <a class="txn-timestamp" data-toggle="modal" data-target="#txn-edit-modal">{{ transaction.timestamp | dateLocalize | date:'medium' }}</a>

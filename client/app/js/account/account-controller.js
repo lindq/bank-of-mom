@@ -254,8 +254,7 @@ bom.account.AccountDetailController.prototype.insertTransaction_ = function(
   response) {
   var transaction = bom.account.Transaction.fromMessage(response);
   this.transactions.push(transaction);
-  this.account.balance = (parseFloat(this.account.balance) +
-                          parseFloat(response.amount)).toFixed(2);
+  this.account.addBalance(transaction.amount);
   this.transaction = new bom.account.Transaction(this.account.id);
 };
 
@@ -321,7 +320,15 @@ bom.account.AccountDetailController.prototype.saveTransaction = function() {
   }
   var message = this.transaction.toMessage();
   return this.ij_.transactionRpc.update(message)
-    .then(goog.bind(this.init_, this));  // TODO: fix this (does not update transactions properly).
+    .then(goog.bind(this.saveTransaction_, this));
+};
+
+
+/**
+ * @private
+ */
+bom.account.AccountDetailController.prototype.saveTransaction_ = function() {
+
 };
 
 
@@ -332,7 +339,16 @@ bom.account.AccountDetailController.prototype.saveTransaction = function() {
 bom.account.AccountDetailController.prototype.deleteTransaction = function() {
   var message = this.transaction.toMessage();
   return this.ij_.transactionRpc.remove(message)
-    .then(goog.bind(this.init_, this));  // TODO: fix this (does not update transactions properly).
+    .then(goog.bind(this.deleteTransaction_, this));
+};
+
+
+/**
+ * @private
+ */
+bom.account.AccountDetailController.prototype.deleteTransaction_ = function() {
+  this.transaction.deleted = true;
+  this.account.subtractBalance(this.transaction.type + this.transaction.amount);
 };
 
 
