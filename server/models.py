@@ -2,8 +2,7 @@ import decimal
 
 from google.appengine.ext import ndb
 
-from messages import AccountMessage
-from messages import TransactionMessage
+import messages
 
 
 class CurrencyProperty(ndb.StringProperty):
@@ -33,9 +32,9 @@ class Account(ndb.Model):
         return sum(transaction.amount for transaction in self.transactions)
 
     def to_message(self):
-        return AccountMessage(id=self.key.id(),
-                              name=self.name,
-                              balance=str(self.balance))
+        return messages.Account(id=self.key.id(),
+                                name=self.name,
+                                balance=str(self.balance))
 
     @classmethod
     def put_from_message(cls, message):
@@ -55,11 +54,11 @@ class Transaction(ndb.Model):
     timestamp = ndb.DateTimeProperty(auto_now_add=True)
 
     def to_message(self):
-        return TransactionMessage(id=self.key.id(),
-                                  accountId=self.key.parent().id(),
-                                  amount=str(self.amount),
-                                  memo=self.memo,
-                                  timestamp=self.timestamp)
+        return messages.Transaction(id=self.key.id(),
+                                    accountId=self.key.parent().id(),
+                                    amount=str(self.amount),
+                                    memo=self.memo,
+                                    timestamp=self.timestamp)
 
     @classmethod
     def put_from_message(cls, message):

@@ -4,14 +4,13 @@ import functools
 
 import endpoints
 from google.appengine.api import namespace_manager
-from protorpc import message_types, messages, remote
+from protorpc import remote
 
-from google.appengine.datastore.datastore_query import Cursor
+from google.appengine.datastore import datastore_query
 from google.appengine.ext import ndb
 
-from messages import AccountMessage, AccountListMessage
-from messages import TransactionMessage, TransactionListMessage
-from models import Account, Transaction
+import messages
+import models
 
 
 CLIENT_IDS = [
@@ -44,82 +43,72 @@ bom_api = endpoints.api(allowed_client_ids=CLIENT_IDS,
 class Accounts(remote.Service):
 
     @endpoints.method(
-        request_message=AccountMessage,
-        response_message=AccountMessage,
+        request_message=messages.Account,
+        response_message=messages.Account,
         path='accounts',
         http_method='POST')
     @require_user
     def insert(self, request):
         request.id = None
-        account = Account.put_from_message(request)
+        account = models.Account.put_from_message(request)
         return account.to_message()
 
     @endpoints.method(
-        request_message=message_types.VoidMessage,
-        response_message=AccountListMessage,
+        response_message=messages.AccountList,
         path='accounts',
         http_method='GET')
     @require_user
     def list(self, request):
-        accounts = Account.query().order(Account.name)
-        message = AccountListMessage(
+        accounts = models.Account.query().order(models.Account.name)
+        message = messages.AccountList(
             items=[account.to_message() for account in accounts])
         return message
 
     @endpoints.method(
-        request_message=endpoints.ResourceContainer(
-            message_types.VoidMessage,
-            id=messages.IntegerField(1, variant=messages.Variant.INT64)),
-        response_message=AccountMessage,
+        request_message=messages.GET_ACCOUNT_REQUEST,
+        response_message=messages.Account,
         path='accounts/{id}',
         http_method='GET')
     @require_user
     def get(self, request):
-        account = Account.get_by_id(request.id)
+        account = models.Account.get_by_id(request.id)
         if not account:
             raise endpoints.NotFoundException
         return account.to_message()
 
     @endpoints.method(
-        request_message=endpoints.ResourceContainer(
-            AccountMessage,
-            id=messages.IntegerField(1, variant=messages.Variant.INT64)),
-        response_message=AccountMessage,
+        request_message=messages.UPDATE_ACCOUNT_REQUEST,
+        response_message=messages.Account,
         path='accounts/{id}',
         http_method='PUT')
     @require_user
     def update(self, request):
-        account = Account.get_by_id(request.id)
+        account = models.Account.get_by_id(request.id)
         if not account:
             raise endpoints.NotFoundException
-        account = Account.put_from_message(request)
+        account = models.Account.put_from_message(request)
         return account.to_message()
 
     @endpoints.method(
-        request_message=endpoints.ResourceContainer(
-            AccountMessage,
-            id=messages.IntegerField(1, variant=messages.Variant.INT64)),
-        response_message=AccountMessage,
+        request_message=messages.UPDATE_ACCOUNT_REQUEST,
+        response_message=messages.Account,
         path='accounts/{id}',
         http_method='PATCH')
     @require_user
     def patch(self, request):
-        account = Account.get_by_id(request.id)
+        account = models.Account.get_by_id(request.id)
         if not account:
             raise endpoints.NotFoundException
-        account = Account.put_from_message(request)
+        account = models.Account.put_from_message(request)
         return account.to_message()
 
     @endpoints.method(
-        request_message=endpoints.ResourceContainer(
-            message_types.VoidMessage,
-            id=messages.IntegerField(1, variant=messages.Variant.INT64)),
-        response_message=message_types.VoidMessage,
+        request_message=messages.GET_ACCOUNT_REQUEST,
         path='accounts/{id}',
         http_method='DELETE')
     @require_user
     def remove(self, request):
-        account = Account.get_by_id(request.id)
+        account = models.Account.get_by_id(request.id)
         if not account:
             raise endpoints.NotFoundException
 
@@ -131,7 +120,7 @@ class Accounts(remote.Service):
             future.get_result()
         account_future.get_result()
 
-        return message_types.VoidMessage()
+        return messages.message_types.VoidMessage()
 
 
 @bom_api.api_class(resource_name='transactions')
@@ -140,36 +129,33 @@ class Transactions(remote.Service):
     MAX_ITEMS = 3
 
     @endpoints.method(
-        request_message=endpoints.ResourceContainer(
-            TransactionMessage,
-            accountId=messages.IntegerField(1, variant=messages.Variant.INT64)),
-        response_message=TransactionMessage,
+        request_message=messages.INSERT_TRANSACTION_REQUEST,
+        response_message=messages.Transaction,
         path='accounts/{accountId}/transactions',
         http_method='POST')
     @require_user
     def insert(self, request):
         request.id = None
-        transaction = Transaction.put_from_message(request)
+        transaction = models.Transaction.put_from_message(request)
         return transaction.to_message()
 
     @endpoints.method(
-        request_message=endpoints.ResourceContainer(
-            message_types.VoidMessage,
-            accountId=messages.IntegerField(1, variant=messages.Variant.INT64),
-            nextPageToken=messages.StringField(2)),
-        response_message=TransactionListMessage,
+        request_message=messages.LIST_TRANSACTION_REQUEST,
+        response_message=messages.TransactionList,
         path='accounts/{accountId}/transactions',
         http_method='GET')
     @require_user
     def list(self, request):
-        key = ndb.Key(Account, request.accountId)
-        query = Transaction.query(ancestor=key).order(-Transaction.timestamp)
+        key = ndb.Key(models.Account, request.accountId)
+        query = models.Transaction.query(ancestor=key).order(
+            -models.Transaction.timestamp)
         fetch_page_future = query.fetch_page_async(
-            self.MAX_ITEMS, start_cursor=Cursor(urlsafe=request.nextPageToken))
+            self.MAX_ITEMS,
+            start_cursor=datastore_query.Cursor(urlsafe=request.nextPageToken))
         count_future = query.count_async()
         transactions, cursor, more = fetch_page_future.get_result()
         total_items = count_future.get_result()
-        message = TransactionListMessage(
+        message = messages.TransactionList(
             totalItems=total_items,
             itemsPerPage=self.MAX_ITEMS,
             items=[transaction.to_message() for transaction in transactions])
@@ -178,54 +164,47 @@ class Transactions(remote.Service):
         return message
 
     @endpoints.method(
-        request_message=endpoints.ResourceContainer(
-            message_types.VoidMessage,
-            accountId=messages.IntegerField(1, variant=messages.Variant.INT64),
-            id=messages.IntegerField(2, variant=messages.Variant.INT64)),
-        response_message=TransactionMessage,
+        request_message=messages.GET_TRANSACTION_REQUEST,
+        response_message=messages.Transaction,
         path='accounts/{accountId}/transactions/{id}',
         http_method='GET')
     @require_user
     def get(self, request):
-        key = ndb.Key(Account, request.accountId, Transaction, request.id)
+        key = ndb.Key(models.Account, request.accountId,
+                      model.Transaction, request.id)
         transaction = key.get()
         if not transaction:
             raise endpoints.NotFoundException
         return transaction.to_message()
 
     @endpoints.method(
-        request_message=endpoints.ResourceContainer(
-            TransactionMessage,
-            accountId=messages.IntegerField(1, variant=messages.Variant.INT64),
-            id=messages.IntegerField(2, variant=messages.Variant.INT64)),
-        response_message=TransactionMessage,
+        request_message=messages.UPDATE_TRANSACTION_REQUEST,
+        response_message=messages.Transaction,
         path='accounts/{accountId}/transactions/{id}',
         http_method='PUT')
     @require_user
     def update(self, request):
-        key = ndb.Key(Account, request.accountId, Transaction, request.id)
+        key = ndb.Key(models.Account, request.accountId,
+                      models.Transaction, request.id)
         transaction = key.get()
         if not transaction:
             raise endpoints.NotFoundException
-        transaction = Transaction.put_from_message(request)
+        transaction = models.Transaction.put_from_message(request)
         return transaction.to_message()
 
     @endpoints.method(
-        request_message=endpoints.ResourceContainer(
-            message_types.VoidMessage,
-            accountId=messages.IntegerField(1, variant=messages.Variant.INT64),
-            id=messages.IntegerField(2, variant=messages.Variant.INT64)),
-        response_message=message_types.VoidMessage,
+        request_message=messages.GET_TRANSACTION_REQUEST,
         path='accounts/{accountId}/transactions/{id}',
         http_method='DELETE')
     @require_user
     def remove(self, request):
-        key = ndb.Key(Account, request.accountId, Transaction, request.id)
+        key = ndb.Key(models.Account, request.accountId,
+                      models.Transaction, request.id)
         transaction = key.get()
         if not transaction:
             raise endpoints.NotFoundException
         transaction.key.delete()
-        return message_types.VoidMessage()
+        return messages.message_types.VoidMessage()
 
 
 application = endpoints.api_server([bom_api])
