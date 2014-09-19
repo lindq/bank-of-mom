@@ -86,9 +86,9 @@ AccountListController.prototype.listAccounts = function() {
  * @private
  */
 AccountListController.prototype.listAccounts_ = function(response) {
-  if (response.items) {
+  if (response.accounts) {
     this.accounts = goog.array.map(
-      response.items, bom.account.Account.fromMessage);
+      response.accounts, bom.account.Account.fromMessage);
   }
 };
 
@@ -237,9 +237,9 @@ AccountDetailController.prototype.listTransactions = function() {
  * @private
  */
 AccountDetailController.prototype.listTransactions_ = function(response) {
-  if (response.items) {
+  if (response.transactions) {
     var transactions = goog.array.map(
-      response.items, bom.account.Transaction.fromMessage);
+      response.transactions, bom.account.Transaction.fromMessage);
     this.transactions = this.transactions.concat(transactions);
     this.nextPageToken = response.nextPageToken;
   }

@@ -23,7 +23,7 @@ json.Account;
 
 /**
  * @typedef {{
- *   items: (!Array.<!json.Account>|undefined)
+ *   accounts: (!Array.<!json.Account>|undefined)
  * }}
  */
 json.AccountListResponse;
@@ -43,7 +43,7 @@ json.Transaction;
 
 /**
  * @typedef {{
- *   items: (!Array.<!json.Transaction>|undefined),
+ *   transactions: (!Array.<!json.Transaction>|undefined),
  *   nextPageToken: (string|undefined),
  *   totalItems: (string|undefined),
  *   itemsPerPage: (string|undefined)

@@ -13,7 +13,7 @@ class Account(messages.Message):
 
 
 class AccountList(messages.Message):
-    items = messages.MessageField(Account, 1, repeated=True)
+    accounts = messages.MessageField(Account, 1, repeated=True)
 
 
 GET_ACCOUNT_REQUEST = endpoints.ResourceContainer(
@@ -38,7 +38,7 @@ class TransactionList(messages.Message):
     totalItems = messages.IntegerField(1, variant=INT64)
     itemsPerPage = messages.IntegerField(2, variant=INT64)
     nextPageToken = messages.StringField(3)
-    items = messages.MessageField(Transaction, 4, repeated=True)
+    transactions = messages.MessageField(Transaction, 4, repeated=True)
 
 
 INSERT_TRANSACTION_REQUEST = endpoints.ResourceContainer(

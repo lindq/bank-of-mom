@@ -61,7 +61,7 @@ class Accounts(remote.Service):
     def list(self, request):
         accounts = models.Account.query().order(models.Account.name)
         message = messages.AccountList(
-            items=[account.to_message() for account in accounts])
+            accounts=[account.to_message() for account in accounts])
         return message
 
     @endpoints.method(
@@ -158,7 +158,8 @@ class Transactions(remote.Service):
         message = messages.TransactionList(
             totalItems=total_items,
             itemsPerPage=self.MAX_ITEMS,
-            items=[transaction.to_message() for transaction in transactions])
+            transactions=[transaction.to_message()
+                          for transaction in transactions])
         if more:
             message.nextPageToken = cursor.urlsafe()
         return message
