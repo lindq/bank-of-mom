@@ -30,13 +30,18 @@ bom.account.AccountRpc = function(rpc) {
 };
 
 
+goog.scope(function() {
+
+var AccountRpc = bom.account.AccountRpc;
+
+
 /**
  * @param {string} method The name of the API endpoints method.
  * @param {!Object=} opt_message Optional message object to pass to the API.
  * @return {!angular.$q.Promise} A promise.
  * @private
  */
-bom.account.AccountRpc.prototype.callMethod_ = function(method, opt_message) {
+AccountRpc.prototype.callMethod_ = function(method, opt_message) {
   return this.ij_.rpc.callMethod(this.collection_, method, opt_message);
 };
 
@@ -45,7 +50,7 @@ bom.account.AccountRpc.prototype.callMethod_ = function(method, opt_message) {
  * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.AccountRpc.prototype.get = function(message) {
+AccountRpc.prototype.get = function(message) {
   return this.callMethod_('get', message);
 };
 
@@ -54,7 +59,7 @@ bom.account.AccountRpc.prototype.get = function(message) {
  * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.AccountRpc.prototype.insert = function(message) {
+AccountRpc.prototype.insert = function(message) {
   return this.callMethod_('insert', message);
 };
 
@@ -62,7 +67,7 @@ bom.account.AccountRpc.prototype.insert = function(message) {
 /**
  * @return {!angular.$q.Promise}
  */
-bom.account.AccountRpc.prototype.list = function() {
+AccountRpc.prototype.list = function() {
   return this.callMethod_('list');
 };
 
@@ -71,7 +76,7 @@ bom.account.AccountRpc.prototype.list = function() {
  * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.AccountRpc.prototype.patch = function(message) {
+AccountRpc.prototype.patch = function(message) {
   return this.callMethod_('patch', message);
 };
 
@@ -80,7 +85,7 @@ bom.account.AccountRpc.prototype.patch = function(message) {
  * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.AccountRpc.prototype.remove = function(message) {
+AccountRpc.prototype.remove = function(message) {
   return this.callMethod_('remove', message);
 };
 
@@ -89,9 +94,11 @@ bom.account.AccountRpc.prototype.remove = function(message) {
  * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.AccountRpc.prototype.update = function(message) {
+AccountRpc.prototype.update = function(message) {
   return this.callMethod_('update', message);
 };
+
+});  // goog.scope
 
 
 
@@ -118,14 +125,18 @@ bom.account.TransactionRpc = function(rpc) {
 };
 
 
+goog.scope(function() {
+
+var TransactionRpc = bom.account.TransactionRpc;
+
+
 /**
  * @param {string} method The name of the API endpoints method.
  * @param {!Object=} opt_message Optional message object to pass to the API.
  * @return {!angular.$q.Promise} A promise.
  * @private
  */
-bom.account.TransactionRpc.prototype.callMethod_ = function(
-  method, opt_message) {
+TransactionRpc.prototype.callMethod_ = function(method, opt_message) {
   return this.ij_.rpc.callMethod(this.collection_, method, opt_message);
 };
 
@@ -134,7 +145,7 @@ bom.account.TransactionRpc.prototype.callMethod_ = function(
  * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.TransactionRpc.prototype.get = function(message) {
+TransactionRpc.prototype.get = function(message) {
   return this.callMethod_('get', message);
 };
 
@@ -143,7 +154,7 @@ bom.account.TransactionRpc.prototype.get = function(message) {
  * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.TransactionRpc.prototype.insert = function(message) {
+TransactionRpc.prototype.insert = function(message) {
   return this.callMethod_('insert', message);
 };
 
@@ -152,7 +163,7 @@ bom.account.TransactionRpc.prototype.insert = function(message) {
  * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.TransactionRpc.prototype.list = function(message) {
+TransactionRpc.prototype.list = function(message) {
   return this.callMethod_('list', message);
 };
 
@@ -161,7 +172,7 @@ bom.account.TransactionRpc.prototype.list = function(message) {
  * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.TransactionRpc.prototype.patch = function(message) {
+TransactionRpc.prototype.patch = function(message) {
   return this.callMethod_('patch', message);
 };
 
@@ -170,7 +181,7 @@ bom.account.TransactionRpc.prototype.patch = function(message) {
  * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.TransactionRpc.prototype.remove = function(message) {
+TransactionRpc.prototype.remove = function(message) {
   return this.callMethod_('remove', message);
 };
 
@@ -179,6 +190,8 @@ bom.account.TransactionRpc.prototype.remove = function(message) {
  * @param {!Object} message
  * @return {!angular.$q.Promise}
  */
-bom.account.TransactionRpc.prototype.update = function(message) {
+TransactionRpc.prototype.update = function(message) {
   return this.callMethod_('update', message);
 };
+
+});  // goog.scope

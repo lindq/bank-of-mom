@@ -60,8 +60,7 @@ bom.rpc.Rpc.prototype.redirectToAuth_ = function() {
  * @return {!angular.$q.Promise} A promise.
  * @private
  */
-bom.rpc.Rpc.prototype.call_ = function(collection, method,
-                                                 opt_message) {
+bom.rpc.Rpc.prototype.call_ = function(collection, method, opt_message) {
   var func = gapi.client[bom.constants.API_NAME][collection][method];
   var deferred = this.ij_.q.defer();
   func(opt_message)['execute'](function(response) {
