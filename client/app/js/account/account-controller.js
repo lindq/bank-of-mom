@@ -313,8 +313,7 @@ AccountDetailController.prototype.addTransaction = function() {
  * @param {!bom.account.Transaction} transaction The transaction to edit.
  * @export
  */
-AccountDetailController.prototype.editTransaction = function(
-  transaction) {
+AccountDetailController.prototype.editTransaction = function(transaction) {
   this.transaction = transaction;
 };
 
