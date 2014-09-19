@@ -54,15 +54,20 @@ bom.account.AccountListController = function($scope, accountRpc) {
 };
 
 
+goog.scope(function() {
+
+var AccountListController = bom.account.AccountListController;
+
+
 /** @private */
-bom.account.AccountListController.prototype.init_ = function() {
+AccountListController.prototype.init_ = function() {
   this.listAccounts()
     .then(goog.bind(this.doneLoading_, this));
 };
 
 
 /** @private */
-bom.account.AccountListController.prototype.doneLoading_ = function() {
+AccountListController.prototype.doneLoading_ = function() {
   this.loaded = true;
 };
 
@@ -70,7 +75,7 @@ bom.account.AccountListController.prototype.doneLoading_ = function() {
 /**
  * @return {!angular.$q.Promise} A promise.
  */
-bom.account.AccountListController.prototype.listAccounts = function() {
+AccountListController.prototype.listAccounts = function() {
   return this.ij_.accountRpc.list()
     .then(goog.bind(this.listAccounts_, this));
 };
@@ -80,7 +85,7 @@ bom.account.AccountListController.prototype.listAccounts = function() {
  * @param {Object} response
  * @private
  */
-bom.account.AccountListController.prototype.listAccounts_ = function(response) {
+AccountListController.prototype.listAccounts_ = function(response) {
   if (response.items) {
     this.accounts = goog.array.map(
       response.items, bom.account.Account.fromMessage);
@@ -92,7 +97,7 @@ bom.account.AccountListController.prototype.listAccounts_ = function(response) {
  * @return {!angular.$q.Promise} A promise.
  * @export
  */
-bom.account.AccountListController.prototype.saveAccount = function() {
+AccountListController.prototype.saveAccount = function() {
   var message = this.account.toMessage();
   return this.ij_.accountRpc.insert(message)
     .then(goog.bind(this.saveAccount_, this));
@@ -103,11 +108,13 @@ bom.account.AccountListController.prototype.saveAccount = function() {
  * @param {!json.Account} response
  * @private
  */
-bom.account.AccountListController.prototype.saveAccount_ = function(response) {
+AccountListController.prototype.saveAccount_ = function(response) {
   var account = bom.account.Account.fromMessage(response);
   this.accounts.push(account);
   this.account = new bom.account.Account();
 };
+
+});  // goog.scope
 
 
 
@@ -178,8 +185,13 @@ bom.account.AccountDetailController = function(
 };
 
 
+goog.scope(function() {
+
+var AccountDetailController = bom.account.AccountDetailController;
+
+
 /** @private */
-bom.account.AccountDetailController.prototype.init_ = function() {
+AccountDetailController.prototype.init_ = function() {
   this.ij_.q.all([this.getAccount(), this.listTransactions()])
     .then(goog.bind(this.doneLoading_, this));
 };
@@ -188,7 +200,7 @@ bom.account.AccountDetailController.prototype.init_ = function() {
 /**
  * @return {!angular.$q.Promise} A promise.
  */
-bom.account.AccountDetailController.prototype.getAccount = function() {
+AccountDetailController.prototype.getAccount = function() {
   var message = {
     id: this.ij_.routeParams.id
   };
@@ -201,7 +213,7 @@ bom.account.AccountDetailController.prototype.getAccount = function() {
  * @param {!json.Account} response
  * @private
  */
-bom.account.AccountDetailController.prototype.getAccount_ = function(response) {
+AccountDetailController.prototype.getAccount_ = function(response) {
   this.account = bom.account.Account.fromMessage(response);
 };
 
@@ -210,7 +222,7 @@ bom.account.AccountDetailController.prototype.getAccount_ = function(response) {
  * @return {!angular.$q.Promise} A promise.
  * @export
  */
-bom.account.AccountDetailController.prototype.listTransactions = function() {
+AccountDetailController.prototype.listTransactions = function() {
   var message = {
     accountId: this.ij_.routeParams.id,
     nextPageToken: this.nextPageToken
@@ -224,8 +236,7 @@ bom.account.AccountDetailController.prototype.listTransactions = function() {
  * @param {Object} response
  * @private
  */
-bom.account.AccountDetailController.prototype.listTransactions_ = function(
-  response) {
+AccountDetailController.prototype.listTransactions_ = function(response) {
   if (response.items) {
     var transactions = goog.array.map(
       response.items, bom.account.Transaction.fromMessage);
@@ -239,7 +250,7 @@ bom.account.AccountDetailController.prototype.listTransactions_ = function(
  * @return {!angular.$q.Promise} A promise.
  * @export
  */
-bom.account.AccountDetailController.prototype.insertTransaction = function() {
+AccountDetailController.prototype.insertTransaction = function() {
   var message = this.transaction.toMessage();
   return this.ij_.transactionRpc.insert(message)
     .then(goog.bind(this.insertTransaction_, this));
@@ -250,8 +261,7 @@ bom.account.AccountDetailController.prototype.insertTransaction = function() {
  * @param {!json.Transaction} response
  * @private
  */
-bom.account.AccountDetailController.prototype.insertTransaction_ = function(
-  response) {
+AccountDetailController.prototype.insertTransaction_ = function(response) {
   var transaction = bom.account.Transaction.fromMessage(response);
   this.transactions.push(transaction);
   this.account.addBalance(transaction.amount);
@@ -263,7 +273,7 @@ bom.account.AccountDetailController.prototype.insertTransaction_ = function(
  * @return {!angular.$q.Promise} A promise.
  * @export
  */
-bom.account.AccountDetailController.prototype.deleteAccount = function() {
+AccountDetailController.prototype.deleteAccount = function() {
   var message = {
     id: this.ij_.routeParams.id
   };
@@ -276,8 +286,7 @@ bom.account.AccountDetailController.prototype.deleteAccount = function() {
  * @param {Object} response
  * @private
  */
-bom.account.AccountDetailController.prototype.deleteAccount_ = function(
-  response) {
+AccountDetailController.prototype.deleteAccount_ = function(response) {
   this.ij_.location.path('/accounts');
 };
 
@@ -286,7 +295,7 @@ bom.account.AccountDetailController.prototype.deleteAccount_ = function(
  * @return {!angular.$q.Promise} A promise.
  * @export
  */
-bom.account.AccountDetailController.prototype.saveAccount = function() {
+AccountDetailController.prototype.saveAccount = function() {
   var message = this.account.toMessage();
   return this.ij_.accountRpc.patch(message);
 };
@@ -295,7 +304,7 @@ bom.account.AccountDetailController.prototype.saveAccount = function() {
 /**
  * @export
  */
-bom.account.AccountDetailController.prototype.addTransaction = function() {
+AccountDetailController.prototype.addTransaction = function() {
   this.transaction = new bom.account.Transaction(this.account.id);
 };
 
@@ -304,7 +313,7 @@ bom.account.AccountDetailController.prototype.addTransaction = function() {
  * @param {!bom.account.Transaction} transaction The transaction to edit.
  * @export
  */
-bom.account.AccountDetailController.prototype.editTransaction = function(
+AccountDetailController.prototype.editTransaction = function(
   transaction) {
   this.transaction = transaction;
 };
@@ -314,7 +323,7 @@ bom.account.AccountDetailController.prototype.editTransaction = function(
  * @return {!angular.$q.Promise} A promise.
  * @export
  */
-bom.account.AccountDetailController.prototype.saveTransaction = function() {
+AccountDetailController.prototype.saveTransaction = function() {
   if (!this.transaction.id) {
     return this.insertTransaction();
   }
@@ -325,10 +334,12 @@ bom.account.AccountDetailController.prototype.saveTransaction = function() {
 
 
 /**
+ * @param {Object} response
  * @private
  */
-bom.account.AccountDetailController.prototype.saveTransaction_ = function() {
-
+AccountDetailController.prototype.saveTransaction_ = function(response) {
+  alert(response.amount);
+  // this.transaction = new bom.account.Transaction(this.account.id);
 };
 
 
@@ -336,7 +347,7 @@ bom.account.AccountDetailController.prototype.saveTransaction_ = function() {
  * @return {!angular.$q.Promise} A promise.
  * @export
  */
-bom.account.AccountDetailController.prototype.deleteTransaction = function() {
+AccountDetailController.prototype.deleteTransaction = function() {
   var message = this.transaction.toMessage();
   return this.ij_.transactionRpc.remove(message)
     .then(goog.bind(this.deleteTransaction_, this));
@@ -346,13 +357,15 @@ bom.account.AccountDetailController.prototype.deleteTransaction = function() {
 /**
  * @private
  */
-bom.account.AccountDetailController.prototype.deleteTransaction_ = function() {
+AccountDetailController.prototype.deleteTransaction_ = function() {
   this.transaction.deleted = true;
   this.account.subtractBalance(this.transaction.type + this.transaction.amount);
 };
 
 
 /** @private */
-bom.account.AccountDetailController.prototype.doneLoading_ = function() {
+AccountDetailController.prototype.doneLoading_ = function() {
   this.loaded = true;
 };
+
+});  // goog.scope
